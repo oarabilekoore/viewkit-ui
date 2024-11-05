@@ -1,0 +1,36 @@
+{
+    "name": "reckt",
+    "version": "0.0.0",
+    "description": "High performance UI framework for writing front-end declaratively.",
+    "main": "dist/reckt.cjs.js",
+    "module": "dist/reckt.es.js",
+    "types": "dist/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/reckt.es.js",
+            "require": "./dist/reckt.cjs.js"
+        },
+        "./umd": "./dist/reckt.umd.js"
+    },
+    "files": [
+        "dist",
+        "src",
+        "index.js"
+    ],
+    "keywords": [
+        "ui",
+        "framework"
+    ],
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite"
+    },
+    "dependencies": {
+        "vite": "^5.4.6"
+    },
+    "author": "Oarabile Koore",
+    "license": "MIT",
+    "devDependencies": {
+        "typescript": "^5.6.2"
+    }
+}

@@ -1,7 +1,6 @@
 {
     "name": "reckt",
-    "version": "0.0.0",
-    "description": "High performance UI framework for writing front-end declaratively.",
+    "version": "0.0.1",
     "main": "dist/reckt.cjs.js",
     "module": "dist/reckt.es.js",
     "types": "dist/index.d.ts",
@@ -32,5 +31,6 @@
     "license": "MIT",
     "devDependencies": {
         "typescript": "^5.6.2"
-    }
+    },
+    "description": "High performance UI framework for writing front-end declaratively."
 }

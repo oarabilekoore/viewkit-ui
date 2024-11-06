@@ -28,32 +28,16 @@ button.css`
     $setLanguage("fr");
 });
 
-let progressBar = $component("div", homePage, {
-    role: "progressbar",
-    ariaValuenow: "0",
-    ariaValuemin: "0",
-    ariaValuemax: "100",
+let loaderImage = $component("img", homePage, {
+    src: ".src/.images/fire.png",
 });
-progressBar.css`
+loaderImage.css`
     width: 100%;
     height: 8px;
-    background-color: #e0e0e0;
     border-radius: 4px;
-    overflow: hidden;
-    position: relative;
-
-    &::before {
-        content: "";
-        display: block;
-        width: 0;
-        height: 100%;
-        background-color: #6200ea;
-        transition: width 0.4s ease;
-        border-radius: 4px 0 0 4px;
-    }
 `;
 
-$suspense(loadAppData, progressBar, homePage).effects(() => {
+$suspense(loadAppData, loaderImage, homePage).effects(() => {
     button.localizedText("greeting", { name: "Oarabile" });
 });
 

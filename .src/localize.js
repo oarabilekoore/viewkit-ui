@@ -1,4 +1,4 @@
-import { $uiControl } from "./+reckt.core.js";
+import { $uiControl } from "./+reckt.web.js";
 import { $signal } from "./signals.js";
 
 const defaultLanguage = navigator.language || navigator.userLanguage;

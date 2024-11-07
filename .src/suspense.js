@@ -1,4 +1,4 @@
-import { $createApp } from "./+reckt.core.js";
+import { $createApp } from "./+reckt.web.js";
 import { $error } from "./debugger.js";
 
 /**
@@ -33,7 +33,7 @@ export const $suspense = (resource, fallback, controlInSuspension) => {
             return;
         }
 
-        app.mount(fallback);
+        ap.mount(fallback);
 
         const showFallback = () => {
             fallback.show();

@@ -5,7 +5,7 @@ export default defineConfig({
         minify: true,
         sourcemap: true,
         lib: {
-            entry: "./index.js",
+            entry: "./.src/index.js",
             name: "reckt",
             fileName: (format) => `reckt.${format}.js`,
             formats: ["es", "cjs", "umd"],

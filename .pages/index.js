@@ -1,4 +1,4 @@
-import { $localize, $suspense, $layout, $component, $setLanguage } from "../.src/reckt.core.js";
+import { $localize, $suspense, $layout, $component, $setLanguage } from "reckt";
 
 export const homePage = $layout("linear", "fillxy, vcenter");
 
@@ -28,24 +28,28 @@ button.css`
     $setLanguage("fr");
 });
 
-let loaderImage = $component("img", homePage, {
-    src: ".src/.images/fire.png",
-});
+let loaderPage = $layout("linear", "fillxy, vcenter");
+let loaderImage = $component("img", loaderPage);
+loaderImage.element.src = "../favicon.ico";
 loaderImage.css`
     width: 100%;
-    height: 8px;
+    height: auto;
     border-radius: 4px;
 `;
 
-$suspense(loadAppData, loaderImage, homePage).effects(() => {
+$suspense(loadAppData, loaderPage, homePage).effects(() => {
     button.localizedText("greeting", { name: "Oarabile" });
 });
 
 async function loadAppData() {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+
     try {
         await $localize(
             "en",
             "https://raw.githubusercontent.com/oarabiledev/metro/main/translations.json"
         );
-    } catch (e) {}
+    } catch (e) {
+        console.error("Localization failed:", e);
+    }
 }

@@ -1,10 +1,11 @@
-// @ts-nocheck
 // reckt.js : A High Perfomance Framework
 //            To Write Functional Ui,
 //            Strongly Based on Signals.
 
 // @author
 // Oarabile Koore
+
+"use strict";
 
 export class $uiControl {
     constructor() {
@@ -107,65 +108,6 @@ export class $uiControl {
     childrenMargins() {}
 }
 
-const defaultLanguage = navigator.language || navigator.userLanguage;
-const defaultLangCode = defaultLanguage.split("-")[0];
-let translations = {};
-let currentLang;
-
-export const $localize = async function (defaultLang = defaultLangCode, jsonSource) {
-    currentLang = $signal(defaultLang);
-
-    const response = await fetch(jsonSource);
-    if (!response.ok) {
-        console.log("Translation File Not Loaded");
-        return;
-    }
-
-    const loadedTranslations = await response.json();
-    translations = { ...translations, ...loadedTranslations };
-};
-
-export const $setLanguage = function (langCode) {
-    currentLang.value = langCode;
-};
-
-let $localizedText = function (key, placeholders) {
-    if (!currentLang || !currentLang.value) {
-        return key;
-    }
-
-    const langData = translations[currentLang.value] || translations[defaultLangCode] || {};
-    let translation = langData[key] || key;
-    if (placeholders) {
-        Object.keys(placeholders).forEach((placeholder) => {
-            translation = translation.replace(`{${placeholder}}`, placeholders[placeholder]);
-        });
-    }
-    return translation;
-};
-
-/**
- * Set the text accordingly to the languageCode and provided keys
- * @param {object} localizingFn
- * @param {string} key
- * @param {object} placeholders
- */
-$uiControl.prototype.localizedText = async function (key, placeholders) {
-    if (!currentLang || !currentLang.value) {
-        return key;
-    }
-
-    const localizedText = await $localizedText(key, placeholders);
-
-    this.element.textContent = localizedText;
-
-    currentLang.subscribe(async (code) => {
-        const localizedText = await $localizedText(key, placeholders);
-
-        this.element.textContent = localizedText;
-    });
-};
-
 let idCount = 0;
 let classnameCount = 0;
 function generateId() {
@@ -197,177 +139,6 @@ export const $on = function (event, handlerFn) {
 };
 
 /**
- * showIF method allows you to hide or show an element if the restingParameter is truthy
- * @param {Boolean} restingParameter
- * @param {instanceOf<$uiControl>} onTruthyElement
- * @param {instanceOf<$uiControl>} onFalseyElement
- */
-export const $showIF = function (restingParameter, onTruthyElement, onFalseyElement) {
-    if (onTruthyElement === undefined || onFalseyElement === undefined) {
-        $error(`showIF not called, one of the elements is undefined`);
-        return;
-    }
-    restingParameter ? onTruthyElement.show() : onTruthyElement.hide();
-    !restingParameter ? onFalseyElement.show() : onFalseyElement.hide();
-};
-
-/**
- * signal Method allows you to use plain signals, it takes in plain values and gives reactivity.
- * @param {any} defaultValue
- */
-export const $signal = function (defaultValue = null) {
-    let internal_variable = defaultValue;
-    let subscriptions = [];
-
-    /**
-     * notify the user
-     * @param {Function} fn
-     */
-    const notify = function (fn) {
-        for (let subscriber of subscriptions) {
-            subscriber(internal_variable);
-        }
-    };
-    return {
-        /**
-         * set the signal's value
-         * @param {any} val
-         */
-        set value(val) {
-            internal_variable = val;
-            notify();
-        },
-
-        /**
-         * returns the signals value
-         * @returns internal_variable
-         */
-        get value() {
-            return internal_variable;
-        },
-
-        /**
-         * subscribe to the signal
-         * @param {Function} fn
-         */
-        subscribe: (fn) => {
-            subscriptions.push(fn);
-        },
-    };
-};
-
-/**
- * add a signal that takes in the defaultValue as an object
- * @param {Object} initialValue = {}
- */
-export const $store = function (initialValue = {}) {
-    let state = { ...initialValue };
-    const listeners = new Set();
-
-    return {
-        /**
-         * set the signal's value
-         * @param {any} val
-         */
-        set(key, value) {
-            state[key] = value;
-            listeners.forEach((listener) => listener(state));
-        },
-
-        /**
-         * returns the signals value
-         * @returns internal_variable
-         */
-        get(key) {
-            return state[key];
-        },
-
-        /**
-         * subscribe to the signal
-         * @param {Function} fn
-         */
-        subscribe(listener) {
-            listeners.add(listener);
-            return () => listeners.delete(listener);
-        },
-    };
-};
-
-/**
- * show a fallback view during an async operation, then swap it out when done.
- * @param {asyncFunction} resource
- * @param {instanceOf<ui.Control>} fallback
- * @param {instanceOf<ui.Control>} controlInSuspension
- */
-export const $suspense = (resource, fallback, controlInSuspension) => {
-    const subscriptions = [];
-
-    const notify = () => subscriptions.forEach((subscriber) => subscriber());
-
-    if (controlInSuspension.type === "Layout") {
-        if (!controlInSuspension.hasChild(fallback)) {
-            $error(`FallBack is not a child of ${controlInSuspension}`);
-            return;
-        }
-
-        const fallback_id = fallback.id;
-        const incremented_children_array = Object.keys(controlInSuspension.children)
-            .map(Number)
-            .map((childId) => childId + 1);
-
-        const hideChildren = () => {
-            incremented_children_array.forEach((child_id) => {
-                if (child_id !== fallback_id) {
-                    const element = document.getElementById("reckt-id-" + child_id);
-                    if (element) element.style.display = "none";
-                }
-            });
-        };
-
-        const showChildren = () => {
-            fallback.hide();
-            incremented_children_array.forEach((child_id) => {
-                if (child_id !== fallback_id) {
-                    const element = document.getElementById("reckt-id-" + child_id);
-                    if (element) element.style.display = "block";
-                }
-            });
-        };
-
-        hideChildren();
-
-        Promise.resolve(resource())
-            .then(() => {
-                showChildren();
-                notify();
-            })
-            .catch(() => hideChildren());
-    } else {
-        fallback.show();
-        controlInSuspension.hide();
-
-        Promise.resolve(resource())
-            .then(() => {
-                fallback.hide();
-                controlInSuspension.show();
-                notify();
-            })
-            .catch(() => {
-                fallback.show();
-                controlInSuspension.hide();
-            });
-    }
-
-    return {
-        /**
-         * call a function after the new view is added
-         * @param {Function} fn
-         */
-        effects: (fn) => subscriptions.push(fn),
-    };
-};
-
-/**
  * Add CSS properties, works with both template literals
  * and objects (like Emotion in React).
  * Automatically detects the type of
@@ -386,24 +157,9 @@ export const cssParser = (styles, ...values) => {
 
     let cssString = "";
 
-    /**
-     * @type {Array<any> | null}
-     */
     let nestedCssRules = [];
-
-    /**
-     * @type {Array<any> | null}
-     */
     let mediaQueryRules = [];
 
-    /**
-     * Parses a style object and generates a CSS string.
-     * Handles nested selectors, pseudo-classes, and media queries.
-     *
-     * @param {object} styles - An object representing CSS properties and values.
-     * @param {string} selector - The CSS selector to apply the styles to.
-     * @returns {string} - A string representing the base CSS styles for the selector.
-     */
     const parseStyles = (styles, selector) => {
         let baseStyles = "";
         Object.entries(styles).forEach(([key, value]) => {
@@ -695,84 +451,6 @@ export const $layout = function (type = "linear", options = "fillxy, vcenter") {
  */
 export const $component = function (tag, parent, props = {}) {
     return new $componentInitalizer(tag, parent, props);
-};
-
-/**
- * Hash Based Router, Takes In Your Routes, Provided As a Dictionary
- * @param {Array<Object>} hashParam
- */
-
-export const $hashRouter = function (hashParam) {
-    const plugin = {
-        routes: hashParam,
-        currentRoute: null,
-
-        _init: function () {
-            if (!window.location.hash) {
-                window.location.hash = `#index`;
-            } else this._handleHashChange();
-
-            window.onhashchange = this._handleHashChange.bind(this);
-            return this;
-        },
-
-        /**
-         * @param {any} app
-         */
-        _install: function (app) {
-            this._init();
-            app.router = this;
-        },
-
-        _render: function () {
-            const container = document.querySelector("#app");
-            if (container) {
-                container.innerHTML = "";
-
-                if (this.currentRoute && this.currentRoute.component) {
-                    container.appendChild(this.currentRoute.component.element);
-                } else console.error("No valid component found for route");
-            }
-            return this;
-        },
-
-        _handleHashChange: function () {
-            const hash = window.location.hash.slice(1) || "/";
-            // @ts-ignore
-            const route = this.routes.find((r) => r.path === hash);
-
-            if (route) {
-                // @ts-ignore
-                this.currentRoute = route;
-                this._render();
-            } else console.error(`Route not found: ${hash}`);
-        },
-
-        /**
-         * which route to head to.
-         * @param {string} path
-         * @returns
-         */
-        navigate: function (path) {
-            const route = this.routes.find((r) => r.path === path);
-            if (route) {
-                this.currentRoute = route;
-                window.location.hash = path;
-                this._render();
-            } else console.error(`Route not found: ${path}`);
-
-            return this;
-        },
-
-        back: function () {
-            history.back();
-        },
-
-        forward: function () {
-            history.forward();
-        },
-    };
-    return plugin;
 };
 
 /**

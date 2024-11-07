@@ -1,6 +1,6 @@
 // Main Testing Script
 
-import { $createApp, $hashRouter } from "./.src/reckt.core.js";
+import { $createApp, $hashRouter } from "reckt";
 
 import { homePage } from "./.pages/index.js";
 

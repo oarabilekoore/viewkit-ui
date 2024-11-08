@@ -1,55 +1,15 @@
-import { $localize, $suspense, $layout, $component, $setLanguage } from "reckt";
+import { $layout } from "rosana";
+import { outlinedButton } from "./.ui/buttons.js";
+import { navigationBar } from "./.ui/navigation.js";
 
-export const homePage = $layout("linear", "fillxy, vcenter");
+export const homePage = $layout("linear", "top, scrolly, fillxy, noscrollbar");
 
-let button = $component("button", homePage);
-button.css`
-    border: 2px solid #6200ea;
-    color: #6200ea;
-    background-color: transparent; 
-    font-family: "Archivo", sans-serif;
-    font-weight: 500; 
-    font-size: 1rem;
-    text-align: center;
-    cursor: pointer;
-    padding: 0.5rem 1rem; 
-    transition: background-color 0.3s, color 0.3s;
-    
-    &:hover {
-        background-color: #6200ea; 
-        color: white; 
-    }
+navigationBar(homePage);
 
-    &:active {
-        background-color: #3700b3; 
-        border-color: #3700b3; 
-    }
-`.on("click", () => {
-    $setLanguage("fr");
+let contentLayout = $layout("linear", "fillxy, vcenter");
+homePage.addChild(contentLayout);
+
+let btn = outlinedButton(contentLayout, "Hello World");
+btn.on("click", () => {
+    app.router.navigate("about");
 });
-
-let loaderPage = $layout("linear", "fillxy, vcenter");
-let loaderImage = $component("img", loaderPage);
-loaderImage.element.src = "../favicon.ico";
-loaderImage.css`
-    width: 100%;
-    height: auto;
-    border-radius: 4px;
-`;
-
-$suspense(loadAppData, loaderPage, homePage).effects(() => {
-    button.localizedText("greeting", { name: "Oarabile" });
-});
-
-async function loadAppData() {
-    await new Promise((resolve) => setTimeout(resolve, 5000));
-
-    try {
-        await $localize(
-            "en",
-            "https://raw.githubusercontent.com/oarabiledev/metro/main/translations.json"
-        );
-    } catch (e) {
-        console.error("Localization failed:", e);
-    }
-}

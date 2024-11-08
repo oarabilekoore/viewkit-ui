@@ -1,38 +1,48 @@
-// reckt.js : A High Perfomance Framework
-//            To Write Functional Ui,
-//            Strongly Based on Signals.
-
-// @author
-// Oarabile Koore
-
+// rosana.js : A High Perfomance Framework
+//             To Write Functional Ui,
+//             Strongly Based on Signals.
 "use strict";
-
-export class $uiControl {
+export const $uiControl = class {
     constructor() {
         /** @type {HTMLElement | null} */
         this.element = null;
-
         /** @type {Array<string>} */
         this.elementClasses = [];
-
         /** @type {Array<[string, Function]>} */
         this.eventListeners = [];
     }
-
     /**
      * Add a child element to this element.
-     * @param {roseComponent} child - The child component to add.
+     * @param {$uiControl} child - The child component to add.
      * @returns {this} - Returns the instance of the class for chaining.
      */
     addChild(child) {
         if (child instanceof $uiControl && this.element) {
             this.element.appendChild(child.element);
-        } else {
-            console.error("Mounted Child Is Not A Reckt Component");
+        }
+        else {
+            console.error("Mounted Child Is Not A Rosana Component");
         }
         return this;
     }
-
+    /**
+     * Set the alignment of child elements in the control.
+     * @param {string} options - Alignment options.
+     */
+    set alignment(options) {
+        if (options) {
+            // @ts-ignore
+            optionsApi(this.element, options);
+        }
+        else {
+            console.log("Alignment Options Undefined");
+        }
+    }
+    /**
+     * batch dom api setters and getters effeciently
+     * @param {object} props
+     * @returns this
+     */
     batch(props) {
         Object.entries(props).forEach(([key, value]) => {
             requestAnimationFrame(() => {
@@ -43,7 +53,6 @@ export class $uiControl {
         });
         return this;
     }
-
     /**
      * Add an event listener to the element.
      * @param {string} event - The event type.
@@ -55,14 +64,12 @@ export class $uiControl {
         this.eventListeners.push([event, handler]);
         return this;
     }
-
     css(styles) {
         const className = cssParser(styles);
         this.element?.classList.add(className);
         this.elementClasses.push(className);
         return this;
     }
-
     /**
      * Remove a child element from this element.
      * @param {instanceOf<$uiControl>} child - The child component to remove.
@@ -74,12 +81,12 @@ export class $uiControl {
                 child.element?.removeEventListener(event, Fn);
             });
             child.element?.remove();
-        } else {
-            console.error("Child Is Not A Reckt Component");
+        }
+        else {
+            console.error("Child Is Not A Rosana Component");
         }
         return this;
     }
-
     /**
      * Sets the visibility of the element.
      * @param {boolean} bool - Visibility state.
@@ -87,14 +94,12 @@ export class $uiControl {
     show() {
         this.css({ visibility: "visible" });
     }
-
     /**
      * Hide the element
      */
     hide() {
         this.css({ visibility: "hidden" });
     }
-
     /**
      * Sets the display and visibility of the element.
      * @param {boolean} bool - Visibility and space control state.
@@ -105,19 +110,14 @@ export class $uiControl {
             visibility: bool ? "hidden" : "visible",
         });
     }
-    childrenMargins() {}
-}
-
-let idCount = 0;
-let classnameCount = 0;
+};
+let idCount, classnameCount = 0;
 function generateId() {
-    return `rekct-id-${idCount++}`;
+    return `rosana-id-${idCount++}`;
 }
-
 function generateClassName() {
-    return `rekct-class-${classnameCount++}`;
+    return `rosana-class-${classnameCount++}`;
 }
-
 /**
  * returns the system device theme, works in browser environment
  * @returns SystemTheme
@@ -126,9 +126,10 @@ export const $sysTheme = function () {
     const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
     if (darkThemeMq.matches) {
         return "dark";
-    } else return "light";
+    }
+    else
+        return "light";
 };
-
 /**
  * attach event listeners to the document body.
  * @param {HTMLEventListener} event
@@ -137,7 +138,6 @@ export const $sysTheme = function () {
 export const $on = function (event, handlerFn) {
     document.addEventListener(event, handlerFn);
 };
-
 /**
  * Add CSS properties, works with both template literals
  * and objects (like Emotion in React).
@@ -148,18 +148,12 @@ export const $on = function (event, handlerFn) {
  * @param {...any} values - Optional values for template literals.
  * @returns {string} ClassName - The generated class name.
  */
-
-export const cssParser = (styles, ...values) => {
+const cssParser = (styles, ...values) => {
     const className = generateClassName();
-    const styleSheet =
-        document.styleSheets[0] ||
-        document.head.appendChild(document.createElement("style")).sheet;
-
+    const styleSheet = document.styleSheets[0];
     let cssString = "";
-
     let nestedCssRules = [];
     let mediaQueryRules = [];
-
     const parseStyles = (styles, selector) => {
         let baseStyles = "";
         Object.entries(styles).forEach(([key, value]) => {
@@ -170,43 +164,44 @@ export const cssParser = (styles, ...values) => {
                         selector,
                         styles: value,
                     });
-                } else if (key.startsWith("&:")) {
+                }
+                else if (key.startsWith("&:")) {
                     // Handle pseudo-classes prefixed with "&:"
                     const pseudoClass = key.replace("&", selector);
                     nestedCssRules.push({
                         selector: pseudoClass,
                         styles: value,
                     });
-                } else {
+                }
+                else {
                     // Handle other nested selectors
                     nestedCssRules.push({
                         selector: `${selector} ${key}`,
                         styles: value,
                     });
                 }
-            } else {
+            }
+            else {
                 baseStyles += `${key.replace(/([A-Z])/g, "-$1").toLowerCase()}: ${value}; `;
             }
         });
         return baseStyles;
     };
-
     // Check if 'styles' is a template literal or an object
     if (typeof styles === "object" && !Array.isArray(styles)) {
         // It's an object, so we parse it
         cssString = parseStyles(styles, `.${className}`);
-    } else if (Array.isArray(styles)) {
+    }
+    else if (Array.isArray(styles)) {
         // It's a template literal, combine strings and values into CSS string
         cssString = styles.reduce((result, str, i) => {
             return result + str + (values[i] || "");
         }, "");
     }
-
     // Insert base class CSS rule
     if (cssString) {
         styleSheet.insertRule(`.${className} { ${cssString} }`, styleSheet.cssRules.length);
     }
-
     // Insert nested CSS rules
     nestedCssRules.forEach(({ selector, styles }) => {
         const nestedCssString = parseStyles(styles, selector);
@@ -215,7 +210,6 @@ export const cssParser = (styles, ...values) => {
             styleSheet.insertRule(rule, styleSheet.cssRules.length);
         }
     });
-
     // Insert media query rules
     mediaQueryRules.forEach(({ media, selector, styles }) => {
         const nestedCssString = parseStyles(styles, selector);
@@ -224,10 +218,8 @@ export const cssParser = (styles, ...values) => {
             styleSheet.insertRule(rule, styleSheet.cssRules.length);
         }
     });
-
     return className;
 };
-
 let viewOptions = [
     "noscrollbar",
     "scrollxy",
@@ -245,7 +237,6 @@ let viewOptions = [
     "fillx",
     "filly",
 ];
-
 /**
  *
  * @param {HTMLElement} element
@@ -256,7 +247,6 @@ const optionsApi = (element, options) => {
         noscrollbar: () => {
             element.classList.add("noscrollbar");
         },
-
         fillxy: () => {
             let className = cssParser({
                 width: "100%",
@@ -264,21 +254,18 @@ const optionsApi = (element, options) => {
             });
             element.classList.add(className);
         },
-
         fillx: () => {
             let className = cssParser({
                 width: "100%",
             });
             element.classList.add(className);
         },
-
         filly: () => {
             let className = cssParser({
                 height: window.innerHeight + "px",
             });
             element.classList.add(className);
         },
-
         scrollxy: () => {
             let className = cssParser({
                 overflow: "auto",
@@ -356,21 +343,19 @@ const optionsApi = (element, options) => {
             element.classList.add(className);
         },
     };
-
     options
         .toLowerCase()
         .replace(/\s/g, "")
         .split(",")
         .forEach((el) => {
-            if (viewOptions.includes(el)) {
-                // @ts-ignore
-                functions[el]();
-            } else {
-                console.error(`Unknown option: ${el}`);
-            }
-        });
+        if (viewOptions.includes(el)) {
+            functions[el]();
+        }
+        else {
+            console.error(`Unknown option: ${el}`);
+        }
+    });
 };
-
 /**
  * An internal api used by containers and elements, this
  * function adds css required for certain types of
@@ -381,9 +366,7 @@ const optionsApi = (element, options) => {
  */
 function layoutFitApi(layout, type, options) {
     options ? optionsApi(layout, options) : null;
-
     let layoutTYPE = type.toLowerCase();
-
     if (layoutTYPE == "linear") {
         let className = cssParser({
             display: "inline-flex",
@@ -391,48 +374,45 @@ function layoutFitApi(layout, type, options) {
             flexDirection: "column !important",
         });
         layout.classList.add(className);
-    } else if (layoutTYPE == "absolute") {
+    }
+    else if (layoutTYPE == "absolute") {
         let className = cssParser({
             display: "flex",
         });
         layout.classList.add(className);
-    } else console.error("Unknown Layout ", layout);
+    }
+    else
+        console.error("Unknown Layout ", layout);
 }
-
 let $layoutInitializer = class extends $uiControl {
     constructor(type, options) {
         super();
-
         this.element = document.createElement("div");
         this.element.id = generateId();
         this.element.type = "Layout";
-
         type ? layoutFitApi(this.element, type, options) : null;
     }
 };
-
 let $componentInitalizer = class extends $uiControl {
     constructor(tag, parent, props) {
         super();
         /** @type {HTMLElement} */
         this.element = document.createElement(tag);
         this.element.id = generateId();
-
         Object.entries(props).forEach(([key, value]) => {
             requestAnimationFrame(() => {
                 this.element[key] = value;
             });
         });
-
         if (parent instanceof $uiControl) {
             parent.addChild(this);
-        } else {
+        }
+        else {
             console.error("No Parent For Component To Attach To.");
             return;
         }
     }
 };
-
 /**
  * creates a layout, it takes in child components.
  * @param {string} type - The type of container (e.g., 'div', 'section').
@@ -442,9 +422,8 @@ let $componentInitalizer = class extends $uiControl {
 export const $layout = function (type = "linear", options = "fillxy, vcenter") {
     return new $layoutInitializer(type, options);
 };
-
 /**
- *
+ * create a component
  * @param {HTMLElementTagNameMap} tag
  * @param {InstanceType<$uiControl>} parent
  * @param {Object} props
@@ -452,7 +431,6 @@ export const $layout = function (type = "linear", options = "fillxy, vcenter") {
 export const $component = function (tag, parent, props = {}) {
     return new $componentInitalizer(tag, parent, props);
 };
-
 /**
  * This function is used to attach the main component
  * of your app, so as to mount plugins
@@ -463,7 +441,6 @@ export const $createApp = function (mainComponent) {
     const app = {
         _rootComponent: mainComponent,
         _plugins: [],
-
         /**
          * An Elements Id
          * The provided string is queried so that the
@@ -477,16 +454,13 @@ export const $createApp = function (mainComponent) {
                 console.error(`No element found for selector "${selector}"`);
                 return;
             }
-
             document.body.style.margin = "0";
             document.body.style.width = "100%";
-
             container.innerHTML = "";
             const instance = this._rootComponent;
             container.appendChild(instance.element);
             return this;
         },
-
         /**
          *
          * @param {Function} plugin

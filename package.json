@@ -1,24 +1,20 @@
 {
-    "name": "reckt",
+    "name": "rosana",
     "version": "0.0.1",
-    "main": "dist/reckt.cjs.js",
-    "module": "dist/reckt.es.js",
+    "main": "dist/rosana.cjs.js",
+    "module": "dist/rosana.es.js",
     "types": "dist/index.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/reckt.es.js",
-            "require": "./dist/reckt.cjs.js"
+            "import": "./dist/rosana.es.js",
+            "require": "./dist/rosana.cjs.js"
         },
-        "./umd": "./dist/reckt.umd.js"
+        "./umd": "./dist/rosana.umd.js"
     },
     "files": [
         "dist",
         "src",
         "index.js"
-    ],
-    "keywords": [
-        "ui",
-        "framework"
     ],
     "scripts": {
         "build": "vite build",
@@ -31,6 +27,5 @@
     "license": "MIT",
     "devDependencies": {
         "typescript": "^5.6.2"
-    },
-    "description": "High performance UI framework for writing front-end declaratively."
+    }
 }

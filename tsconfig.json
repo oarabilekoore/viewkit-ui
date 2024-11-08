@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "esnext",
+        "declaration": true,
+        "outDir": "./dist",
+        "allowJs": true,
+        "checkJs": true,
+        "strict": true
+    },
+    "include": ["./.src/**/*.js", "./.src/index.js"],
+    "exclude": ["node_modules", "dist"]
+}

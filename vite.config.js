@@ -6,8 +6,8 @@ export default defineConfig({
         sourcemap: true,
         lib: {
             entry: "./.src/index.js",
-            name: "reckt",
-            fileName: (format) => `reckt.${format}.js`,
+            name: "rosana",
+            fileName: (format) => `rosana.${format}.js`,
             formats: ["es", "cjs", "umd"],
         },
 

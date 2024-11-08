@@ -12,7 +12,6 @@ export const $showIF = function (restingParameter, onTruthyElement, onFalseyElem
     restingParameter ? onTruthyElement.show() : onTruthyElement.hide();
     !restingParameter ? onFalseyElement.show() : onFalseyElement.hide();
 };
-
 /**
  * show a fallback view during an async operation, then swap it out when done.
  * @param {asyncFunction} resource
@@ -21,36 +20,30 @@ export const $showIF = function (restingParameter, onTruthyElement, onFalseyElem
  */
 export const $suspense = (resource, fallback, controlInSuspension) => {
     const subscriptions = [];
-
     const notify = () => subscriptions.forEach((subscriber) => subscriber());
-
     if (fallback.type === "Layout" && controlInSuspension.type === "Layout") {
         if (!controlInSuspension.hasChild(fallback)) {
             console.error(`FallBack is not a child of ${controlInSuspension}`);
             return;
         }
-
         ap.mount(fallback);
-
         const showFallback = () => {
             fallback.show();
             controlInSuspension.hide();
         };
-
         const showSuspended = () => {
             controlInSuspension.show();
             fallback.hide();
         };
-
         showFallback();
-
         Promise.resolve(resource())
             .then(() => {
-                showSuspended();
-                notify();
-            })
+            showSuspended();
+            notify();
+        })
             .catch(() => showFallback());
-    } else {
+    }
+    else {
         console.error("suspense must be used with both containers as a layout");
     }
     return {

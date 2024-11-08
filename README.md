@@ -12,7 +12,7 @@
 
 **rosana.js** is a framework library for creating performant UIs using functional themed programming.
 
-rosana uses signals to power the reactivity and offers most things not available natively compared to other libraries.
+rosana uses signls to power the reactivity and offers most things not available natively compared to other libraries.
 
 
 ## Installation

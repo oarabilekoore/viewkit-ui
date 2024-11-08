@@ -122,8 +122,8 @@ export const $uiControl = class {
     }
 };
 
-let idCount,
-    classnameCount = 0;
+let idCount = 0;
+let classnameCount = 0;
 function generateId() {
     return `rosana-id-${idCount++}`;
 }

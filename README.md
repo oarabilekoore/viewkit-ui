@@ -14,7 +14,6 @@
 
 rosana uses signals to power the reactivity and offers most things not available natively compared to other libraries.
 
----
 
 ## Installation
 
@@ -26,51 +25,10 @@ rosana is available installable using npm:
 npm install rosana
 ```
 
----
-
 ## Getting Started
 
-To quickly get started with **rosana.js**, you can use the **rosana-cli** tool to generate a new project with a predefined structure.
-
-### 1. Install rosana-cli
-
-First, install the **rosana-cli** globally to create and manage your projects:
-
-```bash
-npm install -g rosana-cli
-```
-
-### 2. Create a New Project
-
-To create a new project, run the following command:
-
-```bash
-rs create my-new-app
-```
-
-This will create a new project in a folder named `my-new-app`, with the recommended project structure and configurations.
-
-### 3. Install Dependencies
-
-Navigate to the project directory and install the dependencies:
-
-```bash
-cd my-new-app
-npm install
-```
-
-### 4. Run the Development Server
-
-To start the development server and view your app in the browser:
-
-```bash
-npm run dev
-```
-
-This will launch the Vite development server and open your app in the browser.
-
----
+To get  started, head over to the [rosana-cli](https://github.com/oarabiledev/rosana-cli) repo and follow the instructions.
 
 ## License
 
-**rosana.js** is open-source and available under the MIT License.
+rosana.js is under the MIT License.

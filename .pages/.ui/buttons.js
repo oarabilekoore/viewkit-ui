@@ -1,7 +1,7 @@
-import { $component } from "rosana";
+import { $Element } from "rosana";
 
 export const outlinedButton = function (parent, text) {
-    let button = $component("button", parent, {
+    let button = $Element("button", parent, {
         textContent: text,
     });
     button.css`

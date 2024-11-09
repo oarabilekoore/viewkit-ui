@@ -1,2 +1,2 @@
-export function $localize(defaultLang: any, jsonSource: any): Promise<void>;
-export function $setLanguage(langCode: any): void;
+export function $localize(defaultLang?: string | undefined, jsonSource: string): Promise<void>;
+export function $setLanguage(langCode: string): void;

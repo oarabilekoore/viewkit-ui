@@ -1,7 +1,7 @@
-import { $component } from "rosana";
+import { $Element } from "rosana";
 
 export const navigationBar = function (parent) {
-    let nav = $component("nav", parent);
+    let nav = $Element("nav", parent);
     nav.css`
     position: relative;
     top: 0;
@@ -19,7 +19,7 @@ export const navigationBar = function (parent) {
 
     nav.alignment = "VCenter";
 
-    let text = $component("span", nav, {
+    let text = $Element("span", nav, {
         textContent: "RosanaJs",
     });
     text.css`

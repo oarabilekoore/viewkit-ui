@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
     build: {
-        minify: true,
+        minify: false,
         sourcemap: true,
         lib: {
             entry: "./.src/index.js",

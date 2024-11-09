@@ -1,12 +1,12 @@
-import { $layout } from "rosana";
-import { outlinedButton } from "./.ui/buttons.js";
 import { navigationBar } from "./.ui/navigation.js";
+import { outlinedButton } from "./.ui/buttons.js";
+import { $LinearLayout } from "rosana";
 
-export const aboutPage = $layout("linear", "fillxy, top");
+export const aboutPage = $LinearLayout("fillxy, top");
 
 navigationBar(aboutPage);
 
-let contentLayout = $layout("linear", "fillxy, vcenter");
+let contentLayout = $LinearLayout("fillxy, vcenter");
 aboutPage.addChild(contentLayout);
 
 let btn = outlinedButton(contentLayout, "The About Page");

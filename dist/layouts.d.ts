@@ -1,0 +1,58 @@
+export function optionsApi(element: HTMLElement, options: string): void;
+export function $LinearLayout(childAlignmentProperties?: string | undefined): {
+    element: HTMLDivElement;
+    elementClasses: Array<string>;
+    eventListeners: Array<[string, Function]>;
+    addChild(child: componentController): any;
+    alignment(options: string): void;
+    batch(props: object): any;
+    on(event: string, handler: Function): any;
+    css(styles: any): any;
+    destroyChild(child: instanceOf<componentController>): any;
+    show(): void;
+    hide(): void;
+    gone(): void;
+};
+export function $AbsoluteLayout(childAlignmentProperties?: string | undefined): {
+    element: HTMLDivElement;
+    elementClasses: Array<string>;
+    eventListeners: Array<[string, Function]>;
+    addChild(child: componentController): any;
+    alignment(options: string): void;
+    batch(props: object): any;
+    on(event: string, handler: Function): any;
+    css(styles: any): any;
+    destroyChild(child: instanceOf<componentController>): any;
+    show(): void;
+    hide(): void;
+    gone(): void;
+};
+export function $FrameLayout(childAlignmentProperties?: string | undefined): {
+    element: HTMLDivElement;
+    elementClasses: Array<string>;
+    eventListeners: Array<[string, Function]>;
+    addChild(child: componentController): any;
+    alignment(options: string): void;
+    batch(props: object): any;
+    on(event: string, handler: Function): any;
+    css(styles: any): any;
+    destroyChild(child: instanceOf<componentController>): any;
+    show(): void;
+    hide(): void;
+    gone(): void;
+};
+export function $StackedLayout(stackOrientation?: string | undefined): {
+    element: HTMLDivElement;
+    elementClasses: Array<string>;
+    eventListeners: Array<[string, Function]>;
+    addChild(child: componentController): any;
+    alignment(options: string): void;
+    batch(props: object): any;
+    on(event: string, handler: Function): any;
+    css(styles: any): any;
+    destroyChild(child: instanceOf<componentController>): any;
+    show(): void;
+    hide(): void;
+    gone(): void;
+};
+import { componentController } from "./control.js";

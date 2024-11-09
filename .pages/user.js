@@ -1,7 +1,7 @@
-import { $component, $layout } from "rosana";
+import { $Element, $LinearLayout } from "rosana";
 
-export const userPage = $layout("linear", "fillxy");
-let txt = $component("p", userPage);
+export const userPage = $LinearLayout("fillxy");
+let txt = $Element("p", userPage);
 
 userPage.updateParams = (params) => {
     txt.element.textContent = params.id;

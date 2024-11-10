@@ -1,14 +1,14 @@
 import { $signal } from "./signals.js";
 import { $store } from "./signals.js";
+import { $router } from "./router.js";
 import { $showIF } from "./suspense.js";
 import { $suspense } from "./suspense.js";
 import { $localize } from "./localize.js";
 import { $setLanguage } from "./localize.js";
-import { $Element } from "./elements.js";
-import { $hashRouter } from "./router.js";
 import { $createApp } from "./+rosana.core.js";
-import { $AbsoluteLayout } from "./layouts.js";
+import { $Element } from "./elements.js";
 import { $FrameLayout } from "./layouts.js";
 import { $LinearLayout } from "./layouts.js";
 import { $StackedLayout } from "./layouts.js";
-export { $signal, $store, $showIF, $suspense, $localize, $setLanguage, $Element, $hashRouter, $createApp, $AbsoluteLayout, $FrameLayout, $LinearLayout, $StackedLayout };
+import { $AbsoluteLayout } from "./layouts.js";
+export { $signal, $store, $router, $showIF, $suspense, $localize, $setLanguage, $createApp, $Element, $FrameLayout, $LinearLayout, $StackedLayout, $AbsoluteLayout };

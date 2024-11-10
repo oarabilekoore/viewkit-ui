@@ -8,8 +8,8 @@ export function $Element(tag: HtmlTag, parent: componentController, props?: {
     alignment(options: string): void;
     batch(props: object): any;
     on(event: string, handler: Function): any;
-    css(styles: any): any;
-    destroyChild(child: instanceOf<componentController>): any;
+    css(styles: TemplateStringsArray | object): any;
+    destroyChild(child: componentController): any;
     show(): void;
     hide(): void;
     gone(): void;

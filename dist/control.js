@@ -29,6 +29,7 @@ export class componentController {
      */
     alignment(options) {
         if (options) {
+            //@ts-ignore
             optionsApi(this.element, options);
         }
         else {
@@ -61,6 +62,11 @@ export class componentController {
         this.eventListeners.push([event, handler]);
         return this;
     }
+    /**
+     * Add css scoped styles to your element.
+     * @param {TemplateStringsArray | object} styles
+     * @returns {this}
+     */
     css(styles) {
         const className = cssParser(styles);
         this.element?.classList.add(className);
@@ -69,7 +75,7 @@ export class componentController {
     }
     /**
      * Remove a child element from this element.
-     * @param {instanceOf<componentController>} child - The child component to remove.
+     * @param {componentController} child - The child component to remove.
      * @returns {this} - Returns the instance of the class for chaining.
      */
     destroyChild(child) {

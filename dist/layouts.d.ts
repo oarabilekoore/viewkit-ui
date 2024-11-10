@@ -7,8 +7,8 @@ export function $LinearLayout(childAlignmentProperties?: string | undefined): {
     alignment(options: string): void;
     batch(props: object): any;
     on(event: string, handler: Function): any;
-    css(styles: any): any;
-    destroyChild(child: instanceOf<componentController>): any;
+    css(styles: TemplateStringsArray | object): any;
+    destroyChild(child: componentController): any;
     show(): void;
     hide(): void;
     gone(): void;
@@ -21,8 +21,8 @@ export function $AbsoluteLayout(childAlignmentProperties?: string | undefined): 
     alignment(options: string): void;
     batch(props: object): any;
     on(event: string, handler: Function): any;
-    css(styles: any): any;
-    destroyChild(child: instanceOf<componentController>): any;
+    css(styles: TemplateStringsArray | object): any;
+    destroyChild(child: componentController): any;
     show(): void;
     hide(): void;
     gone(): void;
@@ -35,8 +35,8 @@ export function $FrameLayout(childAlignmentProperties?: string | undefined): {
     alignment(options: string): void;
     batch(props: object): any;
     on(event: string, handler: Function): any;
-    css(styles: any): any;
-    destroyChild(child: instanceOf<componentController>): any;
+    css(styles: TemplateStringsArray | object): any;
+    destroyChild(child: componentController): any;
     show(): void;
     hide(): void;
     gone(): void;
@@ -49,8 +49,8 @@ export function $StackedLayout(stackOrientation?: string | undefined): {
     alignment(options: string): void;
     batch(props: object): any;
     on(event: string, handler: Function): any;
-    css(styles: any): any;
-    destroyChild(child: instanceOf<componentController>): any;
+    css(styles: TemplateStringsArray | object): any;
+    destroyChild(child: componentController): any;
     show(): void;
     hide(): void;
     gone(): void;

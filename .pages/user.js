@@ -1,8 +1,10 @@
 import { $Element, $LinearLayout } from "rosana";
 
-export const userPage = $LinearLayout("fillxy");
+const userPage = $LinearLayout("fillxy");
 let txt = $Element("p", userPage);
 
-userPage.updateParams = (params) => {
+userPage.routingInfo = (params) => {
     txt.element.textContent = params.id;
 };
+
+export default userPage;

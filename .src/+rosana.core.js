@@ -46,12 +46,15 @@ export const $createApp = function (mainComponent) {
             const instance = this._rootComponent;
 
             // Ensure the instance has an 'element' property before appending.
-            // @ts-ignore
             if (instance && instance.element) {
-                // @ts-ignore
                 container.appendChild(instance.element);
             } else {
                 console.error("Main component does not have an element property.");
+            }
+
+            // Initialize router if it's been added as a plugin
+            if (this.router) {
+                this.router.init();
             }
 
             return this;
@@ -59,21 +62,19 @@ export const $createApp = function (mainComponent) {
 
         /**
          * Adds a plugin to the application.
-         * @param {Object} plugin - The plugin object to add, expected to have an _install function.
+         * @param {Object} plugin - The plugin object to add, expected to have an install function.
          * @returns {Object} - The app instance for method chaining.
          */
         use: function (plugin) {
-            // @ts-ignore
-            if (plugin && typeof plugin._install === "function") {
-                // @ts-ignore
-                plugin._install(this);
-                // @ts-ignore
+            if (plugin && typeof plugin.install === "function") {
+                plugin.install(this);
                 this._plugins.push(plugin);
             } else {
-                console.warn("Plugin is missing _install method:", plugin);
+                console.warn("Plugin is missing install method:", plugin);
             }
             return this;
         },
     };
+
     return app;
 };

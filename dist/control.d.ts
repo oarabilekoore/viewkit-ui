@@ -29,13 +29,18 @@ export class componentController {
      * @returns {this} - Returns the instance of the class for chaining.
      */
     on(event: string, handler: Function): this;
-    css(styles: any): this;
+    /**
+     * Add css scoped styles to your element.
+     * @param {TemplateStringsArray | object} styles
+     * @returns {this}
+     */
+    css(styles: TemplateStringsArray | object): this;
     /**
      * Remove a child element from this element.
-     * @param {instanceOf<componentController>} child - The child component to remove.
+     * @param {componentController} child - The child component to remove.
      * @returns {this} - Returns the instance of the class for chaining.
      */
-    destroyChild(child: instanceOf<componentController>): this;
+    destroyChild(child: componentController): this;
     /**
      * Sets the visibility of the element.
      */

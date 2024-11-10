@@ -3,7 +3,7 @@
 
 <div align="center">
 <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
-<img alt="Version Badge" src="https://img.shields.io/badge/version-0.0.3-brightgreen.svg">
+<img alt="Version Badge" src="https://img.shields.io/badge/version-0.0.4-brightgreen.svg">
 </div>
 
 <br>
@@ -28,7 +28,3 @@ npm install rosana
 ## Getting Started
 
 To get  started, head over to the [rosana-cli](https://github.com/oarabiledev/rosana-cli) repo and follow the instructions.
-
-## License
-
-rosana.js is under the MIT License.

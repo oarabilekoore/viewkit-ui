@@ -15,16 +15,10 @@
 rosana uses signls to power the reactivity and offers most things not available natively compared to other libraries.
 
 
-## Installation
-
-To install the project, follow these steps:
-
-rosana is available installable using npm:
-
-```bash
-npm install rosana
-```
-
 ## Getting Started
 
-To get  started, head over to the [rosana-cli](https://github.com/oarabiledev/rosana-cli) repo and follow the instructions.
+To get  started, head over to the [rosana-cli](https://github.com/oarabiledev/rosana-cli)
+ repo and follow the instructions.
+You can then head over to [rosana.js documentation](https://savory-gold-540.notion.site/rosana-js-documentation-13bbfc84915f802e8449cc7836e4b71c?pvs=4) to get started.
+
+

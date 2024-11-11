@@ -1,10 +1,12 @@
-import { $Element, $LinearLayout } from "rosana";
+import { $LinearLayout } from "rosana";
+import { navigationBarB } from "./.ui/navigation.js";
 
-const userPage = $LinearLayout("fillxy");
-let txt = $Element("p", userPage);
+const userPage = $LinearLayout("fillxy, top, scrollxy, noscrollbar");
+
+let nav = navigationBarB(userPage);
 
 userPage.routingInfo = (params) => {
-    txt.element.textContent = params.id;
+    nav.name(`Hello ${params.id}`);
 };
 
 export default userPage;

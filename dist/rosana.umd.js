@@ -2,12 +2,18 @@
   typeof exports === "object" && typeof module !== "undefined" ? factory(exports) : typeof define === "function" && define.amd ? define(["exports"], factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, factory(global.rosana = {}));
 })(this, function(exports2) {
   "use strict";
-  var idCount = 0, classnameCount = 0;
-  const generateId = function() {
-    return `rosana-id-${idCount++}`;
+  const createUniqueIdGenerator = (prefix) => {
+    let count = 0;
+    return () => `${prefix}-${count++}`;
   };
-  const generateClassName = function() {
-    return `rosana-class-${classnameCount++}`;
+  const generateId = createUniqueIdGenerator("rosana-id");
+  const generateClassName = createUniqueIdGenerator("rosana-class");
+  const $pageTheme = function() {
+    const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
+    return darkThemeMq.matches ? "dark" : "light";
+  };
+  const $on = function(event, handlerFn) {
+    document.addEventListener(event, handlerFn);
   };
   const cssParser = (styles, ...values) => {
     const className = generateClassName();
@@ -50,7 +56,12 @@
         return result + str + (values[i] || "");
       }, "");
     }
-    if (cssString) {
+    if (document.readyState === "loading" && cssString) {
+      document.head.insertAdjacentHTML(
+        "beforeend",
+        `<style>.${className} { ${cssString} }</style>`
+      );
+    } else if (cssString) {
       styleSheet.insertRule(`.${className} { ${cssString} }`, styleSheet.cssRules.length);
     }
     nestedCssRules.forEach(({ selector, styles: styles2 }) => {
@@ -200,140 +211,33 @@
     "filly"
   ];
   const optionsApi = (element, options) => {
-    const functions = {
-      noscrollbar: () => {
-        element.classList.add("noscrollbar");
-      },
-      fillxy: () => {
-        let className = cssParser({
-          width: "100%",
-          height: window.innerHeight + "px"
-        });
-        element.classList.add(className);
-      },
-      fillx: () => {
-        let className = cssParser({
-          width: "100%"
-        });
-        element.classList.add(className);
-      },
-      filly: () => {
-        let className = cssParser({
-          height: window.innerHeight + "px"
-        });
-        element.classList.add(className);
-      },
-      scrollxy: () => {
-        let className = cssParser({
-          overflow: "auto"
-        });
-        element.classList.add(className);
-      },
-      scrollx: () => {
-        let className = cssParser({
-          overflowX: "auto"
-        });
-        element.classList.add(className);
-      },
-      scrolly: () => {
-        let className = cssParser({
-          overflowY: "auto"
-        });
-        element.classList.add(className);
-      },
-      left: () => {
-        let className = cssParser({
-          display: "flex",
-          justifyContent: "flex-start"
-        });
-        element.classList.add(className);
-      },
-      right: () => {
-        let className = cssParser({
-          display: "flex",
-          justifyContent: "flex-end"
-        });
-        element.classList.add(className);
-      },
-      center: () => {
-        let className = cssParser({
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center"
-        });
-        element.classList.add(className);
-      },
-      vcenter: () => {
-        let className = cssParser({
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center"
-        });
-        element.classList.add(className);
-      },
-      bottom: () => {
-        let className = cssParser({
-          display: "flex",
-          alignItems: "flex-end"
-        });
-        element.classList.add(className);
-      },
-      top: () => {
-        let className = cssParser({
-          display: "flex",
-          alignItems: "flex-start"
-        });
-        element.classList.add(className);
-      },
-      horizontal: () => {
-        let className = cssParser({
-          display: "flex",
-          flexDirection: "row !important"
-        });
-        element.classList.add(className);
-      },
-      vertical: () => {
-        let className = cssParser({
-          display: "flex",
-          flexDirection: "column"
-        });
-        element.classList.add(className);
-      }
-    };
-    options.toLowerCase().replace(/\s/g, "").split(",").forEach((el) => {
-      if (viewOptions.includes(el)) {
-        functions[el]();
+    options.toLowerCase().replace(/\s/g, "").split(",").forEach((option) => {
+      if (viewOptions.includes(option)) {
+        element.classList.add(option);
       } else {
-        console.error(`Unknown option: ${el}`);
+        console.error(`Unknown option: ${option}`);
       }
     });
   };
   function layoutFitApi(layout, type, options) {
-    options ? optionsApi(layout, options) : null;
-    let layoutTYPE = type.toLowerCase();
-    if (layoutTYPE == "linear") {
-      let className = cssParser({
-        display: "inline-flex",
-        position: "relative !important",
-        flexDirection: "column !important"
-      });
-      layout.classList.add(className);
-    } else if (layoutTYPE == "absolute") {
-      let className = cssParser({
-        display: "flex"
-      });
-      layout.classList.add(className);
-    } else if (layoutTYPE === "frame") {
-      layout.style.position = "relative";
-    } else if (layoutTYPE === "stack") {
-      let className = cssParser({
-        display: "flex",
-        // @ts-ignore
-        flexDirection: options.includes("vertical") ? "column" : "row"
-      });
-      layout.classList.add(className);
-    } else {
-      console.error("Unknown Layout ", layout);
+    if (options) optionsApi(layout, options);
+    const layoutTYPE = type.toLowerCase();
+    switch (layoutTYPE) {
+      case "linear":
+        layout.classList.add("layout-linear");
+        break;
+      case "absolute":
+        layout.classList.add("layout-absolute");
+        break;
+      case "frame":
+        layout.classList.add("layout-frame");
+        break;
+      case "stack":
+        const directionClass = (options == null ? void 0 : options.includes("vertical")) ? "layout-stack-vertical" : "layout-stack-horizontal";
+        layout.classList.add(directionClass);
+        break;
+      default:
+        console.error("Unknown Layout", layoutTYPE);
     }
   }
   const $LayoutInitializer = class extends componentController {
@@ -361,52 +265,6 @@
   };
   const $StackedLayout = function(stackOrientation = "horizontal") {
     return new $LayoutInitializer("stack", stackOrientation);
-  };
-  const $createApp = function(mainComponent) {
-    const app = {
-      _rootComponent: mainComponent,
-      _plugins: [],
-      /**
-       * Mounts the main component to a DOM element identified by the selector.
-       * @param {string} selector - A CSS selector for the container to mount the component.
-       * @returns {Object} - The app instance for method chaining.
-       */
-      mount: function(selector) {
-        const container = document.querySelector(selector);
-        if (!container) {
-          console.error(`No element found for selector "${selector}"`);
-          return this;
-        }
-        document.body.style.margin = "0";
-        document.body.style.width = "100%";
-        container.innerHTML = "";
-        const instance = this._rootComponent;
-        if (instance && instance.element) {
-          container.appendChild(instance.element);
-        } else {
-          console.error("Main component does not have an element property.");
-        }
-        if (this.router) {
-          this.router.init();
-        }
-        return this;
-      },
-      /**
-       * Adds a plugin to the application.
-       * @param {Object} plugin - The plugin object to add, expected to have an install function.
-       * @returns {Object} - The app instance for method chaining.
-       */
-      use: function(plugin) {
-        if (plugin && typeof plugin.install === "function") {
-          plugin.install(this);
-          this._plugins.push(plugin);
-        } else {
-          console.warn("Plugin is missing install method:", plugin);
-        }
-        return this;
-      }
-    };
-    return app;
   };
   const $signal = function(defaultValue = null) {
     let internal_variable = defaultValue;
@@ -551,6 +409,83 @@
        */
       effects: (fn) => subscriptions.push(fn)
     };
+  };
+  const $createApp = function(mainComponent) {
+    const app = {
+      _rootComponent: mainComponent,
+      _plugins: [],
+      /**
+       * Mounts the main component to a DOM element identified by the selector.
+       * @param {string} selector - A CSS selector for the container to mount the component.
+       * @returns {Object} - The app instance for method chaining.
+       */
+      mount: function(selector) {
+        const container = document.querySelector(selector);
+        if (!container) {
+          console.error(`No element found for selector "${selector}"`);
+          return this;
+        }
+        document.body.style.margin = "0";
+        document.body.style.width = "100%";
+        container.innerHTML = "";
+        const instance = this._rootComponent;
+        if (instance && instance.element) {
+          container.appendChild(instance.element);
+        } else {
+          console.error("Main component does not have an element property.");
+        }
+        if (this.router) {
+          this.router.init();
+        }
+        return this;
+      },
+      /**
+       * Adds a plugin to the application.
+       * @param {Object} plugin - The plugin object to add, expected to have an install function.
+       * @returns {Object} - The app instance for method chaining.
+       */
+      use: function(plugin) {
+        if (plugin && typeof plugin.install === "function") {
+          plugin.install(this);
+          this._plugins.push(plugin);
+        } else {
+          console.warn("Plugin is missing install method:", plugin);
+        }
+        return this;
+      }
+    };
+    return app;
+  };
+  let $ElementInitializer = class extends componentController {
+    /**
+     * Creates an HTML element.
+     * @param {HtmlTag} tag - The HTML tag name to create (e.g., 'div', 'span').
+     * @param {componentController} parent - The parent component to attach to.
+     * @param {Object<string, any>} props - An object containing properties to set on the element.
+     */
+    constructor(tag, parent, props) {
+      super();
+      this.element = document.createElement(tag);
+      this.element.id = generateId();
+      Object.entries(props).forEach(([key, value]) => {
+        requestAnimationFrame(() => {
+          if (key in this.element) {
+            this.element[key] = value;
+          } else {
+            console.warn(`Property ${key} does not exist on element.`);
+          }
+        });
+      });
+      if (parent instanceof componentController) {
+        parent.addChild(this);
+      } else {
+        console.error("No Parent For Component To Attach To.");
+        return;
+      }
+    }
+  };
+  const $Element = function(tag, parent, props = {}) {
+    return new $ElementInitializer(tag, parent, props);
   };
   class $router {
     /**
@@ -732,37 +667,6 @@
       history.forward();
     }
   }
-  let $ElementInitializer = class extends componentController {
-    /**
-     * Creates an HTML element.
-     * @param {HtmlTag} tag - The HTML tag name to create (e.g., 'div', 'span').
-     * @param {componentController} parent - The parent component to attach to.
-     * @param {Object<string, any>} props - An object containing properties to set on the element.
-     */
-    constructor(tag, parent, props) {
-      super();
-      this.element = document.createElement(tag);
-      this.element.id = generateId();
-      Object.entries(props).forEach(([key, value]) => {
-        requestAnimationFrame(() => {
-          if (key in this.element) {
-            this.element[key] = value;
-          } else {
-            console.warn(`Property ${key} does not exist on element.`);
-          }
-        });
-      });
-      if (parent instanceof componentController) {
-        parent.addChild(this);
-      } else {
-        console.error("No Parent For Component To Attach To.");
-        return;
-      }
-    }
-  };
-  const $Element = function(tag, parent, props = {}) {
-    return new $ElementInitializer(tag, parent, props);
-  };
   exports2.$AbsoluteLayout = $AbsoluteLayout;
   exports2.$Element = $Element;
   exports2.$FrameLayout = $FrameLayout;
@@ -770,6 +674,8 @@
   exports2.$StackedLayout = $StackedLayout;
   exports2.$createApp = $createApp;
   exports2.$localize = $localize;
+  exports2.$on = $on;
+  exports2.$pageTheme = $pageTheme;
   exports2.$router = $router;
   exports2.$setLanguage = $setLanguage;
   exports2.$showIF = $showIF;

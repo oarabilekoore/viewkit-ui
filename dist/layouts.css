@@ -1,0 +1,105 @@
+/* Scroll options */
+.noscrollbar {
+    overflow: hidden;
+}
+
+.scrollxy {
+    overflow: auto;
+}
+
+.scrollx {
+    overflow-x: auto;
+}
+
+.scrolly {
+    overflow-y: auto;
+}
+
+/* Positioning options */
+.top {
+    display: flex;
+    align-items: flex-start;
+}
+
+.bottom {
+    display: flex;
+    align-items: flex-end;
+}
+
+.left {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.vcenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Layout options */
+.horizontal {
+    display: flex;
+    flex-direction: row;
+}
+
+.vertical {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Fill options */
+.fillxy {
+    width: 100%;
+    height: 100vh;
+}
+
+.fillx {
+    width: 100%;
+}
+
+.filly {
+    height: 100vh;
+}
+
+/* layout.css */
+
+/* Linear Layout */
+.layout-linear {
+    display: inline-flex;
+    position: relative !important;
+    flex-direction: column !important;
+}
+
+/* Absolute Layout */
+.layout-absolute {
+    display: flex;
+}
+
+/* Frame Layout */
+.layout-frame {
+    position: relative;
+}
+
+/* Stack Layout - Horizontal */
+.layout-stack-horizontal {
+    display: flex;
+    flex-direction: row;
+}
+
+/* Stack Layout - Vertical */
+.layout-stack-vertical {
+    display: flex;
+    flex-direction: column;
+}

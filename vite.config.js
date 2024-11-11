@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import { viteStaticCopy } from "vite-plugin-static-copy";
 
 export default defineConfig({
     build: {
@@ -8,7 +9,7 @@ export default defineConfig({
             entry: "./.src/index.js",
             name: "rosana",
             fileName: (format) => `rosana.${format}.js`,
-            formats: ["es", "cjs", "umd"],
+            formats: ["es", "umd"],
         },
 
         rollupOptions: {
@@ -23,4 +24,14 @@ export default defineConfig({
             semicolons: true,
         },
     },
+    plugins: [
+        viteStaticCopy({
+            targets: [
+                {
+                    src: "./.src/layouts.css",
+                    dest: "./",
+                },
+            ],
+        }),
+    ],
 });

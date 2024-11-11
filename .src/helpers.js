@@ -1,18 +1,27 @@
-var idCount = 0,
-    classnameCount = 0;
+/**@param {string} prefix */
+const createUniqueIdGenerator = (prefix) => {
+    let count = 0;
+    return () => `${prefix}-${count++}`;
+};
+
+export const generateId = createUniqueIdGenerator("rosana-id");
+export const generateClassName = createUniqueIdGenerator("rosana-class");
 
 /**
- * generate a unique id.
- * @returns HTMLELementId
+ * Returns the system device theme; works in a browser environment.
+ * @typedef {"dark" | "light"} SystemTheme
+ * @returns {SystemTheme} - The system's color scheme, either "dark" or "light".
  */
-export const generateId = function () {
-    return `rosana-id-${idCount++}`;
+export const $pageTheme = function () {
+    const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
+    return darkThemeMq.matches ? "dark" : "light";
 };
 
 /**
- * generate a unique classname
- * @returns HTMLElementClassName
+ * Attaches an event listener to the document body.
+ * @param {string} event - The name of the event to listen for (e.g., 'click', 'keydown').
+ * @param {EventListenerOrEventListenerObject} handlerFn - The event handler function.
  */
-export const generateClassName = function () {
-    return `rosana-class-${classnameCount++}`;
+export const $on = function (event, handlerFn) {
+    document.addEventListener(event, handlerFn);
 };

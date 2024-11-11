@@ -20,7 +20,7 @@ export const cssParser = (styles, ...values) => {
     /**
      * @param {TemplateStringsArray | object} styles
      * @param {any} selector
-     * @returns
+     * @returns {string} Parsed CSS string
      */
     const parseStyles = (styles, selector) => {
         let baseStyles = "";
@@ -57,17 +57,20 @@ export const cssParser = (styles, ...values) => {
 
     // Handle the styles argument (either object or template literal)
     if (typeof styles === "object" && !Array.isArray(styles)) {
-        // Object notation: parse styles
         cssString = parseStyles(styles, `.${className}`);
     } else if (Array.isArray(styles)) {
-        // Template literal: combine static and dynamic values into CSS
         cssString = styles.reduce((result, str, i) => {
             return result + str + (values[i] || "");
         }, "");
     }
 
-    // Insert base class CSS rule
-    if (cssString) {
+    // Apply critical styles inline if in early loading phase
+    if (document.readyState === "loading" && cssString) {
+        document.head.insertAdjacentHTML(
+            "beforeend",
+            `<style>.${className} { ${cssString} }</style>`
+        );
+    } else if (cssString) {
         styleSheet.insertRule(`.${className} { ${cssString} }`, styleSheet.cssRules.length);
     }
 

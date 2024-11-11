@@ -26,117 +26,15 @@ let viewOptions = [
  * @param {string} options - A comma-separated string of options to apply to the element.
  */
 export const optionsApi = (element, options) => {
-    const functions = {
-        noscrollbar: () => {
-            element.classList.add("noscrollbar");
-        },
-        fillxy: () => {
-            let className = cssParser({
-                width: "100%",
-                height: window.innerHeight + "px",
-            });
-            element.classList.add(className);
-        },
-        fillx: () => {
-            let className = cssParser({
-                width: "100%",
-            });
-            element.classList.add(className);
-        },
-        filly: () => {
-            let className = cssParser({
-                height: window.innerHeight + "px",
-            });
-            element.classList.add(className);
-        },
-        scrollxy: () => {
-            let className = cssParser({
-                overflow: "auto",
-            });
-            element.classList.add(className);
-        },
-        scrollx: () => {
-            let className = cssParser({
-                overflowX: "auto",
-            });
-            element.classList.add(className);
-        },
-        scrolly: () => {
-            let className = cssParser({
-                overflowY: "auto",
-            });
-            element.classList.add(className);
-        },
-        left: () => {
-            let className = cssParser({
-                display: "flex",
-                justifyContent: "flex-start",
-            });
-            element.classList.add(className);
-        },
-        right: () => {
-            let className = cssParser({
-                display: "flex",
-                justifyContent: "flex-end",
-            });
-            element.classList.add(className);
-        },
-        center: () => {
-            let className = cssParser({
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-            });
-            element.classList.add(className);
-        },
-        vcenter: () => {
-            let className = cssParser({
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-            });
-            element.classList.add(className);
-        },
-        bottom: () => {
-            let className = cssParser({
-                display: "flex",
-                alignItems: "flex-end",
-            });
-            element.classList.add(className);
-        },
-        top: () => {
-            let className = cssParser({
-                display: "flex",
-                alignItems: "flex-start",
-            });
-            element.classList.add(className);
-        },
-        horizontal: () => {
-            let className = cssParser({
-                display: "flex",
-                flexDirection: "row !important",
-            });
-            element.classList.add(className);
-        },
-        vertical: () => {
-            let className = cssParser({
-                display: "flex",
-                flexDirection: "column",
-            });
-            element.classList.add(className);
-        },
-    };
-
     options
         .toLowerCase()
         .replace(/\s/g, "")
         .split(",")
-        .forEach((el) => {
-            if (viewOptions.includes(el)) {
-                // @ts-ignore
-                functions[el]();
+        .forEach((option) => {
+            if (viewOptions.includes(option)) {
+                element.classList.add(option);
             } else {
-                console.error(`Unknown option: ${el}`);
+                console.error(`Unknown option: ${option}`);
             }
         });
 };
@@ -147,33 +45,35 @@ export const optionsApi = (element, options) => {
  * @param {string} type - The layout type (e.g., "linear", "absolute", "frame", "stack").
  * @param {string} [options] - Optional string representing layout options (e.g., "horizontal", "vertical").
  */
+/**
+ * Applies layout styles to the provided element based on the layout type and options.
+ * @param {HTMLElement} layout - The target layout element.
+ * @param {string} type - The layout type (e.g., "linear", "absolute", "frame", "stack").
+ * @param {string} [options] - Additional layout options (e.g., "vertical").
+ */
 function layoutFitApi(layout, type, options) {
-    options ? optionsApi(layout, options) : null;
-    let layoutTYPE = type.toLowerCase();
+    if (options) optionsApi(layout, options);
 
-    if (layoutTYPE == "linear") {
-        let className = cssParser({
-            display: "inline-flex",
-            position: "relative !important",
-            flexDirection: "column !important",
-        });
-        layout.classList.add(className);
-    } else if (layoutTYPE == "absolute") {
-        let className = cssParser({
-            display: "flex",
-        });
-        layout.classList.add(className);
-    } else if (layoutTYPE === "frame") {
-        layout.style.position = "relative";
-    } else if (layoutTYPE === "stack") {
-        let className = cssParser({
-            display: "flex",
-            // @ts-ignore
-            flexDirection: options.includes("vertical") ? "column" : "row",
-        });
-        layout.classList.add(className);
-    } else {
-        console.error("Unknown Layout ", layout);
+    const layoutTYPE = type.toLowerCase();
+
+    switch (layoutTYPE) {
+        case "linear":
+            layout.classList.add("layout-linear");
+            break;
+        case "absolute":
+            layout.classList.add("layout-absolute");
+            break;
+        case "frame":
+            layout.classList.add("layout-frame");
+            break;
+        case "stack":
+            const directionClass = options?.includes("vertical")
+                ? "layout-stack-vertical"
+                : "layout-stack-horizontal";
+            layout.classList.add(directionClass);
+            break;
+        default:
+            console.error("Unknown Layout", layoutTYPE);
     }
 }
 

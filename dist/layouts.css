@@ -1,4 +1,3 @@
-/* Scroll options */
 .noscrollbar {
     overflow: hidden;
 }
@@ -15,7 +14,6 @@
     overflow-y: auto;
 }
 
-/* Positioning options */
 .top {
     display: flex;
     align-items: flex-start;
@@ -48,7 +46,6 @@
     justify-content: center;
 }
 
-/* Layout options */
 .horizontal {
     display: flex;
     flex-direction: row;
@@ -59,7 +56,6 @@
     flex-direction: column;
 }
 
-/* Fill options */
 .fillxy {
     width: 100%;
     height: 100vh;
@@ -73,32 +69,34 @@
     height: 100vh;
 }
 
-/* layout.css */
+.hide {
+    visibility: hidden;
+}
 
-/* Linear Layout */
+.gone {
+    display: none !important;
+    visibility: hidden;
+}
+
 .layout-linear {
     display: inline-flex;
     position: relative !important;
     flex-direction: column !important;
 }
 
-/* Absolute Layout */
 .layout-absolute {
     display: flex;
 }
 
-/* Frame Layout */
 .layout-frame {
     position: relative;
 }
 
-/* Stack Layout - Horizontal */
 .layout-stack-horizontal {
     display: flex;
     flex-direction: row;
 }
 
-/* Stack Layout - Vertical */
 .layout-stack-vertical {
     display: flex;
     flex-direction: column;

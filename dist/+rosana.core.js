@@ -9,7 +9,6 @@ export const $createApp = function (mainComponent) {
     const app = {
         _rootComponent: mainComponent,
         _plugins: [],
-
         /**
          * Mounts the main component to a DOM element identified by the selector.
          * @param {string} selector - A CSS selector for the container to mount the component.
@@ -21,28 +20,23 @@ export const $createApp = function (mainComponent) {
                 console.error(`No element found for selector "${selector}"`);
                 return this; // Ensure the method still returns the app instance for chaining.
             }
-
             document.body.style.margin = "0";
             document.body.style.width = "100%";
-
             container.innerHTML = "";
             const instance = this._rootComponent;
-
             // Ensure the instance has an 'element' property before appending.
             if (instance && instance.element) {
                 container.appendChild(instance.element);
-            } else {
+            }
+            else {
                 console.error("Main component does not have an element property.");
             }
-
             // Initialize router if it's been added as a plugin
             if (this.router) {
                 this.router.init();
             }
-
             return this;
         },
-
         /**
          * Adds a plugin to the application.
          * @param {Object} plugin - The plugin object to add, expected to have an install function.
@@ -52,12 +46,12 @@ export const $createApp = function (mainComponent) {
             if (plugin && typeof plugin.install === "function") {
                 plugin.install(this);
                 this._plugins.push(plugin);
-            } else {
+            }
+            else {
                 console.warn("Plugin is missing install method:", plugin);
             }
             return this;
         },
     };
-
     return app;
 };

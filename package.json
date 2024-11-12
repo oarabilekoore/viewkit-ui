@@ -1,6 +1,6 @@
 {
     "name": "rosana",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "type": "module",
     "main": "dist/rosana.es.js",
     "module": "dist/rosana.es.js",
@@ -18,15 +18,14 @@
     ],
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
-    },
-    "dependencies": {
-        "vite": "^5.4.10"
+        "dev": "vite",
+        "host": "vite --host"
     },
     "author": "Oarabile Koore",
     "license": "MIT",
     "devDependencies": {
-        "typescript": "^5.6.2",
-        "vite-plugin-static-copy": "^2.1.0"
+        "typescript": "^latest",
+        "vite": "^latest",
+        "vite-plugin-static-copy": "^latest"
     }
 }

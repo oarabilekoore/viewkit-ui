@@ -10,8 +10,8 @@ let contentLayout = $LinearLayout("fillxy, vcenter");
 homePage.addChild(contentLayout);
 
 let btn = outlinedButton(contentLayout, "Hello World");
-btn.on("click", () => {
+btn.onclick = () => {
     app.router.navigate("/about");
-});
+};
 
 export default homePage;

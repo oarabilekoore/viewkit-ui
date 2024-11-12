@@ -84,6 +84,13 @@
     });
     return className;
   };
+  const eventHandlersMap = /* @__PURE__ */ new Map();
+  document.body.addEventListener("click", (event) => {
+    const targetId = event.target.id;
+    if (eventHandlersMap.has(targetId)) {
+      eventHandlersMap.get(targetId)();
+    }
+  });
   class componentController {
     constructor() {
       this.element = null;
@@ -117,7 +124,6 @@
     /**
      * batch dom api setters and getters effeciently
      * @param {object} props
-     * @returns this
      */
     batch(props) {
       Object.entries(props).forEach(([key, value]) => {
@@ -127,19 +133,14 @@
           }
         });
       });
-      return this;
     }
     /**
-     * Add an event listener to the element.
-     * @param {string} event - The event type.
+     * Add an onclick event listener to the element.
      * @param {Function} handler - The event handler function.
-     * @returns {this} - Returns the instance of the class for chaining.
      */
-    on(event, handler) {
+    set onclick(handler) {
       var _a;
-      (_a = this.element) == null ? void 0 : _a.addEventListener(event, handler);
-      this.eventListeners.push([event, handler]);
-      return this;
+      eventHandlersMap.set((_a = this.element) == null ? void 0 : _a.id, handler);
     }
     /**
      * Add css scoped styles to your element.
@@ -175,22 +176,22 @@
      * Sets the visibility of the element.
      */
     show() {
-      this.css({ visibility: "visible" });
+      var _a;
+      (_a = this.element) == null ? void 0 : _a.classList.add("show");
     }
     /**
      * Hide the element
      */
     hide() {
-      this.css({ visibility: "hidden" });
+      var _a;
+      (_a = this.element) == null ? void 0 : _a.classList.add("hide");
     }
     /**
      * Sets the display and visibility of the element.
      */
     gone() {
-      this.css({
-        display: "none !important",
-        visibility: "hidden"
-      });
+      var _a;
+      (_a = this.element) == null ? void 0 : _a.classList.add("gone");
     }
   }
   let viewOptions = [
@@ -250,7 +251,7 @@
       super();
       this.element = document.createElement("div");
       this.element.id = generateId();
-      this.element.type = "Layout";
+      this.type = `layout-${type}`;
       type ? layoutFitApi(this.element, type, options) : null;
     }
   };
@@ -329,45 +330,11 @@
     };
   };
   const defaultLanguage = navigator.language;
-  const defaultLangCode = defaultLanguage.split("-")[0];
-  let translations = {};
-  let currentLang;
-  const $localize = async function(defaultLang = defaultLangCode, jsonSource) {
-    currentLang = $signal(defaultLang);
-    const response = await fetch(jsonSource);
-    if (!response.ok) {
-      console.log("Translation File Not Loaded");
-      return;
-    }
-    const loadedTranslations = await response.json();
-    translations = { ...translations, ...loadedTranslations };
-  };
-  const $setLanguage = function(langCode) {
-    currentLang.value = langCode;
-  };
-  let $localizedText = function(key, placeholders) {
-    if (!currentLang || !currentLang.value) {
-      return key;
-    }
-    const langData = translations[currentLang.value] || translations[defaultLangCode] || {};
-    let translation = langData[key] || key;
-    if (placeholders) {
-      Object.keys(placeholders).forEach((placeholder) => {
-        translation = translation.replace(`{${placeholder}}`, placeholders[placeholder]);
-      });
-    }
-    return translation;
-  };
+  defaultLanguage.split("-")[0];
   componentController.prototype.localizedText = async function(key, placeholders) {
-    if (!currentLang || !currentLang.value) {
+    {
       return key;
     }
-    const localizedText = await $localizedText(key, placeholders);
-    this.element.textContent = localizedText;
-    currentLang.subscribe(async () => {
-      const localizedText2 = await $localizedText(key, placeholders);
-      this.element.textContent = localizedText2;
-    });
   };
   const $showIF = function(restingParameter, onTruthyElement, onFalseyElement) {
     if (onTruthyElement === void 0 || onFalseyElement === void 0) {
@@ -455,37 +422,6 @@
       }
     };
     return app;
-  };
-  let $ElementInitializer = class extends componentController {
-    /**
-     * Creates an HTML element.
-     * @param {HtmlTag} tag - The HTML tag name to create (e.g., 'div', 'span').
-     * @param {componentController} parent - The parent component to attach to.
-     * @param {Object<string, any>} props - An object containing properties to set on the element.
-     */
-    constructor(tag, parent, props) {
-      super();
-      this.element = document.createElement(tag);
-      this.element.id = generateId();
-      Object.entries(props).forEach(([key, value]) => {
-        requestAnimationFrame(() => {
-          if (key in this.element) {
-            this.element[key] = value;
-          } else {
-            console.warn(`Property ${key} does not exist on element.`);
-          }
-        });
-      });
-      if (parent instanceof componentController) {
-        parent.addChild(this);
-      } else {
-        console.error("No Parent For Component To Attach To.");
-        return;
-      }
-    }
-  };
-  const $Element = function(tag, parent, props = {}) {
-    return new $ElementInitializer(tag, parent, props);
   };
   class $router {
     /**
@@ -667,17 +603,72 @@
       history.forward();
     }
   }
+  const $Element = class extends componentController {
+    /**
+     * Creates an HTML element.
+     * @param {HtmlTag} tag - The HTML tag name to create (e.g., 'div', 'span').
+     * @param {componentController} parent - The parent component to attach to
+     */
+    constructor(tag, parent) {
+      super();
+      this.type = tag.toLocaleUpperCase();
+      this.parent = parent;
+      this.element = document.createElement(tag);
+      this.element.id = generateId();
+      if (parent instanceof componentController) {
+        parent.addChild(this);
+      } else {
+        console.error("No Parent For Component To Attach To.");
+        return;
+      }
+    }
+  };
+  const $Html = Object();
+  $Html.P = (parent) => {
+    return new $Element("p", parent);
+  };
+  $Html.Div = (parent) => {
+    return new $Element("div", parent);
+  };
+  $Html.Span = (parent) => {
+    return new $Element("span", parent);
+  };
+  $Html.Image = (parent) => {
+    return new $Element("img", parent);
+  };
+  $Html.Button = (parent) => {
+    return new $Element("button", parent);
+  };
+  $Html.Input = (parent) => {
+    return new $Element("input", parent);
+  };
+  $Html.Ul = (parent) => {
+    return new $Element("ul", parent);
+  };
+  $Html.Li = (parent) => {
+    return new $Element("li", parent);
+  };
+  $Html.H1 = (parent) => {
+    return new $Element("h1", parent);
+  };
+  $Html.H2 = (parent) => {
+    return new $Element("h2", parent);
+  };
+  $Html.A = (parent) => {
+    return new $Element("a", parent);
+  };
+  $Html.Form = (parent) => {
+    return new $Element("form", parent);
+  };
   exports2.$AbsoluteLayout = $AbsoluteLayout;
-  exports2.$Element = $Element;
   exports2.$FrameLayout = $FrameLayout;
+  exports2.$Html = $Html;
   exports2.$LinearLayout = $LinearLayout;
   exports2.$StackedLayout = $StackedLayout;
   exports2.$createApp = $createApp;
-  exports2.$localize = $localize;
   exports2.$on = $on;
   exports2.$pageTheme = $pageTheme;
   exports2.$router = $router;
-  exports2.$setLanguage = $setLanguage;
   exports2.$showIF = $showIF;
   exports2.$signal = $signal;
   exports2.$store = $store;

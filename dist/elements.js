@@ -1,8 +1,6 @@
 import { componentController } from "./control.js";
 import { generateId } from "./helpers.js";
-
 /** @typedef {string} HtmlTag */
-
 /**
  * Initializes an HTML element with specified properties and attaches it to a parent component.
  * @class
@@ -16,16 +14,14 @@ export const $Element = class extends componentController {
      */
     constructor(tag, parent) {
         super();
-
         this.type = tag.toLocaleUpperCase();
         this.parent = parent;
-
         this.element = document.createElement(tag);
         this.element.id = generateId();
-
         if (parent instanceof componentController) {
             parent.addChild(this);
-        } else {
+        }
+        else {
             console.error("No Parent For Component To Attach To.");
             return;
         }

@@ -1,7 +1,8 @@
-import { $Element } from "rosana";
+import { $Html } from "rosana";
 
 export const outlinedButton = function (parent, text) {
-    let button = $Element("button", parent, {
+    let button = $Html.Button(parent);
+    button.batch({
         textContent: text,
     });
     button.css`

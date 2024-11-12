@@ -1,29 +1,22 @@
 import { optionsApi } from "./layouts.js";
 import { cssParser } from "./parser.js";
-
 const eventHandlersMap = new Map();
-
 document.body.addEventListener("click", (event) => {
     // @ts-ignore
     const targetId = event.target.id;
-
     if (eventHandlersMap.has(targetId)) {
         eventHandlersMap.get(targetId)();
     }
 });
-
 export class componentController {
     constructor() {
         /** @type {HTMLElement | null} */
         this.element = null;
-
         /** @type {Array<string>} */
         this.elementClasses = [];
-
         /** @type {Array<[string, Function]>} */
         this.eventListeners = [];
     }
-
     /**
      * Add a child element to this element.
      * @param {componentController} child - The child component to add.
@@ -33,12 +26,12 @@ export class componentController {
         if (child instanceof componentController && this.element) {
             // @ts-ignore
             this.element.appendChild(child.element);
-        } else {
+        }
+        else {
             console.error("Mounted Child Is Not A Rosana Component");
         }
         return this;
     }
-
     /**
      * Set the alignment of child elements in the control.
      * @param {string} options - Alignment options.
@@ -47,11 +40,11 @@ export class componentController {
         if (options) {
             //@ts-ignore
             optionsApi(this.element, options);
-        } else {
+        }
+        else {
             console.log("Alignment Options Undefined");
         }
     }
-
     /**
      * batch dom api setters and getters effeciently
      * @param {object} props
@@ -66,7 +59,6 @@ export class componentController {
             });
         });
     }
-
     /**
      * Add an onclick event listener to the element.
      * @param {Function} handler - The event handler function.
@@ -74,7 +66,6 @@ export class componentController {
     set onclick(handler) {
         eventHandlersMap.set(this.element?.id, handler);
     }
-
     /**
      * Add css scoped styles to your element.
      * @param {TemplateStringsArray | object} styles
@@ -86,7 +77,6 @@ export class componentController {
         this.elementClasses.push(className);
         return this;
     }
-
     /**
      * Remove a child element from this element.
      * @param {componentController} child - The child component to remove.
@@ -99,26 +89,24 @@ export class componentController {
                 child.element?.removeEventListener(event, Fn);
             });
             child.element?.remove();
-        } else {
+        }
+        else {
             console.error("Child Is Not A Rosana Component");
         }
         return this;
     }
-
     /**
      * Sets the visibility of the element.
      */
     show() {
         this.element?.classList.add("show");
     }
-
     /**
      * Hide the element
      */
     hide() {
         this.element?.classList.add("hide");
     }
-
     /**
      * Sets the display and visibility of the element.
      */

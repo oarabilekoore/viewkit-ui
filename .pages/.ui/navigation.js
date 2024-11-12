@@ -1,7 +1,7 @@
-import { $Element } from "rosana";
+import { $Html } from "rosana";
 
 export const navigationBar = function (parent) {
-    let nav = $Element("nav", parent);
+    let nav = $Html.Div(parent);
     nav.css`
     position: relative;
     top: 0;
@@ -17,7 +17,8 @@ export const navigationBar = function (parent) {
     background-clip: content-box;
     `;
 
-    let text = $Element("span", nav, {
+    let text = $Html.Span(nav);
+    text.batch({
         textContent: "RosanaJs",
     });
     text.alignment("right");
@@ -37,7 +38,7 @@ export const navigationBar = function (parent) {
 };
 
 export const navigationBarB = function (parent) {
-    let nav = $Element("nav", parent);
+    let nav = $Html.Div(parent);
 
     // Apply CSS styles to the nav element
     nav.css`
@@ -56,7 +57,7 @@ export const navigationBarB = function (parent) {
     `;
 
     // Create a text element inside the nav
-    let text = $Element("span", nav);
+    let text = $Html.Span(nav);
     text.alignment("right");
 
     // Apply CSS styles to the text element

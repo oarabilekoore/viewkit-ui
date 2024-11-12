@@ -1,7 +1,6 @@
 import { componentController } from "./control.js";
 import { cssParser } from "./parser.js";
 import { generateId } from "./helpers.js";
-
 let viewOptions = [
     "noscrollbar",
     "scrollxy",
@@ -19,7 +18,6 @@ let viewOptions = [
     "fillx",
     "filly",
 ];
-
 /**
  * Applies the provided options to the given HTML element by adding corresponding CSS classes.
  * @param {HTMLElement} element - The target HTML element to apply the options to.
@@ -31,14 +29,14 @@ export const optionsApi = (element, options) => {
         .replace(/\s/g, "")
         .split(",")
         .forEach((option) => {
-            if (viewOptions.includes(option)) {
-                element.classList.add(option);
-            } else {
-                console.error(`Unknown option: ${option}`);
-            }
-        });
+        if (viewOptions.includes(option)) {
+            element.classList.add(option);
+        }
+        else {
+            console.error(`Unknown option: ${option}`);
+        }
+    });
 };
-
 /**
  * Configures a layout element based on the specified layout type and options.
  * @param {HTMLElement} layout - The HTML element representing the layout.
@@ -52,10 +50,9 @@ export const optionsApi = (element, options) => {
  * @param {string} [options] - Additional layout options (e.g., "vertical").
  */
 function layoutFitApi(layout, type, options) {
-    if (options) optionsApi(layout, options);
-
+    if (options)
+        optionsApi(layout, options);
     const layoutTYPE = type.toLowerCase();
-
     switch (layoutTYPE) {
         case "linear":
             layout.classList.add("layout-linear");
@@ -76,7 +73,6 @@ function layoutFitApi(layout, type, options) {
             console.error("Unknown Layout", layoutTYPE);
     }
 }
-
 /**
  * Class representing a layout initializer, which creates and configures layout elements.
  * @extends componentController
@@ -91,12 +87,10 @@ const $LayoutInitializer = class extends componentController {
         super();
         this.element = document.createElement("div");
         this.element.id = generateId();
-
         this.type = `layout-${type}`;
         type ? layoutFitApi(this.element, type, options) : null;
     }
 };
-
 /**
  * Creates a linear layout with optional child alignment properties.
  * @param {string} [childAlignmentProperties] - Optional string for child alignment (e.g., "top", "center").
@@ -105,7 +99,6 @@ const $LayoutInitializer = class extends componentController {
 export const $LinearLayout = function (childAlignmentProperties) {
     return new $LayoutInitializer("linear", childAlignmentProperties);
 };
-
 /**
  * Creates an absolute layout with optional child alignment properties.
  * @param {string} [childAlignmentProperties] - Optional string for child alignment (e.g., "top", "center").
@@ -114,7 +107,6 @@ export const $LinearLayout = function (childAlignmentProperties) {
 export const $AbsoluteLayout = function (childAlignmentProperties) {
     return new $LayoutInitializer("absolute", childAlignmentProperties);
 };
-
 /**
  * Creates a frame layout with optional child alignment properties.
  * @param {string} [childAlignmentProperties] - Optional string for child alignment (e.g., "top", "center").
@@ -123,7 +115,6 @@ export const $AbsoluteLayout = function (childAlignmentProperties) {
 export const $FrameLayout = function (childAlignmentProperties) {
     return new $LayoutInitializer("frame", childAlignmentProperties);
 };
-
 /**
  * Creates a stack layout, either horizontal or vertical, with optional child alignment properties.
  * @param {string} [stackOrientation="horizontal"] - The orientation of the stack layout (either "horizontal" or "vertical").

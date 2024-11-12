@@ -1,8 +1,12 @@
-export function generateId(): string;
-export function generateClassName(): string;
-export function $pageTheme(): SystemTheme;
-export function $on(event: string, handlerFn: EventListenerOrEventListenerObject): void;
+export declare const generateId: Function;
+export declare const generateClassName: Function;
+type SystemTheme = "dark" | "light";
 /**
  * Returns the system device theme; works in a browser environment.
  */
-export type SystemTheme = "dark" | "light";
+export declare const $pageTheme: () => SystemTheme;
+/**
+ * Attaches an event listener to the document body.
+ */
+export declare const $on: (event: string, handlerFn: EventListener | EventListenerObject) => void;
+export {};

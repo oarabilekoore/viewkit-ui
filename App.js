@@ -1,4 +1,4 @@
-import { $router, $createApp } from "./.src/index.js";
+import { $router, $createApp } from "rosana";
 import homePage from "./.pages/index.js";
 
 const routes = [

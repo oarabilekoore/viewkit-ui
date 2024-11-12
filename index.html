@@ -4,7 +4,111 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>rosana.js App</title>
-        <style></style>
+        <style>
+            .noscrollbar {
+                overflow: hidden;
+            }
+
+            .scrollxy {
+                overflow: auto;
+            }
+
+            .scrollx {
+                overflow-x: auto;
+            }
+
+            .scrolly {
+                overflow-y: auto;
+            }
+
+            .top {
+                display: flex;
+                align-items: flex-start;
+            }
+
+            .bottom {
+                display: flex;
+                align-items: flex-end;
+            }
+
+            .left {
+                display: flex;
+                justify-content: flex-start;
+            }
+
+            .right {
+                display: flex;
+                justify-content: flex-end;
+            }
+
+            .center {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .vcenter {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .horizontal {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .vertical {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .fillxy {
+                width: 100%;
+                height: 100vh;
+            }
+
+            .fillx {
+                width: 100%;
+            }
+
+            .filly {
+                height: 100vh;
+            }
+
+            .hide {
+                visibility: hidden;
+            }
+
+            .gone {
+                display: none !important;
+                visibility: hidden;
+            }
+
+            .layout-linear {
+                display: inline-flex;
+                position: relative !important;
+                flex-direction: column !important;
+            }
+
+            .layout-absolute {
+                display: flex;
+            }
+
+            .layout-frame {
+                position: relative;
+            }
+
+            .layout-stack-horizontal {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .layout-stack-vertical {
+                display: flex;
+                flex-direction: column;
+            }
+        </style>
     </head>
     <body>
         <script type="module" src="./App.js"></script>

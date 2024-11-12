@@ -1,53 +1,41 @@
-export class componentController {
-    /** @type {HTMLElement | null} */
-    element: HTMLElement | null;
-    /** @type {Array<string>} */
+export declare class componentController {
+    element: any;
     elementClasses: Array<string>;
-    /** @type {Array<[string, Function]>} */
-    eventListeners: Array<[string, Function]>;
+    constructor();
     /**
      * Add a child element to this element.
-     * @param {componentController} child - The child component to add.
-     * @returns {this} - Returns the instance of the class for chaining.
      */
     addChild(child: componentController): this;
     /**
-     * Set the alignment of child elements in the control.
-     * @param {string} options - Alignment options.
+     * Set the alignment of child elements in the control
      */
-    alignment(options: string): void;
+    alignment(options: string): this;
     /**
      * batch dom api setters and getters effeciently
-     * @param {object} props
      */
-    batch(props: object): void;
+    batch(props: object): this;
     /**
      * Add an onclick event listener to the element.
-     * @param {Function} handler - The event handler function.
      */
     set onclick(handler: Function);
     /**
      * Add css scoped styles to your element.
-     * @param {TemplateStringsArray | object} styles
-     * @returns {this}
      */
     css(styles: TemplateStringsArray | object): this;
     /**
      * Remove a child element from this element.
-     * @param {componentController} child - The child component to remove.
-     * @returns {this} - Returns the instance of the class for chaining.
      */
     destroyChild(child: componentController): this;
     /**
      * Sets the visibility of the element.
      */
-    show(): void;
+    show(): this;
     /**
      * Hide the element
      */
-    hide(): void;
+    hide(): this;
     /**
      * Sets the display and visibility of the element.
      */
-    gone(): void;
+    gone(): this;
 }

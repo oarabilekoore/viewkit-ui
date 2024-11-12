@@ -1,16 +1,11 @@
 /**
- * signal Method allows you to use plain signals, it takes in plain values and gives reactivity.
- * @param {any} defaultValue
+ * create a reactive value by using setters and getters.
  */
-export const $signal = function (defaultValue = null) {
+export const $signal = function (defaultValue: any) {
     let internal_variable = defaultValue;
-    let subscriptions = [];
+    let subscriptions: Array<Function> = [];
 
-    /**
-     * notify the user
-     * @param {Function} fn
-     */
-    const notify = function (fn) {
+    const notify = function () {
         for (let subscriber of subscriptions) {
             subscriber(internal_variable);
         }
@@ -18,16 +13,14 @@ export const $signal = function (defaultValue = null) {
     return {
         /**
          * set the signal's value
-         * @param {any} val
          */
-        set value(val) {
+        set value(val: any) {
             internal_variable = val;
             notify();
         },
 
         /**
          * returns the signals value
-         * @returns internal_variable
          */
         get value() {
             return internal_variable;
@@ -35,9 +28,8 @@ export const $signal = function (defaultValue = null) {
 
         /**
          * subscribe to the signal
-         * @param {Function} fn
          */
-        subscribe: (fn) => {
+        subscribe: (fn: Function) => {
             subscriptions.push(fn);
         },
     };
@@ -45,35 +37,29 @@ export const $signal = function (defaultValue = null) {
 
 /**
  * add a signal that takes in the defaultValue as an object
- * @param {Object} initialValue = {}
  */
-export const $store = function (initialValue = {}) {
-    let state = { ...initialValue };
-    const listeners = new Set();
+export const $store = function (initialValue: object) {
+    let state: any = { ...initialValue };
+    const listeners: Set<Function> = new Set();
 
     return {
         /**
          * set the signal's value
-         * @param {any} val
          */
-        set(key, value) {
+        set(key: any, value: any) {
             state[key] = value;
             listeners.forEach((listener) => listener(state));
         },
 
         /**
          * returns the signals value
-         * @returns internal_variable
          */
-        get(key) {
+        get(key: any) {
             return state[key];
         },
 
-        /**
-         * subscribe to the signal
-         * @param {Function} fn
-         */
-        subscribe(listener) {
+        /*** subscribe to the signal */
+        subscribe(listener: Function) {
             listeners.add(listener);
             return () => listeners.delete(listener);
         },

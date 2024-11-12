@@ -4,7 +4,7 @@ import { cssParser } from "./parser.js";
 const eventHandlersMap = new Map();
 
 document.body.addEventListener("click", (event) => {
-    // @ts-ignore
+    //@ts-ignore
     const targetId = event.target.id;
 
     if (eventHandlersMap.has(targetId)) {
@@ -13,25 +13,18 @@ document.body.addEventListener("click", (event) => {
 });
 
 export class componentController {
+    element: any;
+    elementClasses: Array<string>;
     constructor() {
-        /** @type {HTMLElement | null} */
         this.element = null;
-
-        /** @type {Array<string>} */
         this.elementClasses = [];
-
-        /** @type {Array<[string, Function]>} */
-        this.eventListeners = [];
     }
 
     /**
      * Add a child element to this element.
-     * @param {componentController} child - The child component to add.
-     * @returns {this} - Returns the instance of the class for chaining.
      */
-    addChild(child) {
+    addChild(child: componentController) {
         if (child instanceof componentController && this.element) {
-            // @ts-ignore
             this.element.appendChild(child.element);
         } else {
             console.error("Mounted Child Is Not A Rosana Component");
@@ -40,23 +33,22 @@ export class componentController {
     }
 
     /**
-     * Set the alignment of child elements in the control.
-     * @param {string} options - Alignment options.
+     * Set the alignment of child elements in the control
      */
-    alignment(options) {
+    alignment(options: string): this {
         if (options) {
             //@ts-ignore
             optionsApi(this.element, options);
         } else {
             console.log("Alignment Options Undefined");
         }
+        return this;
     }
 
     /**
      * batch dom api setters and getters effeciently
-     * @param {object} props
      */
-    batch(props) {
+    batch(props: object): this {
         Object.entries(props).forEach(([key, value]) => {
             requestAnimationFrame(() => {
                 if (this.element) {
@@ -65,22 +57,20 @@ export class componentController {
                 }
             });
         });
+        return this;
     }
 
     /**
      * Add an onclick event listener to the element.
-     * @param {Function} handler - The event handler function.
      */
-    set onclick(handler) {
+    set onclick(handler: Function) {
         eventHandlersMap.set(this.element?.id, handler);
     }
 
     /**
      * Add css scoped styles to your element.
-     * @param {TemplateStringsArray | object} styles
-     * @returns {this}
      */
-    css(styles) {
+    css(styles: TemplateStringsArray | object): this {
         const className = cssParser(styles);
         this.element?.classList.add(className);
         this.elementClasses.push(className);
@@ -89,15 +79,10 @@ export class componentController {
 
     /**
      * Remove a child element from this element.
-     * @param {componentController} child - The child component to remove.
-     * @returns {this} - Returns the instance of the class for chaining.
      */
-    destroyChild(child) {
+    destroyChild(child: componentController): this {
         if (child instanceof componentController) {
-            child.eventListeners.forEach(([event, Fn]) => {
-                // @ts-ignore
-                child.element?.removeEventListener(event, Fn);
-            });
+            eventHandlersMap.delete(child.element?.id);
             child.element?.remove();
         } else {
             console.error("Child Is Not A Rosana Component");
@@ -108,21 +93,24 @@ export class componentController {
     /**
      * Sets the visibility of the element.
      */
-    show() {
+    show(): this {
         this.element?.classList.add("show");
+        return this;
     }
 
     /**
      * Hide the element
      */
-    hide() {
+    hide(): this {
         this.element?.classList.add("hide");
+        return this;
     }
 
     /**
      * Sets the display and visibility of the element.
      */
-    gone() {
+    gone(): this {
         this.element?.classList.add("gone");
+        return this;
     }
 }

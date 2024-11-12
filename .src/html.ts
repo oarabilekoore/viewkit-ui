@@ -1,124 +1,89 @@
 import { componentController } from "./control.js";
 import { $Element } from "./elements.js";
-export const $Html = Object();
+
+// Use InstanceType to derive the type of $Element instances.
+export const $Html: Record<string, (parent: componentController) => InstanceType<typeof $Element>> = {};
 
 /**
  * Creates a paragraph (`<p>`) element.
- * @function
- * @param {componentController} parent
  */
-
-$Html.P = (parent) => {
+$Html.P = (parent: componentController): InstanceType<typeof $Element> => {
     return new $Element("p", parent);
 };
 
 /**
  * Creates a division (`<div>`) element.
- * @function
- * @param {componentController} parent
  */
-
-$Html.Div = (parent) => {
+$Html.Div = (parent: componentController): InstanceType<typeof $Element> => {
     return new $Element("div", parent);
 };
 
 /**
  * Creates a span (`<span>`) element.
- * @function
- * @param {componentController} parent
  */
-
-$Html.Span = (parent) => {
+$Html.Span = (parent: componentController): InstanceType<typeof $Element> => {
     return new $Element("span", parent);
 };
 
 /**
  * Creates an image (`<img>`) element.
- * @function
- * @param {componentController} parent
  */
-
-$Html.Image = (parent) => {
+$Html.Image = (parent: componentController): InstanceType<typeof $Element> => {
     return new $Element("img", parent);
 };
 
 /**
  * Creates a button (`<button>`) element.
- * @function
- * @param {componentController} parent
  */
-
-$Html.Button = (parent) => {
+$Html.Button = (parent: componentController): InstanceType<typeof $Element> => {
     return new $Element("button", parent);
 };
 
 /**
  * Creates an input (`<input>`) element.
- * @function
- * @param {componentController} parent
  */
-
-$Html.Input = (parent) => {
+$Html.Input = (parent: componentController): InstanceType<typeof $Element> => {
     return new $Element("input", parent);
 };
 
 /**
  * Creates an unordered list (`<ul>`) element.
- * @function
- * @param {componentController} parent
  */
-
-$Html.Ul = (parent) => {
+$Html.Ul = (parent: componentController): InstanceType<typeof $Element> => {
     return new $Element("ul", parent);
 };
 
 /**
  * Creates a list item (`<li>`) element.
- * @function
- * @param {componentController} parent
  */
-
-$Html.Li = (parent) => {
+$Html.Li = (parent: componentController): InstanceType<typeof $Element> => {
     return new $Element("li", parent);
 };
 
 /**
  * Creates a heading (`<h1>`) element.
- * @function
- * @param {componentController} parent
  */
-
-$Html.H1 = (parent) => {
+$Html.H1 = (parent: componentController): InstanceType<typeof $Element> => {
     return new $Element("h1", parent);
 };
 
 /**
  * Creates a heading (`<h2>`) element.
- * @function
- * @param {componentController} parent
  */
-
-$Html.H2 = (parent) => {
+$Html.H2 = (parent: componentController): InstanceType<typeof $Element> => {
     return new $Element("h2", parent);
 };
 
 /**
  * Creates an anchor (`<a>`) element.
- * @function
- * @param {componentController} parent
- * @param {componentController} parent
  */
-
-$Html.A = (parent) => {
+$Html.A = (parent: componentController): InstanceType<typeof $Element> => {
     return new $Element("a", parent);
 };
 
 /**
  * Creates a form (`<form>`) element.
- * @function
- * @param {componentController} parent
  */
-
-$Html.Form = (parent) => {
+$Html.Form = (parent: componentController): InstanceType<typeof $Element> => {
     return new $Element("form", parent);
 };

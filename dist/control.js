@@ -2,29 +2,24 @@ import { optionsApi } from "./layouts.js";
 import { cssParser } from "./parser.js";
 const eventHandlersMap = new Map();
 document.body.addEventListener("click", (event) => {
-    // @ts-ignore
+    //@ts-ignore
     const targetId = event.target.id;
     if (eventHandlersMap.has(targetId)) {
         eventHandlersMap.get(targetId)();
     }
 });
 export class componentController {
+    element;
+    elementClasses;
     constructor() {
-        /** @type {HTMLElement | null} */
         this.element = null;
-        /** @type {Array<string>} */
         this.elementClasses = [];
-        /** @type {Array<[string, Function]>} */
-        this.eventListeners = [];
     }
     /**
      * Add a child element to this element.
-     * @param {componentController} child - The child component to add.
-     * @returns {this} - Returns the instance of the class for chaining.
      */
     addChild(child) {
         if (child instanceof componentController && this.element) {
-            // @ts-ignore
             this.element.appendChild(child.element);
         }
         else {
@@ -33,8 +28,7 @@ export class componentController {
         return this;
     }
     /**
-     * Set the alignment of child elements in the control.
-     * @param {string} options - Alignment options.
+     * Set the alignment of child elements in the control
      */
     alignment(options) {
         if (options) {
@@ -44,10 +38,10 @@ export class componentController {
         else {
             console.log("Alignment Options Undefined");
         }
+        return this;
     }
     /**
      * batch dom api setters and getters effeciently
-     * @param {object} props
      */
     batch(props) {
         Object.entries(props).forEach(([key, value]) => {
@@ -58,18 +52,16 @@ export class componentController {
                 }
             });
         });
+        return this;
     }
     /**
      * Add an onclick event listener to the element.
-     * @param {Function} handler - The event handler function.
      */
     set onclick(handler) {
         eventHandlersMap.set(this.element?.id, handler);
     }
     /**
      * Add css scoped styles to your element.
-     * @param {TemplateStringsArray | object} styles
-     * @returns {this}
      */
     css(styles) {
         const className = cssParser(styles);
@@ -79,15 +71,10 @@ export class componentController {
     }
     /**
      * Remove a child element from this element.
-     * @param {componentController} child - The child component to remove.
-     * @returns {this} - Returns the instance of the class for chaining.
      */
     destroyChild(child) {
         if (child instanceof componentController) {
-            child.eventListeners.forEach(([event, Fn]) => {
-                // @ts-ignore
-                child.element?.removeEventListener(event, Fn);
-            });
+            eventHandlersMap.delete(child.element?.id);
             child.element?.remove();
         }
         else {
@@ -100,17 +87,20 @@ export class componentController {
      */
     show() {
         this.element?.classList.add("show");
+        return this;
     }
     /**
      * Hide the element
      */
     hide() {
         this.element?.classList.add("hide");
+        return this;
     }
     /**
      * Sets the display and visibility of the element.
      */
     gone() {
         this.element?.classList.add("gone");
+        return this;
     }
 }

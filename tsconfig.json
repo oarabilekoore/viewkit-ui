@@ -8,6 +8,17 @@
         "checkJs": true,
         "strict": true
     },
-    "include": ["./.src/**/*.js", "./.src/index.js"],
+    "include": [
+        "./.src/**/*.js",
+        "./.src/index.ts",
+        ".src/layouts.ts",
+        ".src/parser.ts",
+        ".src/control.ts",
+        ".src/helpers.ts",
+        ".src/html.ts",
+        ".src/elements.ts",
+        ".src/router.ts",
+        ".src/suspense.ts"
+    ],
     "exclude": ["node_modules", "dist"]
 }

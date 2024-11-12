@@ -6,7 +6,7 @@ export default defineConfig({
         minify: false,
         sourcemap: true,
         lib: {
-            entry: "./.src/index.js",
+            entry: "./.src/index.ts",
             name: "rosana",
             fileName: (format) => `rosana.${format}.js`,
             formats: ["es", "umd"],
@@ -24,14 +24,4 @@ export default defineConfig({
             semicolons: true,
         },
     },
-    plugins: [
-        viteStaticCopy({
-            targets: [
-                {
-                    src: "./.src/layouts.css",
-                    dest: "./",
-                },
-            ],
-        }),
-    ],
 });

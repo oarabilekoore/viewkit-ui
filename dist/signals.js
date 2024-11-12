@@ -1,15 +1,10 @@
 /**
- * signal Method allows you to use plain signals, it takes in plain values and gives reactivity.
- * @param {any} defaultValue
+ * create a reactive value by using setters and getters.
  */
-export const $signal = function (defaultValue = null) {
+export const $signal = function (defaultValue) {
     let internal_variable = defaultValue;
     let subscriptions = [];
-    /**
-     * notify the user
-     * @param {Function} fn
-     */
-    const notify = function (fn) {
+    const notify = function () {
         for (let subscriber of subscriptions) {
             subscriber(internal_variable);
         }
@@ -17,7 +12,6 @@ export const $signal = function (defaultValue = null) {
     return {
         /**
          * set the signal's value
-         * @param {any} val
          */
         set value(val) {
             internal_variable = val;
@@ -25,14 +19,12 @@ export const $signal = function (defaultValue = null) {
         },
         /**
          * returns the signals value
-         * @returns internal_variable
          */
         get value() {
             return internal_variable;
         },
         /**
          * subscribe to the signal
-         * @param {Function} fn
          */
         subscribe: (fn) => {
             subscriptions.push(fn);
@@ -41,15 +33,13 @@ export const $signal = function (defaultValue = null) {
 };
 /**
  * add a signal that takes in the defaultValue as an object
- * @param {Object} initialValue = {}
  */
-export const $store = function (initialValue = {}) {
+export const $store = function (initialValue) {
     let state = { ...initialValue };
     const listeners = new Set();
     return {
         /**
          * set the signal's value
-         * @param {any} val
          */
         set(key, value) {
             state[key] = value;
@@ -57,15 +47,11 @@ export const $store = function (initialValue = {}) {
         },
         /**
          * returns the signals value
-         * @returns internal_variable
          */
         get(key) {
             return state[key];
         },
-        /**
-         * subscribe to the signal
-         * @param {Function} fn
-         */
+        /*** subscribe to the signal */
         subscribe(listener) {
             listeners.add(listener);
             return () => listeners.delete(listener);

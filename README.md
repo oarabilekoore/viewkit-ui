@@ -19,3 +19,15 @@ rosana uses signls to power the reactivity and offers most things not available 
 To get  started, head over to the [rosana-cli](https://github.com/oarabiledev/rosana-cli)
  repo and follow the instructions.
 You can then head over to [rosana.js documentation](https://savory-gold-540.notion.site/rosana-js-documentation-13bbfc84915f802e8449cc7836e4b71c?pvs=4) to get started.
+
+## Documentation
+
+Visit [rosanaDocs](https://savory-gold-540.notion.site/rosana-js-documentation-13bbfc84915f802e8449cc7836e4b71c) to view the full documentation.
+
+## Contributing
+
+Contributions are welcome and highly appreciated. However, before you jump right into it, we would like you to review our Contribution Guidelines to make sure you have a smooth experience contributing to rosana.js.
+
+## Licensing
+
+rosana.js is licensed under the MIT License, authored by [Oarabile Koore](https://github.com/oarabiledev)

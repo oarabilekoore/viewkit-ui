@@ -337,6 +337,23 @@ const $createApp = function(mainComponent) {
   };
   return app;
 };
+const $Element = class extends componentController {
+  constructor(tag, parent) {
+    super();
+    __publicField(this, "type");
+    __publicField(this, "parent");
+    this.type = tag.toLocaleUpperCase();
+    this.parent = parent;
+    this.element = document.createElement(tag);
+    this.element.id = generateId();
+    if (parent instanceof componentController) {
+      parent.addChild(this);
+    } else {
+      console.error("No Parent For Component To Attach To.");
+      return;
+    }
+  }
+};
 class $router {
   constructor(routes) {
     __publicField(this, "guards", []);
@@ -506,23 +523,6 @@ const $showIF = function(restingParameter, onTruthyElement, onFalseyElement) {
   restingParameter ? onTruthyElement.show() : onTruthyElement.hide();
   !restingParameter ? onFalseyElement.show() : onFalseyElement.hide();
 };
-const $Element = class extends componentController {
-  constructor(tag, parent) {
-    super();
-    __publicField(this, "type");
-    __publicField(this, "parent");
-    this.type = tag.toLocaleUpperCase();
-    this.parent = parent;
-    this.element = document.createElement(tag);
-    this.element.id = generateId();
-    if (parent instanceof componentController) {
-      parent.addChild(this);
-    } else {
-      console.error("No Parent For Component To Attach To.");
-      return;
-    }
-  }
-};
 const $Html = {};
 $Html.P = (parent) => {
   return new $Element("p", parent);
@@ -562,6 +562,7 @@ $Html.Form = (parent) => {
 };
 export {
   $AbsoluteLayout,
+  $Element,
   $FrameLayout,
   $Html,
   $LinearLayout,

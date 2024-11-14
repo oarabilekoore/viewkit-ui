@@ -37,7 +37,6 @@ export class componentController {
      */
     alignment(options: string): this {
         if (options) {
-            //@ts-ignore
             optionsApi(this.element, options);
         } else {
             console.log("Alignment Options Undefined");
@@ -52,7 +51,6 @@ export class componentController {
         Object.entries(props).forEach(([key, value]) => {
             requestAnimationFrame(() => {
                 if (this.element) {
-                    // @ts-ignore
                     this.element[key] = value;
                 }
             });

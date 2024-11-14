@@ -10,8 +10,6 @@ class $router {
 
     constructor(routes: Array<Route>) {
         this.routes = routes;
-
-        // Listen for back/forward navigation
         window.addEventListener("popstate", () => this._handleRouteChange());
     }
 

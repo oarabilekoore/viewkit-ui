@@ -1,7 +1,6 @@
 import { componentController } from "./control.js";
 import { $Element } from "./elements.js";
 
-// Use InstanceType to derive the type of $Element instances.
 export const $Html: Record<string, (parent: componentController) => InstanceType<typeof $Element>> = {};
 
 /**

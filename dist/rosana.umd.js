@@ -86,28 +86,34 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
      * Add a child element to this element.
      */
     addChild(child) {
-      if (child instanceof componentController && this.element) {
-        this.element.appendChild(child.element);
-      } else {
-        console.error("Mounted Child Is Not A Rosana Component");
+      if ((child == null ? void 0 : child.element) == void 0) {
+        console.warn(`The Passed Object Is Not An Rosana/Html Element :
+`);
+        console.warn(`Properties of child: ${child}
+`);
+        console.warn(`TypeOf : ${typeof child}`);
+        return;
       }
+      this.element.appendChild(child.element);
       return this;
     }
     /**
      * Set the alignment of child elements in the control
      */
     alignment(options) {
-      if (options) {
-        optionsApi(this.element, options);
-      } else {
-        console.log("Alignment Options Undefined");
+      if (!options) {
+        console.warn(`Alignment Options Undefined At: ${this.element}`);
       }
+      optionsApi(this.element, options);
       return this;
     }
     /**
      * batch dom api setters and getters effeciently
      */
     batch(props) {
+      if (!props) {
+        throw Error(`Null Batched Props For: ${this}`);
+      }
       Object.entries(props).forEach(([key, value]) => {
         requestAnimationFrame(() => {
           if (this.element) {

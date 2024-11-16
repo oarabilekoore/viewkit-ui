@@ -24,11 +24,14 @@ export class componentController {
      * Add a child element to this element.
      */
     addChild(child: componentController) {
-        if (child instanceof componentController && this.element) {
-            this.element.appendChild(child.element);
-        } else {
-            console.error("Mounted Child Is Not A Rosana Component");
+        if (child?.element == undefined) {
+            console.warn(`The Passed Object Is Not An Rosana/Html Element :\n`);
+            console.warn(`Properties of child: ${child}\n`);
+            console.warn(`TypeOf : ${typeof child}`);
+            return;
         }
+
+        this.element.appendChild(child.element);
         return this;
     }
 
@@ -36,11 +39,10 @@ export class componentController {
      * Set the alignment of child elements in the control
      */
     alignment(options: string): this {
-        if (options) {
-            optionsApi(this.element, options);
-        } else {
-            console.log("Alignment Options Undefined");
+        if (!options) {
+            console.warn(`Alignment Options Undefined At: ${this.element}`);
         }
+        optionsApi(this.element, options);
         return this;
     }
 
@@ -48,6 +50,9 @@ export class componentController {
      * batch dom api setters and getters effeciently
      */
     batch(props: object): this {
+        if (!props) {
+            throw Error(`Null Batched Props For: ${this}`);
+        }
         Object.entries(props).forEach(([key, value]) => {
             requestAnimationFrame(() => {
                 if (this.element) {

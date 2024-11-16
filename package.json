@@ -1,15 +1,14 @@
 {
     "name": "rosana",
-    "version": "0.0.9",
+    "version": "0.0.93",
     "type": "module",
-    "main": "dist/rosana.es.js",
-    "module": "dist/rosana.es.js",
+    "main": "dist/index.js",
+    "module": "dist/index.js",
     "types": "dist/index.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/rosana.es.js"
-        },
-        "./umd": "./dist/rosana.umd.js"
+            "import": "./dist/index.js"
+        }
     },
     "files": [
         "dist",
@@ -17,10 +16,8 @@
         "index.js"
     ],
     "scripts": {
-        "build": "vite build",
-        "types": "npx tsc",
-        "dev": "vite",
-        "host": "vite --host"
+        "build": "npx tsc",
+        "dev": "vite"
     },
     "author": "Oarabile Koore",
     "license": "MIT",

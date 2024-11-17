@@ -3,7 +3,7 @@
 
 <div align="center">
 <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
-<img alt="Version Badge" src="https://img.shields.io/badge/version-0.0.96-brightgreen.svg">
+<img alt="Version Badge" src="https://img.shields.io/badge/version-0.0.98-brightgreen.svg">
 </div>
 
 <br>
@@ -29,5 +29,7 @@ Visit [rosanaDocs](https://savory-gold-540.notion.site/rosana-js-documentation-1
 Contributions are welcome and highly appreciated. However, before you jump right into it, we would like you to review our Contribution Guidelines to make sure you have a smooth experience contributing to rosana.js.
 
 ## Licensing
+
+rosana.js uses a logo from flaticon by [Freepik](https://www.flaticon.com/free-icons/project-plan).
 
 rosana.js is licensed under the MIT License, authored by [Oarabile Koore](https://github.com/oarabiledev)

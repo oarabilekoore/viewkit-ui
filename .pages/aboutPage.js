@@ -1,21 +1,16 @@
-import { navigationBar } from "./.ui/navigation.js";
-import { outlinedButton } from "./.ui/buttons.js";
-import { $LinearLayout, $Html } from "rosana";
+import { $LinearLayout, $Html, $Tween } from "rosana";
+import { outlinedButton } from "../.ui/buttons.js";
 
-const aboutPage = $LinearLayout("fillxy, top");
+const aboutPage = $LinearLayout("fillxy, vcenter");
 
-navigationBar(aboutPage);
+$Html.H2(aboutPage).batch({ textContent: "Exploring JavaScript" });
 
-let contentLayout = $LinearLayout("fillxy, vcenter");
-aboutPage.addChild(contentLayout);
-
-let text = $Html.H1(contentLayout);
-text.batch({ textContent: "A very weird framework" });
-
-let btn = outlinedButton(contentLayout, "The About Page");
-
-btn.onclick = () => {
-    app.router.navigate("/user/:id", { id: "Oara" });
+let btn = outlinedButton(aboutPage, "The About Page");
+btn.onclick = function () {
+    $Tween(btn, {
+        target: { x: 0, y: 250 },
+        duration: 3000,
+        easing: "Quadratic.InOut",
+    });
 };
-
 export default aboutPage;

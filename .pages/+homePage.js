@@ -1,10 +1,8 @@
-import { $LinearLayout, $App, $Tween } from "rosana";
+import { $LinearLayout, $App } from "rosana";
 
-const homePage = $LinearLayout("top, vcenter");
+const homePage = $LinearLayout("fillxy, vcenter");
 
 let btn = $App.Button(homePage, "Hello World");
-btn.onclick = () => {
-    $Tween(btn, { target: { x: 100, y: 100 }, duration: 100, easing: "Quadratic.InOut" });
-};
+btn.onclick = () => app.router.navigate("/about");
 
 export default homePage;

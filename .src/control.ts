@@ -3,10 +3,12 @@ import { cssParser } from "./parser.js";
 
 const eventHandlersMap = new Map();
 
-document.body.addEventListener("click", (event) => {
-    //@ts-ignore
-    const targetId = event.target.id;
+interface MouseEvent {
+    target: any;
+}
 
+document.body.addEventListener("click", (event: MouseEvent) => {
+    const targetId = event?.target.id;
     if (eventHandlersMap.has(targetId)) {
         eventHandlersMap.get(targetId)();
     }
@@ -67,6 +69,9 @@ export class componentController {
      * Add an onclick event listener to the element.
      */
     set onclick(handler: Function) {
+        if (!handler || typeof handler != "function") {
+            throw Error(`The onclick setter function expects a function, however the given input is typeof : ${typeof handler}`);
+        }
         eventHandlersMap.set(this.element?.id, handler);
     }
 

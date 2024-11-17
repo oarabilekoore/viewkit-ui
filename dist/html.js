@@ -7,6 +7,12 @@ $Html.P = (parent) => {
     return new $Element("p", parent);
 };
 /**
+ * Create an html element with the provided Tag
+ */
+$Html.Obj = (parent, tag) => {
+    return new $Element(tag, parent);
+};
+/**
  * Creates a division (`<div>`) element.
  */
 $Html.Div = (parent) => {

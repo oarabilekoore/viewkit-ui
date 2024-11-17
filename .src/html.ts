@@ -1,13 +1,23 @@
 import { componentController } from "./control.js";
 import { $Element } from "./elements.js";
 
-export const $Html: Record<string, (parent: componentController) => InstanceType<typeof $Element>> = {};
+export const $Html: Record<
+    string,
+    (parent: componentController, tag: string) => InstanceType<typeof $Element>
+> = {};
 
 /**
  * Creates a paragraph (`<p>`) element.
  */
 $Html.P = (parent: componentController): InstanceType<typeof $Element> => {
     return new $Element("p", parent);
+};
+
+/**
+ * Create an html element with the provided Tag
+ */
+$Html.Obj = (parent: componentController, tag: string) => {
+    return new $Element(tag, parent);
 };
 
 /**

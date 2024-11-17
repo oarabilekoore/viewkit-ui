@@ -1,6 +1,6 @@
 {
     "name": "rosana",
-    "version": "0.0.93",
+    "version": "0.0.96",
     "type": "module",
     "main": "dist/index.js",
     "module": "dist/index.js",
@@ -22,8 +22,11 @@
     "author": "Oarabile Koore",
     "license": "MIT",
     "devDependencies": {
-        "typescript": "^latest",
-        "vite": "^latest",
-        "vite-plugin-static-copy": "^latest"
+        "typescript": "^5.6.3",
+        "vite": "^5.4.11"
+    },
+    "dependencies": {
+        "@tweenjs/tween.js": "^25.0.0",
+        "animate.css": "^4.1.1"
     }
 }

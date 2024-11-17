@@ -6,19 +6,9 @@
         "outDir": "./dist",
         "allowJs": true,
         "checkJs": true,
-        "strict": true
+        "strict": true,
+        "moduleResolution": "node"
     },
-    "include": [
-        "./.src/**/*.js",
-        "./.src/index.ts",
-        ".src/layouts.ts",
-        ".src/parser.ts",
-        ".src/control.ts",
-        ".src/helpers.ts",
-        ".src/html.ts",
-        ".src/elements.ts",
-        ".src/router.ts",
-        ".src/suspense.ts"
-    ],
+    "include": ["./.src/**/*.js"],
     "exclude": ["node_modules", "dist"]
 }

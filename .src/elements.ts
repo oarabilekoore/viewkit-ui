@@ -1,7 +1,7 @@
 import { componentController } from "./control.js";
 import { generateId } from "./helpers.js";
 
-type HtmlTag = string;
+export type HtmlTag = string;
 
 export const $Element = class extends componentController {
     type: string;

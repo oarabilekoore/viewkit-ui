@@ -1,5 +1,5 @@
 import { componentController } from "./control.js";
-type HtmlTag = string;
+export type HtmlTag = string;
 export declare const $Element: {
     new (tag: HtmlTag, parent: componentController): {
         type: string;
@@ -17,4 +17,3 @@ export declare const $Element: {
         gone(): any;
     };
 };
-export {};

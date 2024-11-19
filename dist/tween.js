@@ -1,4 +1,4 @@
-import { Tween as TWEEN, Easing } from "@tweenjs/tween.js";
+import { Tween, Easing } from "@tweenjs/tween.js";
 function resolveEasing(type) {
     const easingParts = type.split(".");
     let easingFn = Easing;
@@ -7,10 +7,16 @@ function resolveEasing(type) {
     }
     return easingFn;
 }
-export const $Tween = function (object, tweenProperties) {
+/**
+ * Move objects with easing applied and available effects, uses Tween.js
+ * Check out docs at : (Tween.js Github)[https://github.com/tweenjs/tween.js]
+ * @param object
+ * @param tweenProperties
+ */
+const $Tween = function (object, tweenProperties) {
     const easingFn = resolveEasing(tweenProperties?.easing);
     const defaultPosition = { x: 0, y: 0 };
-    const tween = new TWEEN(defaultPosition)
+    const tween = new Tween(defaultPosition)
         .to(tweenProperties?.target, tweenProperties?.duration)
         .easing(easingFn)
         .onUpdate(() => {
@@ -23,3 +29,4 @@ export const $Tween = function (object, tweenProperties) {
         tween.update(time);
     }
 };
+export default $Tween;

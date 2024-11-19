@@ -1,3 +1,4 @@
-import { componentController } from "./control.js";
+import type { rosanaComponent } from "./control.js";
 import { $Element } from "./elements.js";
-export declare const $Html: Record<string, (parent: componentController, tag: string) => InstanceType<typeof $Element>>;
+declare const $Html: Record<string, (parent: rosanaComponent, tag?: string) => InstanceType<typeof $Element>>;
+export default $Html;

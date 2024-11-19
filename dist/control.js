@@ -1,108 +1,134 @@
-import { optionsApi } from "./layouts.js";
 import { cssParser } from "./parser.js";
+import { debugInfo } from "./helpers.js";
+import { optionsApi } from "./layouts.js";
 const eventHandlersMap = new Map();
 document.body.addEventListener("click", (event) => {
-    const targetId = event?.target.id;
-    if (eventHandlersMap.has(targetId)) {
-        eventHandlersMap.get(targetId)();
+    const target = event.target;
+    if (target?.id && eventHandlersMap.has(target.id)) {
+        eventHandlersMap.get(target.id)?.();
     }
 });
+// Component Controller Class Implementation
 export class componentController {
+    ismounted;
     element;
     elementClasses;
     constructor() {
-        this.element = null;
+        this.element = document.createElement("div");
+        // Default to a `div` element
         this.elementClasses = [];
+        this.ismounted = true;
     }
     /**
-     * Add a child element to this element.
+     * Add a child component to this component.
      */
     addChild(child) {
-        if (child?.element == undefined) {
-            console.warn(`The Passed Object Is Not An Rosana/Html Element :\n`);
-            console.warn(`Properties of child: ${child}\n`);
-            console.warn(`TypeOf : ${typeof child}`);
-            return;
+        if (!child?.element) {
+            console.warn(`The passed object is not a valid Rosana/HTML element.`, child);
+            return this;
         }
         this.element.appendChild(child.element);
         return this;
     }
     /**
-     * Set the alignment of child elements in the control
+     * Callback invoked when the component is added to the DOM.
+     */
+    set onMount(Fn) {
+        if (this.element && typeof Fn === "function") {
+            Fn();
+        }
+    }
+    /**
+     * Callback invoked when the component is removed from the DOM.
+     */
+    set onUnMount(Fn) {
+        if (!this.ismounted) {
+            Fn();
+        }
+    }
+    /**
+     * Set the alignment of child elements in this component.
      */
     alignment(options) {
         if (!options) {
-            console.warn(`Alignment Options Undefined At: ${this.element}`);
+            console.warn(`Alignment options are undefined for:`, this.element);
         }
         optionsApi(this.element, options);
         return this;
     }
     /**
-     * batch dom api setters and getters effeciently
+     * Batch DOM API property setters for this component.
      */
     batch(props) {
         if (!props) {
-            throw Error(`Null Batched Props For: ${this}`);
+            throw new Error(`Null batched props for: ${this}`);
         }
         Object.entries(props).forEach(([key, value]) => {
             requestAnimationFrame(() => {
-                if (this.element) {
-                    this.element[key] = value;
-                }
+                this.element[key] = value;
             });
         });
         return this;
     }
     /**
-     * Add an onclick event listener to the element.
+     * Add an onclick event listener to this component.
      */
     set onclick(handler) {
-        if (!handler || typeof handler != "function") {
-            throw Error(`The onclick setter function expects a function, however the given input is typeof : ${typeof handler}`);
+        if (typeof handler !== "function") {
+            throw new Error(`The onclick setter expects a function, but received: ${typeof handler}`);
         }
-        eventHandlersMap.set(this.element?.id, handler);
+        eventHandlersMap.set(this.element.id, handler);
     }
     /**
-     * Add css scoped styles to your element.
+     * Add CSS scoped styles to this component.
      */
     css(styles) {
         const className = cssParser(styles);
-        this.element?.classList.add(className);
+        this.element.classList.add(className);
         this.elementClasses.push(className);
         return this;
     }
     /**
-     * Remove a child element from this element.
+     * Remove a child component from this component.
      */
     destroyChild(child) {
-        if (child instanceof componentController) {
-            eventHandlersMap.delete(child.element?.id);
-            child.element?.remove();
+        if (!child?.element) {
+            debugInfo("The passed child is null/undefined or not a valid Rosana component.", "destroyChild Function", child);
+            return this;
         }
-        else {
-            console.error("Child Is Not A Rosana Component");
-        }
+        eventHandlersMap.delete(child.element.id);
+        child.element.remove();
         return this;
     }
     /**
-     * Sets the visibility of the element.
+     * Remove All Children In That Layout
+     */
+    clear() {
+        this.element.innerHTML = "";
+        return this;
+    }
+    /**
+     * Make this component visible.
      */
     show() {
-        this.element?.classList.add("show");
+        this.element.classList.remove("hide", "gone");
+        this.element.classList.add("show");
         return this;
     }
     /**
-     * Hide the element
+     * Hide this component.
      */
     hide() {
-        this.element?.classList.add("hide");
+        this.element.classList.remove("show");
+        this.element.classList.add("hide");
         return this;
     }
     /**
-     * Sets the display and visibility of the element.
+     * Remove this component from the visual flow and hide it.
      */
     gone() {
-        this.element?.classList.add("gone");
+        this.element.classList.remove("show", "hide");
+        this.element.classList.add("gone");
         return this;
     }
 }

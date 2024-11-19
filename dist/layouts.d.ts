@@ -1,4 +1,3 @@
-import { componentController } from "./control.js";
 /**
  * Applies the provided options to the given HTML element by adding corresponding CSS classes.
  */
@@ -9,14 +8,18 @@ export declare const optionsApi: (element: HTMLElement, options: string) => void
  */
 export declare const $LinearLayout: (childAlignmentProperties: string) => {
     type: string;
-    element: any;
-    elementClasses: Array<string>;
-    addChild(child: componentController): any | undefined;
+    ismounted: Boolean;
+    element: HTMLElement;
+    elementClasses: string[];
+    addChild(child: import("./control.js").rosanaComponent): any;
+    onMount: Function;
+    onUnMount: Function;
     alignment(options: string): any;
-    batch(props: object): any;
+    batch(props: Record<string, unknown>): any;
     onclick: Function;
-    css(styles: TemplateStringsArray | object): any;
-    destroyChild(child: componentController): any;
+    css(styles: TemplateStringsArray | Record<string, string>): any;
+    destroyChild(child: import("./control.js").rosanaComponent): any;
+    clear(): any;
     show(): any;
     hide(): any;
     gone(): any;
@@ -27,14 +30,18 @@ export declare const $LinearLayout: (childAlignmentProperties: string) => {
  */
 export declare const $AbsoluteLayout: (childAlignmentProperties: string) => {
     type: string;
-    element: any;
-    elementClasses: Array<string>;
-    addChild(child: componentController): any | undefined;
+    ismounted: Boolean;
+    element: HTMLElement;
+    elementClasses: string[];
+    addChild(child: import("./control.js").rosanaComponent): any;
+    onMount: Function;
+    onUnMount: Function;
     alignment(options: string): any;
-    batch(props: object): any;
+    batch(props: Record<string, unknown>): any;
     onclick: Function;
-    css(styles: TemplateStringsArray | object): any;
-    destroyChild(child: componentController): any;
+    css(styles: TemplateStringsArray | Record<string, string>): any;
+    destroyChild(child: import("./control.js").rosanaComponent): any;
+    clear(): any;
     show(): any;
     hide(): any;
     gone(): any;
@@ -45,14 +52,18 @@ export declare const $AbsoluteLayout: (childAlignmentProperties: string) => {
  */
 export declare const $FrameLayout: (childAlignmentProperties: string) => {
     type: string;
-    element: any;
-    elementClasses: Array<string>;
-    addChild(child: componentController): any | undefined;
+    ismounted: Boolean;
+    element: HTMLElement;
+    elementClasses: string[];
+    addChild(child: import("./control.js").rosanaComponent): any;
+    onMount: Function;
+    onUnMount: Function;
     alignment(options: string): any;
-    batch(props: object): any;
+    batch(props: Record<string, unknown>): any;
     onclick: Function;
-    css(styles: TemplateStringsArray | object): any;
-    destroyChild(child: componentController): any;
+    css(styles: TemplateStringsArray | Record<string, string>): any;
+    destroyChild(child: import("./control.js").rosanaComponent): any;
+    clear(): any;
     show(): any;
     hide(): any;
     gone(): any;
@@ -63,14 +74,18 @@ export declare const $FrameLayout: (childAlignmentProperties: string) => {
  */
 export declare const $StackedLayout: (stackOrientation?: string) => {
     type: string;
-    element: any;
-    elementClasses: Array<string>;
-    addChild(child: componentController): any | undefined;
+    ismounted: Boolean;
+    element: HTMLElement;
+    elementClasses: string[];
+    addChild(child: import("./control.js").rosanaComponent): any;
+    onMount: Function;
+    onUnMount: Function;
     alignment(options: string): any;
-    batch(props: object): any;
+    batch(props: Record<string, unknown>): any;
     onclick: Function;
-    css(styles: TemplateStringsArray | object): any;
-    destroyChild(child: componentController): any;
+    css(styles: TemplateStringsArray | Record<string, string>): any;
+    destroyChild(child: import("./control.js").rosanaComponent): any;
+    clear(): any;
     show(): any;
     hide(): any;
     gone(): any;

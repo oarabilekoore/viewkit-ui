@@ -174,4 +174,4 @@ class $router {
         history.forward();
     }
 }
-export { $router };
+export default $router;

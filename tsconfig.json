@@ -9,6 +9,6 @@
         "strict": true,
         "moduleResolution": "node"
     },
-    "include": ["./.src/**/*.js"],
+    "include": ["./.src/**/*.ts"],
     "exclude": ["node_modules", "dist"]
 }

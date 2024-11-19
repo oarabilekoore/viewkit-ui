@@ -197,7 +197,7 @@ class $router {
     }
 }
 
-export { $router };
+export default $router;
 
 /**
  * Route type definition.

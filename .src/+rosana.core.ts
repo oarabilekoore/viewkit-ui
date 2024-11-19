@@ -1,7 +1,9 @@
 /**
  * Creates and initializes the main application with a root component.
+ * The rootComponent should be the main page of your application
+ * Allows you to add plugins with use methods
  */
-export const $createApp = function (mainComponent: any): object {
+const $createApp = function (mainComponent: any): object {
     const app = {
         _rootComponent: mainComponent,
         _plugins: [],
@@ -55,3 +57,5 @@ export const $createApp = function (mainComponent: any): object {
 
     return app;
 };
+
+export default $createApp;

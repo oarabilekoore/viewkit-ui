@@ -1,5 +1,5 @@
 import { Tween, Easing } from "@tweenjs/tween.js";
-import { componentController } from "../dist/control";
+import { componentController } from "./control";
 
 type EasingFunction = (amount: number) => number;
 interface tweenProperties {
@@ -25,14 +25,17 @@ function resolveEasing(type: string): EasingFunction {
  * @param object
  * @param tweenProperties
  */
-export const $Tween = function (object: componentController, tweenProperties: tweenProperties) {
+const $Tween = function (object: componentController, tweenProperties: tweenProperties) {
     const easingFn = resolveEasing(tweenProperties?.easing);
     const defaultPosition = { x: 0, y: 0 };
     const tween = new Tween(defaultPosition)
         .to(tweenProperties?.target, tweenProperties?.duration)
         .easing(easingFn)
         .onUpdate(() => {
-            object?.element.style.setProperty("transform", "translate(" + defaultPosition.x + "px, " + defaultPosition.y + "px)");
+            object?.element.style.setProperty(
+                "transform",
+                "translate(" + defaultPosition.x + "px, " + defaultPosition.y + "px)"
+            );
         })
         .start();
     animate(0);
@@ -42,3 +45,5 @@ export const $Tween = function (object: componentController, tweenProperties: tw
         tween.update(time);
     }
 };
+
+export default $Tween;

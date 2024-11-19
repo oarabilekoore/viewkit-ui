@@ -1,6 +1,6 @@
 {
     "name": "rosana",
-    "version": "0.0.98",
+    "version": "1.0.0",
     "type": "module",
     "main": "dist/index.js",
     "module": "dist/index.js",
@@ -16,12 +16,14 @@
         "index.js"
     ],
     "scripts": {
-        "build": "npx tsc",
-        "dev": "vite"
+        "dev": "tsc && vite",
+        "build": "tsc && vite build",
+        "start": "vite preview"
     },
     "author": "Oarabile Koore",
     "license": "MIT",
     "devDependencies": {
+        "concurrently": "^9.1.0",
         "typescript": "^5.6.3",
         "vite": "^5.4.11"
     },

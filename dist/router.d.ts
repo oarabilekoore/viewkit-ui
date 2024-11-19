@@ -65,7 +65,7 @@ declare class $router {
      */
     forward(): void;
 }
-export { $router };
+export default $router;
 /**
  * Route type definition.
  */

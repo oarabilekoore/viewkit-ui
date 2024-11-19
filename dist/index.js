@@ -7,4 +7,5 @@ import $showIF from "./showif.js";
 import $Html from "./html.js";
 import $Tween from "./tween.js";
 import $Animate from "./animate.js";
-export { $on, $Html, $store, $signal, $router, $showIF, $Tween, $Animate, $pageTheme, $createApp, $FrameLayout, $LinearLayout, $StackedLayout, $AbsoluteLayout, };
+import { cssParser } from "./parser.js";
+export { $on, $Html, $store, $signal, $router, $showIF, cssParser as $cssParser, $Tween, $Animate, $pageTheme, $createApp, $FrameLayout, $LinearLayout, $StackedLayout, $AbsoluteLayout, };

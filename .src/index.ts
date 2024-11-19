@@ -7,6 +7,10 @@ import $showIF from "./showif.js";
 import $Html from "./html.js";
 import $Tween from "./tween.js";
 import $Animate from "./animate.js";
+import { cssParser } from "./parser.js";
+
+import type { rosanaComponent } from "./control.js";
+export type { rosanaComponent };
 
 export {
     $on,
@@ -15,6 +19,7 @@ export {
     $signal,
     $router,
     $showIF,
+    cssParser as $cssParser,
     $Tween,
     $Animate,
     $pageTheme,

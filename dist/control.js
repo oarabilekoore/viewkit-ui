@@ -19,6 +19,12 @@ export class componentController {
         this.elementClasses = [];
         this.ismounted = true;
     }
+    show() {
+        throw new Error("Method not implemented.");
+    }
+    hide() {
+        throw new Error("Method not implemented.");
+    }
     /**
      * Add a child component to this component.
      */
@@ -73,7 +79,7 @@ export class componentController {
     /**
      * Add an onclick event listener to this component.
      */
-    set onclick(handler) {
+    set ontouch(handler) {
         if (typeof handler !== "function") {
             throw new Error(`The onclick setter expects a function, but received: ${typeof handler}`);
         }
@@ -110,7 +116,7 @@ export class componentController {
     /**
      * Make this component visible.
      */
-    show() {
+    showEl() {
         this.element.classList.remove("hide", "gone");
         this.element.classList.add("show");
         return this;
@@ -118,7 +124,7 @@ export class componentController {
     /**
      * Hide this component.
      */
-    hide() {
+    hideEl() {
         this.element.classList.remove("show");
         this.element.classList.add("hide");
         return this;

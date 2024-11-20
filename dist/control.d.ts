@@ -11,11 +11,30 @@ export interface rosanaComponent {
     hide(): this;
     gone(): this;
 }
+declare global {
+    interface HTMLElement {
+        ismounted: boolean;
+        elementClasses: string[];
+        addChild(child: rosanaComponent): this;
+        alignment(options: string): this;
+        batch(props: Record<string, unknown>): this;
+        css(styles: TemplateStringsArray | Record<string, string>): this;
+        destroyChild(child: rosanaComponent): this;
+        showEl(): this;
+        hideEl(): this;
+        gone(): this;
+        ontouch?: Function;
+        onMount?: Function;
+        onUnMount?: Function;
+    }
+}
 export declare class componentController implements rosanaComponent {
     ismounted: Boolean;
     element: HTMLElement;
     elementClasses: string[];
     constructor();
+    show(): this;
+    hide(): this;
     /**
      * Add a child component to this component.
      */
@@ -39,7 +58,7 @@ export declare class componentController implements rosanaComponent {
     /**
      * Add an onclick event listener to this component.
      */
-    set onclick(handler: Function);
+    set ontouch(handler: Function);
     /**
      * Add CSS scoped styles to this component.
      */
@@ -55,11 +74,11 @@ export declare class componentController implements rosanaComponent {
     /**
      * Make this component visible.
      */
-    show(): this;
+    showEl(): this;
     /**
      * Hide this component.
      */
-    hide(): this;
+    hideEl(): this;
     /**
      * Remove this component from the visual flow and hide it.
      */

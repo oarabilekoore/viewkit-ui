@@ -100,7 +100,7 @@ export class componentController implements rosanaComponent {
     /**
      * Add an onclick event listener to this component.
      */
-    set onclick(handler: Function) {
+    set ontouch(handler: Function) {
         if (typeof handler !== "function") {
             throw new Error(`The onclick setter expects a function, but received: ${typeof handler}`);
         }

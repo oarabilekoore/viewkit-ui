@@ -4,7 +4,7 @@ const $showIF = function (restingParameter, onTruthyElement, onFalseyElement) {
         console.error(`showIF not called, one of the elements is undefined`);
         return;
     }
-    restingParameter ? onTruthyElement.show() : onTruthyElement.hide();
-    !restingParameter ? onFalseyElement.show() : onFalseyElement.hide();
+    restingParameter ? onTruthyElement.showEl() : onTruthyElement.hideEl();
+    !restingParameter ? onFalseyElement.showEl() : onFalseyElement.hideEl();
 };
 export default $showIF;

@@ -1,7 +1,5 @@
-/**
- * create a reactive value by using setters and getters.
- */
-export const $signal = function (defaultValue: any) {
+/** * create a reactivley weak value by using setters and getters (weak signal)*/
+export const $WeakSignal = function (defaultValue: any) {
     let internal_variable = defaultValue;
     let subscriptions: Array<Function> = [];
 
@@ -11,24 +9,18 @@ export const $signal = function (defaultValue: any) {
         }
     };
     return {
-        /**
-         * set the signal's value
-         */
+        /** * set the signal's value*/
         set value(val: any) {
             internal_variable = val;
             notify();
         },
 
-        /**
-         * returns the signals value
-         */
+        /** * returns the signals value*/
         get value() {
             return internal_variable;
         },
 
-        /**
-         * subscribe to the signal
-         */
+        /** * subscribe to the signal*/
         subscribe: (fn: Function) => {
             subscriptions.push(fn);
         },
@@ -38,7 +30,7 @@ export const $signal = function (defaultValue: any) {
 /**
  * add a signal that takes in the defaultValue as an object
  */
-export const $store = function (initialValue: object) {
+export const $WeakStore = function (initialValue: object) {
     let state: any = { ...initialValue };
     const listeners: Set<Function> = new Set();
 

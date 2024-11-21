@@ -1,20 +1,14 @@
-/**
- * create a reactive value by using setters and getters.
- */
-export declare const $signal: (defaultValue: any) => {
-    /**
-     * set the signal's value
-     */
+/** * create a reactivley weak value by using setters and getters (weak signal)*/
+export declare const $WeakSignal: (defaultValue: any) => {
+    /** * set the signal's value*/
     value: any;
-    /**
-     * subscribe to the signal
-     */
+    /** * subscribe to the signal*/
     subscribe: (fn: Function) => void;
 };
 /**
  * add a signal that takes in the defaultValue as an object
  */
-export declare const $store: (initialValue: object) => {
+export declare const $WeakStore: (initialValue: object) => {
     /**
      * set the signal's value
      */

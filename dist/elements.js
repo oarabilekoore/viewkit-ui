@@ -1,7 +1,8 @@
-import { componentController } from "./control.js";
-export class $Element extends componentController {
+import { rosanaComponentProperties } from "./control.js";
+export class $Element extends rosanaComponentProperties {
     type;
     parent;
+    element;
     constructor(tag, parent) {
         super();
         this.type = tag.toUpperCase();

@@ -1,5 +1,5 @@
 import "animate.css";
-import type { rosanaComponent } from "./control";
+import type { rosanaComponent } from "./types.js";
 
 /**
  * Animate an element, powerd by Animate.css

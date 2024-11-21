@@ -1,111 +1,41 @@
-/**
- * A secure router with route guards, 404 handling, lazy loading, and nested routes support.
- */
-class $router {
-    private guards: Array<(route: any) => boolean | Promise<boolean>> = [];
-    private params: Record<string, string> | null = null;
-    private routes: Array<Route> = [];
-    private notFound: (() => Promise<{ default: any }>) | null = null;
-    private currentRoute: MatchedRoute | null = null;
+import type { Route, MatchedRoute, RouteOptions } from "./types.js";
 
-    constructor(routes: Array<Route>) {
-        this.routes = routes;
-        window.addEventListener("popstate", () => this._handleRouteChange());
-    }
+/*** A secure router with route guards, 404 handling, lazy loading, and nested routes support.*/
+function $Router(routes: Array<Route>) {
+    const guards: Array<(route: any) => boolean | Promise<boolean>> = [];
+    let params: Record<string, string> | null = null;
+    let notFound: (() => Promise<{ default: any }>) | null = null;
+    let currentRoute: MatchedRoute | null = null;
 
-    /**
-     * Attach the router to the app.
-     */
-    install(app: any): void {
-        app.router = this;
-        this.init();
-    }
-
-    /**
-     * Add route guard to validate route changes.
-     */
-    addGuard(guardFn: (route: any) => boolean | Promise<boolean>): void {
-        this.guards.push(guardFn);
-    }
-
-    /**
-     * Set a component for 404 (not found) pages.
-     */
-    setNotFound(component: () => Promise<{ default: any }>): void {
-        this.notFound = component;
-    }
-
-    /**
-     * Define a new route, supporting nested routes.
-     */
-    add(path: string, component: () => Promise<{ default: any }>, options: RouteOptions = {}): void {
-        this.routes.push({ path, component, options });
-    }
-
-    /**
-     * Register a callback to trigger on route load.
-     */
-    on(route: string, fn: (component: any) => void): void {
-        const matchedRoute = this.routes.find((r) => r.path === route);
-        if (matchedRoute) matchedRoute.onLoad = fn;
-    }
-
-    /**
-     * Navigate to a specified route.
-     */
-    navigate(path: string, params: Record<string, string> = {}): void {
-        const fullPath = path.replace(/:([\w]+)/g, (_, key) => {
-            if (params[key] === undefined) {
-                console.error(`Parameter "${key}" not provided for path: ${path}`);
-                return `:${key}`;
-            }
-            return params[key];
-        });
-
-        history.pushState(null, "", fullPath);
-        this._handleRouteChange();
-    }
-
-    /**
-     * Initialize the router by handling the initial route.
-     */
-    init(): void {
-        this._handleRouteChange();
-    }
-
-    /**
-     * Handle route changes and apply guards.
-     */
-    private async _handleRouteChange(): Promise<void> {
+    // Handle route changes
+    const handleRouteChange = async () => {
         const path = window.location.pathname;
-        const matchedRoute = this._matchRoute(path, this.routes);
+        const matchedRoute = matchRoute(path, routes);
 
         if (matchedRoute) {
-            this.params = matchedRoute.params;
+            params = matchedRoute.params;
 
-            for (const guard of this.guards) {
+            for (const guard of guards) {
                 if (!(await guard(matchedRoute))) {
                     console.warn("Navigation cancelled by guard.");
                     return;
                 }
             }
 
-            this.currentRoute = matchedRoute;
-            await this._loadComponent(matchedRoute);
-        } else if (this.notFound) {
+            currentRoute = matchedRoute;
+            await loadComponent(matchedRoute);
+        } else if (notFound) {
             //@ts-ignore
-            await this._loadComponent({ component: this.notFound });
+            await loadComponent({ component: notFound });
         } else {
             console.error(`Route not found for path: ${path}`);
         }
-    }
+    };
 
-    /**
-     * Match a route with dynamic parameters, including nested routes.
-     */
-    private _matchRoute(path: string, routes: Array<Route>): MatchedRoute | null {
+    // Match a route with dynamic parameters, including nested routes
+    const matchRoute = (path: string, routes: Array<Route>): MatchedRoute | null => {
         for (const route of routes) {
-            const { regex, keys } = this._pathToRegex(route.path);
+            const { regex, keys } = pathToRegex(route.path);
             const match = path.match(regex);
 
             if (match) {
@@ -115,7 +45,7 @@ class $router {
                 }, {} as Record<string, string>);
 
                 if (route.children) {
-                    const nestedRoute = this._matchRoute(path.replace(regex, ""), route.children);
+                    const nestedRoute = matchRoute(path.replace(regex, ""), route.children);
                     if (nestedRoute) {
                         return { ...route, params, nested: nestedRoute };
                     }
@@ -125,12 +55,10 @@ class $router {
             }
         }
         return null;
-    }
+    };
 
-    /**
-     * Convert route path to a regular expression with dynamic parameters.
-     */
-    private _pathToRegex(path: string): { regex: RegExp; keys: string[] } {
+    // Convert route path to a regular expression with dynamic parameters
+    const pathToRegex = (path: string): { regex: RegExp; keys: string[] } => {
         const keys: string[] = [];
         const regexString = path
             .replace(/:([\w]+)/g, (_, key) => {
@@ -140,12 +68,10 @@ class $router {
             .replace(/\//g, "\\/");
 
         return { regex: new RegExp(`^${regexString}$`), keys };
-    }
+    };
 
-    /**
-     * Load a route component, supporting lazy loading and nested routes.
-     */
-    private async _loadComponent(route: MatchedRoute): Promise<void> {
+    // Load a route component, supporting lazy loading and nested routes
+    const loadComponent = async (route: MatchedRoute): Promise<void> => {
         let component = route.component;
 
         if (typeof component === "function") {
@@ -169,58 +95,61 @@ class $router {
                     //@ts-ignore
                     if (typeof instance.routingInfo === "function") {
                         //@ts-ignore
-                        instance.routingInfo(this.params);
+                        instance.routingInfo(params);
                     }
 
                     if (route.nested) {
-                        await this._loadComponent(route.nested);
+                        await loadComponent(route.nested);
                     }
                 } else {
                     console.error(`Imported Route Is Not A Valid Component: ${instance}`);
                 }
             }
         }
-    }
+    };
 
-    /**
-     * Navigate back in history.
-     */
-    back(): void {
-        history.back();
-    }
+    // Public API
+    return {
+        install(app: any) {
+            app.router = this;
+            this.init();
+        },
+        addGuard(guardFn: (route: any) => boolean | Promise<boolean>) {
+            guards.push(guardFn);
+        },
+        setNotFound(component: () => Promise<{ default: any }>) {
+            notFound = component;
+        },
+        add(path: string, component: () => Promise<{ default: any }>, options: RouteOptions = {}) {
+            routes.push({ path, component, options });
+        },
+        on(route: string, fn: (component: any) => void) {
+            const matchedRoute = routes.find((r) => r.path === route);
+            if (matchedRoute) matchedRoute.onLoad = fn;
+        },
+        navigate(path: string, params: Record<string, string> = {}) {
+            const fullPath = path.replace(/:([\w]+)/g, (_, key) => {
+                if (params[key] === undefined) {
+                    console.error(`Parameter "${key}" not provided for path: ${path}`);
+                    return `:${key}`;
+                }
+                return params[key];
+            });
 
-    /**
-     * Navigate forward in history.
-     */
-    forward(): void {
-        history.forward();
-    }
+            history.pushState(null, "", fullPath);
+            handleRouteChange();
+        },
+        init() {
+            handleRouteChange();
+            window.addEventListener("popstate", handleRouteChange);
+        },
+        back() {
+            history.back();
+        },
+        forward() {
+            history.forward();
+        },
+    };
 }
 
-export default $router;
-
-/**
- * Route type definition.
- */
-interface Route {
-    path: string;
-    component: () => Promise<{ default: any }>;
-    options?: RouteOptions;
-    onLoad?: (component: any) => void;
-    children?: Route[];
-}
-
-/**
- * Matched route type definition.
- */
-interface MatchedRoute extends Route {
-    params: Record<string, string>;
-    nested?: MatchedRoute;
-}
-
-/**
- * Route options type definition.
- */
-interface RouteOptions {
-    [key: string]: any;
-}
+export default $Router;

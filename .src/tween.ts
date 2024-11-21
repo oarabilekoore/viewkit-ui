@@ -1,12 +1,5 @@
+import type { rosanaComponent, EasingFunction, tweenProperties } from "./types";
 import { Tween, Easing } from "@tweenjs/tween.js";
-import { componentController } from "./control";
-
-type EasingFunction = (amount: number) => number;
-interface tweenProperties {
-    easing: string;
-    target: object;
-    duration: number;
-}
 
 function resolveEasing(type: string): EasingFunction {
     const easingParts = type.split(".");
@@ -25,7 +18,7 @@ function resolveEasing(type: string): EasingFunction {
  * @param object
  * @param tweenProperties
  */
-const $Tween = function (object: componentController, tweenProperties: tweenProperties) {
+const $Tween = function (object: rosanaComponent, tweenProperties: tweenProperties) {
     const easingFn = resolveEasing(tweenProperties?.easing);
     const defaultPosition = { x: 0, y: 0 };
     const tween = new Tween(defaultPosition)

@@ -1,6 +1,6 @@
+import { optionsApi } from "./layouts.js";
 import { cssParser } from "./parser.js";
 import { debugInfo } from "./helpers.js";
-import { optionsApi } from "./layouts.js";
 const eventHandlersMap = new Map();
 document.body.addEventListener("click", (event) => {
     const target = event.target;
@@ -9,7 +9,7 @@ document.body.addEventListener("click", (event) => {
     }
 });
 // Component Controller Class Implementation
-export class componentController {
+export class rosanaComponentProperties {
     ismounted;
     element;
     elementClasses;
@@ -18,12 +18,6 @@ export class componentController {
         // Default to a `div` element
         this.elementClasses = [];
         this.ismounted = true;
-    }
-    show() {
-        throw new Error("Method not implemented.");
-    }
-    hide() {
-        throw new Error("Method not implemented.");
     }
     /**
      * Add a child component to this component.
@@ -116,7 +110,7 @@ export class componentController {
     /**
      * Make this component visible.
      */
-    showEl() {
+    show() {
         this.element.classList.remove("hide", "gone");
         this.element.classList.add("show");
         return this;
@@ -124,7 +118,7 @@ export class componentController {
     /**
      * Hide this component.
      */
-    hideEl() {
+    hide() {
         this.element.classList.remove("show");
         this.element.classList.add("hide");
         return this;

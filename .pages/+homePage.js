@@ -1,11 +1,11 @@
 import { outlinedButton } from "../.ui/buttons";
-import { $LinearLayout, $Animate } from "rosana";
+import { $Layout, $Animate } from "rosana";
 
-const homePage = $LinearLayout("fillxy, vcenter");
+const homePage = $Layout.Linear("fillxy, vcenter");
 
 let btn = outlinedButton(homePage, "Hello World");
 btn.ontouch = () => {
-    btn.console.log(btn.textContent);
+    console.log(btn.textContent);
     $Animate(btn, "wobble", () => {
         app.router.navigate("/about");
     });

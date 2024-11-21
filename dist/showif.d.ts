@@ -1,4 +1,4 @@
-import { componentController } from "./control";
+import type { rosanaComponent } from "./types";
 /** * showIF method allows you to hide or show an element if the restingParameter is truthy */
-declare const $showIF: (restingParameter: boolean, onTruthyElement: componentController, onFalseyElement: componentController) => void;
-export default $showIF;
+declare const $ShowIF: (restingParameter: boolean, onTruthyElement: rosanaComponent, onFalseyElement: rosanaComponent) => void;
+export default $ShowIF;

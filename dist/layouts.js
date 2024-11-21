@@ -1,5 +1,4 @@
-import { componentController } from "./control.js";
-import { generateId } from "./helpers.js";
+import { rosanaComponentProperties } from "./control.js";
 let viewOptions = [
     "noscrollbar",
     "scrollxy",
@@ -61,7 +60,7 @@ function layoutFitApi(layout, type, options) {
             console.error("Unknown Layout", layoutTYPE);
     }
 }
-const $LayoutInitializer = class extends componentController {
+const $LayoutInitializer = class extends rosanaComponentProperties {
     type;
     /**
      * Creates a new layout element with the specified type and options.
@@ -69,36 +68,27 @@ const $LayoutInitializer = class extends componentController {
     constructor(type, options) {
         super();
         this.element = document.createElement("div");
-        this.element.id = generateId();
+        this.element.id = crypto.randomUUID();
         this.type = `layout-${type}`;
         type ? layoutFitApi(this.element, type, options) : null;
     }
 };
-/**
- * Creates a linear layout with optional child alignment properties.
- * @param {string} [childAlignmentProperties] - Optional string for child alignment (e.g., "top", "center").
- */
-export const $LinearLayout = function (childAlignmentProperties) {
-    return new $LayoutInitializer("linear", childAlignmentProperties);
+const $Layout = {
+    /**creates a linear layout with optional child alignment properties */
+    Linear: function (childAlignmentProperties) {
+        return new $LayoutInitializer("linear", childAlignmentProperties);
+    },
+    /**creates an absolute layout with optional child alignment properties */
+    Absolute: function (childAlignmentProperties) {
+        return new $LayoutInitializer("absolute", childAlignmentProperties);
+    },
+    /*creates a frame layout with optional child alignment properties. */
+    Frame: function (childAlignmentProperties) {
+        return new $LayoutInitializer("frame", childAlignmentProperties);
+    },
+    /**creates a stack layout, either horizontal or vertical, with optional child alignment properties. */
+    Stacked: function (stackOrientation = "horizontal") {
+        return new $LayoutInitializer("stack", stackOrientation);
+    },
 };
-/**
- * Creates an absolute layout with optional child alignment properties.
- * @param {string} [childAlignmentProperties] - Optional string for child alignment (e.g., "top", "center").
- */
-export const $AbsoluteLayout = function (childAlignmentProperties) {
-    return new $LayoutInitializer("absolute", childAlignmentProperties);
-};
-/**
- * Creates a frame layout with optional child alignment properties.
- * @param {string} [childAlignmentProperties] - Optional string for child alignment (e.g., "top", "center").
- */
-export const $FrameLayout = function (childAlignmentProperties) {
-    return new $LayoutInitializer("frame", childAlignmentProperties);
-};
-/**
- * Creates a stack layout, either horizontal or vertical, with optional child alignment properties.
- * @param {string} [stackOrientation="horizontal"] - The orientation of the stack layout (either "horizontal" or "vertical").
- */
-export const $StackedLayout = function (stackOrientation = "horizontal") {
-    return new $LayoutInitializer("stack", stackOrientation);
-};
+export default $Layout;

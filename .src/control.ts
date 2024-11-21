@@ -1,33 +1,19 @@
+import type { rosanaComponent } from "./types.js";
+import { optionsApi } from "./layouts.js";
 import { cssParser } from "./parser.js";
 import { debugInfo } from "./helpers.js";
-import { optionsApi } from "./layouts.js";
 
 const eventHandlersMap = new Map<string, Function>();
 
-document.body.addEventListener("click", (event: MouseEvent) => {
+document.body.addEventListener("click", (event) => {
     const target = event.target as HTMLElement;
     if (target?.id && eventHandlersMap.has(target.id)) {
         eventHandlersMap.get(target.id)?.();
     }
 });
 
-export interface rosanaComponent {
-    ismounted: Boolean;
-    element: HTMLElement;
-    elementClasses: string[];
-
-    addChild(child: rosanaComponent): this;
-    alignment(options: string): this;
-    batch(props: Record<string, unknown>): this;
-    css(styles: TemplateStringsArray | Record<string, string>): this;
-    destroyChild(child: rosanaComponent): this;
-    show(): this;
-    hide(): this;
-    gone(): this;
-}
-
 // Component Controller Class Implementation
-export class componentController implements rosanaComponent {
+export class rosanaComponentProperties implements rosanaComponent {
     ismounted: Boolean;
     element: HTMLElement;
     elementClasses: string[];

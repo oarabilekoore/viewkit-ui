@@ -1,12 +1,12 @@
 import { navigationBar } from "./.ui/navigation.js";
 import { outlinedButton } from "./.ui/buttons.js";
-import { $LinearLayout, $Html } from "rosana";
+import { $Layout, $Html } from "rosana";
 
-const aboutPage = $LinearLayout("fillxy, top");
+const aboutPage = $Layout.Linear("fillxy, top");
 
 navigationBar(aboutPage);
 
-let contentLayout = $LinearLayout("fillxy, vcenter");
+let contentLayout = $Layout.Linear("fillxy, vcenter");
 aboutPage.addChild(contentLayout);
 
 $Html.P(contentLayout).batch({

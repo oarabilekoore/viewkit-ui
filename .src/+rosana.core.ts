@@ -3,7 +3,7 @@
  * The rootComponent should be the main page of your application
  * Allows you to add plugins with use methods
  */
-const $createApp = function (mainComponent: any): object {
+const $MountApp = function (mainComponent: any): object {
     const app = {
         _rootComponent: mainComponent,
         _plugins: [],
@@ -58,4 +58,4 @@ const $createApp = function (mainComponent: any): object {
     return app;
 };
 
-export default $createApp;
+export default $MountApp;

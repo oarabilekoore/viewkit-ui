@@ -1,40 +1,9 @@
-export interface rosanaComponent {
-    ismounted: Boolean;
-    element: HTMLElement;
-    elementClasses: string[];
-    addChild(child: rosanaComponent): this;
-    alignment(options: string): this;
-    batch(props: Record<string, unknown>): this;
-    css(styles: TemplateStringsArray | Record<string, string>): this;
-    destroyChild(child: rosanaComponent): this;
-    show(): this;
-    hide(): this;
-    gone(): this;
-}
-declare global {
-    interface HTMLElement {
-        ismounted: boolean;
-        elementClasses: string[];
-        addChild(child: rosanaComponent): this;
-        alignment(options: string): this;
-        batch(props: Record<string, unknown>): this;
-        css(styles: TemplateStringsArray | Record<string, string>): this;
-        destroyChild(child: rosanaComponent): this;
-        showEl(): this;
-        hideEl(): this;
-        gone(): this;
-        ontouch?: Function;
-        onMount?: Function;
-        onUnMount?: Function;
-    }
-}
-export declare class componentController implements rosanaComponent {
+import type { rosanaComponent } from "./types.js";
+export declare class rosanaComponentProperties implements rosanaComponent {
     ismounted: Boolean;
     element: HTMLElement;
     elementClasses: string[];
     constructor();
-    show(): this;
-    hide(): this;
     /**
      * Add a child component to this component.
      */
@@ -74,11 +43,11 @@ export declare class componentController implements rosanaComponent {
     /**
      * Make this component visible.
      */
-    showEl(): this;
+    show(): this;
     /**
      * Hide this component.
      */
-    hideEl(): this;
+    hide(): this;
     /**
      * Remove this component from the visual flow and hide it.
      */

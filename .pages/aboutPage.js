@@ -1,11 +1,14 @@
-import { $LinearLayout, $Html, $Tween } from "rosana";
+import { $Layout, $Html, $Tween } from "rosana";
 import { outlinedButton } from "../.ui/buttons.js";
 
-const aboutPage = $LinearLayout("fillxy, vcenter");
+const aboutPage = $Layout.Linear("fillxy, vcenter");
 
-$Html.H2(aboutPage).batch({ textContent: "Exploring JavaScript" });
+$Html.H2(aboutPage).batch({
+    textContent: "Exploring JavaScript",
+});
 
 let btn = outlinedButton(aboutPage, "The About Page");
+
 btn.onclick = function () {
     $Tween(btn, {
         target: { x: 0, y: 250 },

@@ -10,6 +10,8 @@ declare const $Layout: {
         element: HTMLElement;
         elementClasses: string[];
         addChild(child: import("./types.js").rosanaComponent): any;
+        backColor(color: any): void;
+        setSize(w: number | null, h: number | null, dimension: string): void;
         onMount: Function;
         onUnMount: Function;
         alignment(options: string): any;
@@ -29,6 +31,8 @@ declare const $Layout: {
         element: HTMLElement;
         elementClasses: string[];
         addChild(child: import("./types.js").rosanaComponent): any;
+        backColor(color: any): void;
+        setSize(w: number | null, h: number | null, dimension: string): void;
         onMount: Function;
         onUnMount: Function;
         alignment(options: string): any;
@@ -47,6 +51,8 @@ declare const $Layout: {
         element: HTMLElement;
         elementClasses: string[];
         addChild(child: import("./types.js").rosanaComponent): any;
+        backColor(color: any): void;
+        setSize(w: number | null, h: number | null, dimension: string): void;
         onMount: Function;
         onUnMount: Function;
         alignment(options: string): any;
@@ -66,6 +72,8 @@ declare const $Layout: {
         element: HTMLElement;
         elementClasses: string[];
         addChild(child: import("./types.js").rosanaComponent): any;
+        backColor(color: any): void;
+        setSize(w: number | null, h: number | null, dimension: string): void;
         onMount: Function;
         onUnMount: Function;
         alignment(options: string): any;

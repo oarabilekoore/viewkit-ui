@@ -1,14 +1,8 @@
-import { $Layout, $Animate } from "rosana";
-import { Button } from "../.ui/buttons";
+import { $Layout } from "rosana";
+import NavigationBar from "../.ui/navbar";
 
-const homePage = $Layout.Linear("fillxy, vcenter");
+const homePage = $Layout.Linear("fillxy, top, scrolly");
 
-let btn = Button(homePage, "Hello World");
-btn.ontouch = () => {
-    console.log(btn.textContent);
-    $Animate(btn, "wobble", () => {
-        app.router.navigate("/about");
-    });
-};
+NavigationBar(homePage, "rosana.js", "menu");
 
 export default homePage;

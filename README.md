@@ -3,7 +3,7 @@
 
 <div align="center">
 <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
-<img alt="Version Badge" src="https://img.shields.io/badge/version-1.0.0-brightgreen.svg">
+<img alt="Version Badge" src="https://img.shields.io/badge/version-1.0.4-brightgreen.svg">
 </div>
 
 <br>
@@ -13,6 +13,8 @@
 **rosana.js** is a framework library for creating performant UIs using functional themed programming.
 
 rosana uses signls to power the reactivity and offers most things not available natively compared to other libraries.
+
+rosana is inspired by the DroidScript Framework and will use similar methodoligies.
 
 ## Getting Started
 

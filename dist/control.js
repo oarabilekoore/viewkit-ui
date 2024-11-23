@@ -8,6 +8,30 @@ document.body.addEventListener("click", (event) => {
         eventHandlersMap.get(target.id)?.();
     }
 });
+export class Ratio {
+    consequent;
+    antecedent;
+    constructor(antecedent, consequent) {
+        this.consequent = consequent;
+        this.antecedent = antecedent;
+    }
+    getFirstToSecond(antecedentReliantValue) {
+        return (antecedentReliantValue * this.consequent) / this.antecedent;
+    }
+    getSecondToFirst(consequentReliantValue) {
+        return (consequentReliantValue * this.antecedent) / this.consequent;
+    }
+}
+export function dimensioningWidthFn(value) {
+    const innerWidth = window.innerWidth;
+    let ratio = new Ratio(1, innerWidth);
+    return ratio.getFirstToSecond(value);
+}
+export function dimensioningHeightFn(value) {
+    const innerHeight = window.innerHeight;
+    let ratio = new Ratio(1, innerHeight);
+    return ratio.getFirstToSecond(value);
+}
 // Component Controller Class Implementation
 export class rosanaComponentProperties {
     ismounted;
@@ -29,6 +53,44 @@ export class rosanaComponentProperties {
         }
         this.element.appendChild(child.element);
         return this;
+    }
+    /**Sets the element backcolor */
+    backColor(color) {
+        this.css({ backgroundColor: color });
+    }
+    /**Sets the elements width and height, dimensions specified by you. */
+    setSize(w, h, dimension) {
+        if (dimension) {
+            // Set both width and height
+            if (w !== null && h !== null) {
+                this.css({
+                    width: `${w}${dimension}`,
+                    height: `${h}${dimension}`,
+                });
+            }
+            // Set only height
+            else if (h !== null) {
+                this.css({
+                    height: `${h}${dimension}`,
+                });
+            }
+            // Set only width
+            else if (w !== null) {
+                this.css({
+                    width: `${w}${dimension}`,
+                });
+            }
+            // Fallback to custom dimensioning scales
+            else {
+                this.css({
+                    width: `${dimensioningWidthFn(w || 0)}px`,
+                    height: `${dimensioningHeightFn(h || 0)}px`,
+                });
+            }
+        }
+        else {
+            console.error("Dimension is required for setSize.");
+        }
     }
     /**
      * Callback invoked when the component is added to the DOM.

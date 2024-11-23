@@ -1,6 +1,6 @@
 {
     "name": "rosana",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "type": "module",
     "main": "dist/index.js",
     "module": "dist/index.js",
@@ -16,7 +16,7 @@
         "index.js"
     ],
     "scripts": {
-        "dev": "tsc && vite",
+        "dev": "vite build",
         "build": "tsc && vite build",
         "start": "vite preview"
     },
@@ -28,6 +28,7 @@
     },
     "dependencies": {
         "@tweenjs/tween.js": "^25.0.0",
-        "animate.css": "^4.1.1"
+        "animate.css": "^4.1.1",
+        "rollup-plugin-typescript2": "^0.36.0"
     }
 }

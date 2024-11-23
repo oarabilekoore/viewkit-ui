@@ -1,7 +1,7 @@
-import { $Html } from "rosana";
+import { $Button } from "rosana";
 
 export const Button = function (parent, text) {
-    let button = $Html.Button(parent);
+    let button = $Button(parent);
     button.textContent = text;
     button.css`
     border: 2px solid #6200ea;

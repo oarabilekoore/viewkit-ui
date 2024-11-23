@@ -7,6 +7,9 @@
         "allowJs": true,
         "checkJs": true,
         "strict": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
         "moduleResolution": "node"
     },
     "include": ["./.src/**/*.ts"],

@@ -1,4 +1,13 @@
 import type { rosanaComponent } from "./types.js";
+export declare class Ratio {
+    consequent: number;
+    antecedent: number;
+    constructor(antecedent: number, consequent: number);
+    getFirstToSecond(antecedentReliantValue: number): number;
+    getSecondToFirst(consequentReliantValue: number): number;
+}
+export declare function dimensioningWidthFn(value: number): number;
+export declare function dimensioningHeightFn(value: number): number;
 export declare class rosanaComponentProperties implements rosanaComponent {
     ismounted: Boolean;
     element: HTMLElement;
@@ -8,6 +17,10 @@ export declare class rosanaComponentProperties implements rosanaComponent {
      * Add a child component to this component.
      */
     addChild(child: rosanaComponent): this;
+    /**Sets the element backcolor */
+    backColor(color: any): void;
+    /**Sets the elements width and height, dimensions specified by you. */
+    setSize(w: number | null, h: number | null, dimension: string): void;
     /**
      * Callback invoked when the component is added to the DOM.
      */

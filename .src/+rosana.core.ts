@@ -3,7 +3,8 @@
  * The rootComponent should be the main page of your application
  * Allows you to add plugins with use methods
  */
-const $MountApp = function (mainComponent: any): object {
+//@ts-ignore
+const $createApp = function (mainComponent): object {
     const app = {
         _rootComponent: mainComponent,
         _plugins: [],
@@ -30,12 +31,6 @@ const $MountApp = function (mainComponent: any): object {
                 console.error("Main component does not have an element property.");
             }
 
-            //@ts-ignore
-            if (this.router) {
-                //@ts-ignore
-                this.router.init();
-            }
-
             return this;
         },
 
@@ -58,4 +53,4 @@ const $MountApp = function (mainComponent: any): object {
     return app;
 };
 
-export default $MountApp;
+export default $createApp;

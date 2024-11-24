@@ -4,7 +4,7 @@
  * Allows you to add plugins with use methods
  */
 //@ts-ignore
-const $createApp = function (mainComponent) {
+const CreateApp = function (mainComponent) {
     const app = {
         _rootComponent: mainComponent,
         _plugins: [],
@@ -33,7 +33,7 @@ const $createApp = function (mainComponent) {
          * Adds a plugin to the application
          */
         //@ts-ignore
-        use: function (plugin) {
+        usePlugin: function (plugin) {
             if (plugin && typeof plugin.install === "function") {
                 plugin.install(this);
                 //@ts-ignore
@@ -47,4 +47,4 @@ const $createApp = function (mainComponent) {
     };
     return app;
 };
-export default $createApp;
+export default CreateApp;

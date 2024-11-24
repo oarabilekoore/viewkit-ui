@@ -55,8 +55,24 @@ export class rosanaComponentProperties {
         return this;
     }
     /**Sets the element backcolor */
-    backColor(color) {
+    set backColor(color) {
         this.css({ backgroundColor: color });
+    }
+    /**Sets the elements textContent as the provided string */
+    set text(text) {
+        this.element.textContent = text;
+    }
+    /**Sets the elements innerHtml as the provided string */
+    set html(html) {
+        this.element.innerHTML = html;
+    }
+    /**Set the focus of the page to be on that element */
+    set focus(isFocused) {
+        isFocused ? this.element.focus() : this.element.blur();
+    }
+    /**Set the aria text of this element, good for accesability */
+    set ariaText(text) {
+        this.element.setAttribute("aria-label", text);
     }
     /**Sets the elements width and height, dimensions specified by you. */
     setSize(w, h, dimension) {
@@ -135,7 +151,7 @@ export class rosanaComponentProperties {
     /**
      * Add an onclick event listener to this component.
      */
-    set ontouch(handler) {
+    set onclick(handler) {
         if (typeof handler !== "function") {
             throw new Error(`The onclick setter expects a function, but received: ${typeof handler}`);
         }

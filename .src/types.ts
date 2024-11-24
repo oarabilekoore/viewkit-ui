@@ -6,7 +6,6 @@ export interface rosanaComponent {
     addChild(child: rosanaComponent): this;
     alignment(options: string): this;
     batch(props: Record<string, unknown>): this;
-    css(styles: TemplateStringsArray | Record<string, string>): this;
     destroyChild(child: rosanaComponent): this;
     show(): this;
     hide(): this;

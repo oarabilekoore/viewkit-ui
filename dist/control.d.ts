@@ -18,7 +18,15 @@ export declare class rosanaComponentProperties implements rosanaComponent {
      */
     addChild(child: rosanaComponent): this;
     /**Sets the element backcolor */
-    backColor(color: any): void;
+    set backColor(color: any);
+    /**Sets the elements textContent as the provided string */
+    set text(text: string);
+    /**Sets the elements innerHtml as the provided string */
+    set html(html: string);
+    /**Set the focus of the page to be on that element */
+    set focus(isFocused: boolean);
+    /**Set the aria text of this element, good for accesability */
+    set ariaText(text: string);
     /**Sets the elements width and height, dimensions specified by you. */
     setSize(w: number | null, h: number | null, dimension: string): void;
     /**
@@ -40,7 +48,7 @@ export declare class rosanaComponentProperties implements rosanaComponent {
     /**
      * Add an onclick event listener to this component.
      */
-    set ontouch(handler: Function);
+    set onclick(handler: Function);
     /**
      * Add CSS scoped styles to this component.
      */

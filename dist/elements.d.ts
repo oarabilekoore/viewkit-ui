@@ -7,3 +7,7 @@ export declare class $Element extends rosanaComponentProperties {
     element: HTMLElement;
     constructor(tag: HtmlTag, parent: rosanaComponent);
 }
+export declare class Button extends rosanaComponentProperties {
+    type: string;
+    constructor(parent: rosanaComponent);
+}

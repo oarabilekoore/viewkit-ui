@@ -12,6 +12,7 @@ export declare const $Button: (parent: rosanaComponent) => InstanceType<typeof $
  * @returns {InstanceType<typeof $Element>} - The created image element.
  */
 export declare const $Image: (parent: rosanaComponent) => InstanceType<typeof $Element>;
+export declare const $Text: (parent: rosanaComponent) => InstanceType<typeof $Element>;
 /**
  * Creates an `<input>` element.
  * @param {rosanaComponent} parent - The parent component to attach the element to.

@@ -10,27 +10,14 @@ export class $Element extends rosanaComponentProperties {
         this.element = document.createElement(tag);
         this.element.id = crypto.randomUUID();
         parent.addChild(this);
-        const handler = {
-            get(obj, prop) {
-                if (prop in obj) {
-                    return obj[prop];
-                }
-                else {
-                    return obj.element[prop];
-                }
-            },
-            set(obj, prop, value) {
-                if (prop in obj) {
-                    obj[prop] = value;
-                }
-                else {
-                    //@ts-ignore
-                    obj.element[prop] = value;
-                }
-                return true;
-            },
-        };
-        const proxy = new Proxy(this, handler);
-        return proxy;
+    }
+}
+export class Button extends rosanaComponentProperties {
+    type;
+    constructor(parent) {
+        super();
+        this.element = document.createElement("button");
+        this.type = "BUTTON";
+        parent.addChild(this);
     }
 }

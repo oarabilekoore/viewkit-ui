@@ -1,37 +1,13 @@
+# droidscript native for web
 
-<div align="center"><img src="./favicon.ico" width="100" /></div>
+This is an experimental framework the main purpose is to create an ESM like version of DroidScript, and reduce, separate app.* Functions into individual functions.
 
-<div align="center">
-<img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
-<img alt="Version Badge" src="https://img.shields.io/badge/version-1.0.4-brightgreen.svg">
-</div>
+Whilst giving this framework its own style and spin to things, I will be getting inspiration from DroidScript and React-Native.
 
-<br>
+The project needs to be able to draw DOM Objects and draw Android Ui just as how trully native DroidScript Does.
 
-# rosana.js
+## Why not use DroidScript Hybrid or Native Ds ?
 
-**rosana.js** is a framework library for creating performant UIs using functional themed programming.
+I contemplated this however here are the constraints of Ds, hybrid uses react 16 under the hood and uses no ESM by default, this means we loose on features like tree-shaking and an output of smaller file bundles.
 
-rosana uses signls to power the reactivity and offers most things not available natively compared to other libraries.
-
-rosana is inspired by the DroidScript Framework and will use similar methodoligies.
-
-## Getting Started
-
-To get  started, head over to the [rosana-cli](https://github.com/oarabiledev/rosana-cli)
- repo and follow the instructions.
-You can then head over to [rosana.js documentation](https://savory-gold-540.notion.site/rosana-js-documentation-13bbfc84915f802e8449cc7836e4b71c?pvs=4) to get started.
-
-## Documentation
-
-Visit [rosanaDocs](https://savory-gold-540.notion.site/rosana-js-documentation-13bbfc84915f802e8449cc7836e4b71c) to view the full documentation.
-
-## Contributing
-
-Contributions are welcome and highly appreciated. However, before you jump right into it, we would like you to review our Contribution Guidelines to make sure you have a smooth experience contributing to rosana.js.
-
-## Licensing
-
-rosana.js uses a logo from flaticon by [Freepik](https://www.flaticon.com/free-icons/project-plan).
-
-rosana.js is licensed under the MIT License, authored by [Oarabile Koore](https://github.com/oarabiledev)
+Native Ds is also suspect to these constraints, so there is a need of a new spin to things, and a framework that will still work well with native Ds.

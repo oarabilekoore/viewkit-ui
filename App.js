@@ -1,12 +1,6 @@
-import { $Router, $createApp } from "rosana";
-import homePage from "./.pages/+homePage.js";
+import { CreateApp } from "droidscript-native-for-web";
 
-const routes = [
-    { path: "/", component: homePage },
-    { path: "/about", component: () => import("./.pages/aboutPage.js") },
-];
+import homePage from "./pages/+homePage";
 
-window.app = $createApp(homePage);
-const router = $Router(routes);
-
-app.use(router).mount("#app");
+const app = CreateApp(homePage);
+app.mount("#app");

@@ -32,6 +32,10 @@ export const $Image = (parent: rosanaComponent): InstanceType<typeof $Element> =
     return createHtmlElement(parent, "img");
 };
 
+export const $Text = (parent: rosanaComponent): InstanceType<typeof $Element> => {
+    return createHtmlElement(parent, "span");
+};
+
 /**
  * Creates an `<input>` element.
  * @param {rosanaComponent} parent - The parent component to attach the element to.

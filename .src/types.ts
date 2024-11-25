@@ -1,15 +1,18 @@
-export interface rosanaComponent {
+export interface Component {
     ismounted: Boolean;
     element: HTMLElement;
     elementClasses: string[];
 
-    addChild(child: rosanaComponent): this;
     alignment(options: string): this;
-    batch(props: Record<string, unknown>): this;
-    destroyChild(child: rosanaComponent): this;
-    show(): this;
-    hide(): this;
-    gone(): this;
+    Batch(props: Record<string, unknown>): this;
+    Show(): this;
+    Hide(): this;
+    Gone(): this;
+}
+
+export interface Layout {
+    AddChild(child: Component): this;
+    DestroyChild(child: Component): this;
 }
 
 export type EasingFunction = (amount: number) => number;

@@ -1,72 +1,158 @@
-import { $Element } from "./elements.js";
-/*** Utility function to validate HTML tags. */
-const isValidHtmlTag = (tag) => {
-    return document.createElement(tag).toString() !== "[object HTMLUnknownElement]";
-};
-/*** Creates a generic HTML element with the provided tag.*/
-const createHtmlElement = (parent, tag) => {
-    if (!isValidHtmlTag(tag)) {
-        throw new Error(`Invalid HTML tag: ${tag}`);
+import { dimensioningHeightFn, dimensioningWidthFn } from "./helpers.js";
+import { optionsApi } from "./layouts.js";
+import { cssParser } from "./parser.js";
+export const eventHandlersMap = new Map();
+document.body.addEventListener("click", (event) => {
+    const target = event.target;
+    if (target?.id && eventHandlersMap.has(target.id)) {
+        eventHandlersMap.get(target.id)?.();
     }
-    return new $Element(tag, parent);
-};
-/**
- * Creates a `<button>` element.
- * @param {rosanaComponent} parent - The parent component to attach the element to.
- * @returns {InstanceType<typeof $Element>} - The created button element.
- */
-export const $Button = (parent) => {
-    return createHtmlElement(parent, "button");
-};
-/**
- * Creates an `<img>` element.
- * @param {rosanaComponent} parent - The parent component to attach the element to.
- * @returns {InstanceType<typeof $Element>} - The created image element.
- */
-export const $Image = (parent) => {
-    return createHtmlElement(parent, "img");
-};
-export const $Text = (parent) => {
-    return createHtmlElement(parent, "span");
-};
-/**
- * Creates an `<input>` element.
- * @param {rosanaComponent} parent - The parent component to attach the element to.
- * @returns {InstanceType<typeof $Element>} - The created input element.
- */
-export const $Input = (parent) => {
-    return createHtmlElement(parent, "input");
-};
-/**
- * Creates an `<a>` (anchor) element.
- * @param {rosanaComponent} parent - The parent component to attach the element to.
- * @returns {InstanceType<typeof $Element>} - The created anchor element.
- */
-export const $A = (parent) => {
-    return createHtmlElement(parent, "a");
-};
-/**
- * Creates a `<form>` element.
- * @param {rosanaComponent} parent - The parent component to attach the element to.
- * @returns {InstanceType<typeof $Element>} - The created form element.
- */
-export const $Form = (parent) => {
-    return createHtmlElement(parent, "form");
-};
-/**
- * Creates a `<table>` element.
- * @param {rosanaComponent} parent - The parent component to attach the element to.
- * @returns {InstanceType<typeof $Element>} - The created table element.
- */
-export const $Table = (parent) => {
-    return createHtmlElement(parent, "table");
-};
-/**
- * Creates a generic HTML element with a specified tag (default: `<div>`).
- * @param {rosanaComponent} parent - The parent component to attach the element to.
- * @param {string} tag - The HTML tag to create.
- * @returns {InstanceType<typeof $Element>} - The created generic element.
- */
-export const $Obj = (parent, tag = "div") => {
-    return createHtmlElement(parent, tag);
-};
+});
+// Component Controller Class Implementation
+export class ComponentProperties {
+    ismounted;
+    element;
+    elementClasses;
+    constructor() {
+        this.element = document.createElement("div");
+        // Default to a `div` element
+        this.elementClasses = [];
+        this.ismounted = true;
+    }
+    /**Sets the element backcolor */
+    SetBackColor(color) {
+        this.css({ backgroundColor: color });
+    }
+    /**Sets the elements textContent as the provided string */
+    SetText(text) {
+        this.element.textContent = text;
+    }
+    /**Sets the elements innerHtml as the provided string */
+    Html(html) {
+        this.element.innerHTML = html;
+    }
+    /**Set the focus of the page to be on that element */
+    Focus() {
+        this.element.focus();
+    }
+    /**Remove the focus on this element */
+    ClearFocus() {
+        this.element.blur();
+    }
+    /**Set the aria text of this element, good for accesability */
+    SetDescription(text) {
+        this.element.setAttribute("aria-label", text);
+    }
+    /**Sets the elements width and height, dimensions specified by you. */
+    SetSize(w, h, dimension) {
+        if (dimension) {
+            // Set both width and height
+            if (w !== null && h !== null) {
+                this.css({
+                    width: `${w}${dimension}`,
+                    height: `${h}${dimension}`,
+                });
+            }
+            // Set only height
+            else if (h !== null) {
+                this.css({
+                    width: w === null ? "auto" : `${w}${dimension}`,
+                    height: `${h}${dimension}`,
+                });
+            }
+            // Set only width
+            else if (w !== null) {
+                this.css({
+                    width: `${w}${dimension}`,
+                    height: h === null ? "auto" : `${h}${dimension}`,
+                });
+            }
+            // If both are null, use 'auto' for both
+            else {
+                this.css({
+                    width: "auto",
+                    height: "auto",
+                });
+            }
+        }
+        else {
+            // Fallback to custom dimensioning scales
+            this.css({
+                width: w !== null ? `${dimensioningWidthFn(w)}px` : "auto",
+                height: h !== null ? `${dimensioningHeightFn(h)}px` : "auto",
+            });
+        }
+    }
+    /*** Callback invoked when the component is added to the DOM/Android DOM.*/
+    SetOnMount(Fn) {
+        if (this.element && typeof Fn === "function") {
+            Fn();
+        }
+    }
+    /*** Callback invoked when the component is removed from the DOM or Android DOM*/
+    SetOnUnMount(Fn) {
+        if (!this.ismounted) {
+            Fn();
+        }
+    }
+    /**
+     * Set the alignment of child elements in this component.
+     */
+    alignment(options) {
+        if (!options) {
+            console.warn(`Alignment options are undefined for:`, this.element);
+        }
+        optionsApi(this.element, options);
+        return this;
+    }
+    /*** Batch properties for this component.*/
+    Batch(props) {
+        if (!props) {
+            throw new Error(`Null batched props for: ${this}`);
+        }
+        Object.entries(props).forEach(([key, value]) => {
+            requestAnimationFrame(() => {
+                this.element[key] = value;
+            });
+        });
+        return this;
+    }
+    /**
+     * Add an onclick event listener to this component.
+     */
+    SetOnTouch(handler) {
+        if (typeof handler !== "function") {
+            throw new Error(`The onclick setter expects a function, but received: ${typeof handler}`);
+        }
+        eventHandlersMap.set(this.element.id, handler);
+    }
+    /**
+     * Add CSS scoped styles to this component.
+     */
+    css(styles) {
+        const className = cssParser(styles);
+        this.element.classList.add(className);
+        this.elementClasses.push(className);
+        return this;
+    }
+    /**
+     * Make this component visible.
+     */
+    Show() {
+        this.element.classList.remove("hide", "gone");
+        this.element.classList.add("show");
+        return this;
+    }
+    /*** Hide this component.*/
+    Hide() {
+        this.element.classList.remove("show");
+        this.element.classList.add("hide");
+        return this;
+    }
+    /*** Remove this component from the visual flow and hide it.*/
+    Gone() {
+        this.element.classList.remove("show", "hide");
+        this.element.classList.add("gone");
+        return this;
+    }
+}

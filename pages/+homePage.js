@@ -1,22 +1,18 @@
-import { $Layout, $Button, $Text } from "droidscript-native-for-web";
+import { $Layout, $Button } from "droidscript-native-for-web";
 
-const homePage = $Layout.Linear("fillxy, top");
+const homePage = $Layout("linear", "fillxy, top");
 
-const NavigationBar = $Layout.Linear("fillx, vcenter");
-NavigationBar.setSize(null, 52, "px");
-NavigationBar.backColor = "red";
-homePage.addChild(NavigationBar);
+const NavigationBar = $Layout("linear", "fillx, vcenter");
+NavigationBar.SetSize(null, 52, "px");
+NavigationBar.SetBackColor("red");
+homePage.AddChild(NavigationBar);
 
-const title = $Text(NavigationBar);
-title.text = "rosana.js";
+const View = $Layout("linear", "fillxy, vcenter");
+homePage.AddChild(View);
 
-const View = $Layout.Linear("fillxy, vcenter");
-homePage.addChild(View);
-
-const Button = $Button(View);
-Button.onclick = function () {
+const Button = $Button(View, "Hello World", 0.5, -1);
+Button.SetOnTouch(function () {
     alert("Hello World");
-};
-Button.text = "Hello World";
+});
 
 export default homePage;

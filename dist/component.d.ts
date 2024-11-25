@@ -1,46 +1,47 @@
-import type { rosanaComponent } from "./types.js";
-import { $Element } from "./elements.js";
-/**
- * Creates a `<button>` element.
- * @param {rosanaComponent} parent - The parent component to attach the element to.
- * @returns {InstanceType<typeof $Element>} - The created button element.
- */
-export declare const $Button: (parent: rosanaComponent) => InstanceType<typeof $Element>;
-/**
- * Creates an `<img>` element.
- * @param {rosanaComponent} parent - The parent component to attach the element to.
- * @returns {InstanceType<typeof $Element>} - The created image element.
- */
-export declare const $Image: (parent: rosanaComponent) => InstanceType<typeof $Element>;
-export declare const $Text: (parent: rosanaComponent) => InstanceType<typeof $Element>;
-/**
- * Creates an `<input>` element.
- * @param {rosanaComponent} parent - The parent component to attach the element to.
- * @returns {InstanceType<typeof $Element>} - The created input element.
- */
-export declare const $Input: (parent: rosanaComponent) => InstanceType<typeof $Element>;
-/**
- * Creates an `<a>` (anchor) element.
- * @param {rosanaComponent} parent - The parent component to attach the element to.
- * @returns {InstanceType<typeof $Element>} - The created anchor element.
- */
-export declare const $A: (parent: rosanaComponent) => InstanceType<typeof $Element>;
-/**
- * Creates a `<form>` element.
- * @param {rosanaComponent} parent - The parent component to attach the element to.
- * @returns {InstanceType<typeof $Element>} - The created form element.
- */
-export declare const $Form: (parent: rosanaComponent) => InstanceType<typeof $Element>;
-/**
- * Creates a `<table>` element.
- * @param {rosanaComponent} parent - The parent component to attach the element to.
- * @returns {InstanceType<typeof $Element>} - The created table element.
- */
-export declare const $Table: (parent: rosanaComponent) => InstanceType<typeof $Element>;
-/**
- * Creates a generic HTML element with a specified tag (default: `<div>`).
- * @param {rosanaComponent} parent - The parent component to attach the element to.
- * @param {string} tag - The HTML tag to create.
- * @returns {InstanceType<typeof $Element>} - The created generic element.
- */
-export declare const $Obj: (parent: rosanaComponent, tag?: string) => InstanceType<typeof $Element>;
+export declare const eventHandlersMap: Map<string, Function>;
+export declare class ComponentProperties {
+    ismounted: Boolean;
+    element: HTMLElement;
+    elementClasses: string[];
+    constructor();
+    /**Sets the element backcolor */
+    SetBackColor(color: any): void;
+    /**Sets the elements textContent as the provided string */
+    SetText(text: string): void;
+    /**Sets the elements innerHtml as the provided string */
+    Html(html: string): void;
+    /**Set the focus of the page to be on that element */
+    Focus(): void;
+    /**Remove the focus on this element */
+    ClearFocus(): void;
+    /**Set the aria text of this element, good for accesability */
+    SetDescription(text: string): void;
+    /**Sets the elements width and height, dimensions specified by you. */
+    SetSize(w: number | null, h: number | null, dimension: string): void;
+    /*** Callback invoked when the component is added to the DOM/Android DOM.*/
+    SetOnMount(Fn: Function): void;
+    /*** Callback invoked when the component is removed from the DOM or Android DOM*/
+    SetOnUnMount(Fn: Function): void;
+    /**
+     * Set the alignment of child elements in this component.
+     */
+    alignment(options: string): this;
+    /*** Batch properties for this component.*/
+    Batch(props: Record<string, unknown>): this;
+    /**
+     * Add an onclick event listener to this component.
+     */
+    SetOnTouch(handler: Function): void;
+    /**
+     * Add CSS scoped styles to this component.
+     */
+    private css;
+    /**
+     * Make this component visible.
+     */
+    Show(): this;
+    /*** Hide this component.*/
+    Hide(): this;
+    /*** Remove this component from the visual flow and hide it.*/
+    Gone(): this;
+}

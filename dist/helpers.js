@@ -14,3 +14,27 @@ export const debugInfo = function (title, source, debugObject) {
     Object Values : ${Object.values(debugObject)}`;
     throw Error(template);
 };
+export class Ratio {
+    consequent;
+    antecedent;
+    constructor(antecedent, consequent) {
+        this.consequent = consequent;
+        this.antecedent = antecedent;
+    }
+    getFirstToSecond(antecedentReliantValue) {
+        return (antecedentReliantValue * this.consequent) / this.antecedent;
+    }
+    getSecondToFirst(consequentReliantValue) {
+        return (consequentReliantValue * this.antecedent) / this.consequent;
+    }
+}
+export function dimensioningWidthFn(value) {
+    const innerWidth = window.innerWidth;
+    let ratio = new Ratio(1, innerWidth);
+    return ratio.getFirstToSecond(value);
+}
+export function dimensioningHeightFn(value) {
+    const innerHeight = window.innerHeight;
+    let ratio = new Ratio(1, innerHeight);
+    return ratio.getFirstToSecond(value);
+}

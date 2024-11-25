@@ -15,3 +15,32 @@ export const debugInfo = function (title: string, source: string, debugObject: o
     Object Values : ${Object.values(debugObject)}`;
     throw Error(template);
 };
+
+export class Ratio {
+    consequent: number;
+    antecedent: number;
+    constructor(antecedent: number, consequent: number) {
+        this.consequent = consequent;
+        this.antecedent = antecedent;
+    }
+
+    getFirstToSecond(antecedentReliantValue: number) {
+        return (antecedentReliantValue * this.consequent) / this.antecedent;
+    }
+
+    getSecondToFirst(consequentReliantValue: number) {
+        return (consequentReliantValue * this.antecedent) / this.consequent;
+    }
+}
+
+export function dimensioningWidthFn(value: number) {
+    const innerWidth = window.innerWidth;
+    let ratio = new Ratio(1, innerWidth);
+    return ratio.getFirstToSecond(value);
+}
+
+export function dimensioningHeightFn(value: number) {
+    const innerHeight = window.innerHeight;
+    let ratio = new Ratio(1, innerHeight);
+    return ratio.getFirstToSecond(value);
+}

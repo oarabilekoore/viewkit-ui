@@ -3,5 +3,5 @@
  * The rootComponent should be the main page of your application
  * Allows you to add plugins with use methods
  */
-declare const CreateApp: (mainComponent: any) => object;
-export default CreateApp;
+declare const createApp: (mainComponent: any) => object;
+export default createApp;

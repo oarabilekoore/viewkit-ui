@@ -4,7 +4,7 @@
  * Allows you to add plugins with use methods
  */
 //@ts-ignore
-const CreateApp = function (mainComponent): object {
+const createApp = function (mainComponent): object {
     const app = {
         _rootComponent: mainComponent,
         _plugins: [],
@@ -53,4 +53,4 @@ const CreateApp = function (mainComponent): object {
     return app;
 };
 
-export default CreateApp;
+export default createApp;

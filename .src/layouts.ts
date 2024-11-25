@@ -1,5 +1,7 @@
-import { rosanaComponentProperties } from "./control.js";
-
+import { ComponentProperties } from "./component.js";
+import type { Component, Layout } from "./types.js";
+import { eventHandlersMap } from "./component.js";
+import { debugInfo } from "./helpers.js";
 let viewOptions = [
     "noscrollbar",
     "scrollxy",
@@ -64,7 +66,7 @@ function layoutFitApi(layout: HTMLElement, type: string, options: string) {
     }
 }
 
-const $LayoutInitializer = class extends rosanaComponentProperties {
+const rosanaLayout = class extends ComponentProperties {
     type: string;
     /**
      * Creates a new layout element with the specified type and options.
@@ -74,28 +76,39 @@ const $LayoutInitializer = class extends rosanaComponentProperties {
         this.element = document.createElement("div");
         this.element.id = crypto.randomUUID();
 
-        this.type = `layout-${type}`;
+        this.type = `LAYOUT`;
         type ? layoutFitApi(this.element, type, options) : null;
+    }
+
+    /*** Add a child component to this component.*/
+    AddChild(child: Component): this {
+        if (!child?.element) {
+            console.warn(`The passed object is not a valid Rosana/HTML element.`, child);
+            return this;
+        }
+        this.element.appendChild(child.element);
+        return this;
+    }
+
+    /*** Remove a child component from the layout */
+    DestroyChild(child: Component): this {
+        if (!child?.element) {
+            debugInfo(
+                "The passed child is null/undefined or not a valid Rosana component.",
+                "destroyChild Function",
+                child
+            );
+            return this;
+        }
+
+        eventHandlersMap.delete(child.element.id);
+        child.element.remove();
+        return this;
     }
 };
 
-const $Layout = {
-    /**creates a linear layout with optional child alignment properties */
-    Linear: function (childAlignmentProperties: string) {
-        return new $LayoutInitializer("linear", childAlignmentProperties);
-    },
-    /**creates an absolute layout with optional child alignment properties */
-    Absolute: function (childAlignmentProperties: string) {
-        return new $LayoutInitializer("absolute", childAlignmentProperties);
-    },
-    /*creates a frame layout with optional child alignment properties. */
-    Frame: function (childAlignmentProperties: string) {
-        return new $LayoutInitializer("frame", childAlignmentProperties);
-    },
-    /**creates a stack layout, either horizontal or vertical, with optional child alignment properties. */
-    Stacked: function (stackOrientation = "horizontal") {
-        return new $LayoutInitializer("stack", stackOrientation);
-    },
+const $Layout = function (type: string, options: string): Layout {
+    return new rosanaLayout(type, options);
 };
 
 export default $Layout;

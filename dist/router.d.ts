@@ -1,6 +1,6 @@
 import type { Route, RouteOptions } from "./types.js";
 /*** A secure router with route guards, 404 handling, lazy loading, and nested routes support.*/
-declare function CreateRouter(routes: Array<Route>): {
+declare function router(routes: Array<Route>): {
     install(app: any): void;
     addGuard(guardFn: (route: any) => boolean | Promise<boolean>): void;
     setNotFound(component: () => Promise<{
@@ -15,4 +15,4 @@ declare function CreateRouter(routes: Array<Route>): {
     back(): void;
     forward(): void;
 };
-export default CreateRouter;
+export default router;

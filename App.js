@@ -1,6 +1,6 @@
-import { CreateApp } from "droidscript-native-for-web";
+import { createApp } from "droidscript-native-for-web";
 
 import homePage from "./pages/+homePage";
 
-const app = CreateApp(homePage);
+const app = createApp(homePage);
 app.mount("#app");

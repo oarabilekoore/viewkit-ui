@@ -1,17 +1,13 @@
-import type { rosanaComponent } from "./types";
+import type { Component } from "./types";
 
 /** * showIF method allows you to hide or show an element if the restingParameter is truthy */
-const $ShowIF = function (
-    restingParameter: boolean,
-    onTruthyElement: rosanaComponent,
-    onFalseyElement: rosanaComponent
-) {
+const showIF = function (restingParameter: boolean, onTruthyElement: Component, onFalseyElement: Component) {
     if (onTruthyElement === undefined || onFalseyElement === undefined) {
         console.error(`showIF not called, one of the elements is undefined`);
         return;
     }
-    restingParameter ? onTruthyElement.show() : onTruthyElement.hide();
-    !restingParameter ? onFalseyElement.show() : onFalseyElement.hide();
+    restingParameter ? onTruthyElement.Show() : onTruthyElement.Hide();
+    !restingParameter ? onFalseyElement.Show() : onFalseyElement.Hide();
 };
 
-export default $ShowIF;
+export default showIF;

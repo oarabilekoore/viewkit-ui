@@ -1,55 +1,5 @@
-/** * create a reactivley weak value by using setters and getters (weak signal)*/
-export const $WeakSignal = function (defaultValue) {
-    let internal_variable = defaultValue;
-    let subscriptions = [];
-    const notify = function () {
-        for (let subscriber of subscriptions) {
-            subscriber(internal_variable);
-        }
-    };
-    return {
-        /** * set the signal's value*/
-        set value(val) {
-            internal_variable = val;
-            notify();
-        },
-        /** * returns the signals value*/
-        get value() {
-            return internal_variable;
-        },
-        /** * subscribe to the signal*/
-        subscribe: (fn) => {
-            subscriptions.push(fn);
-        },
-    };
-};
-/*** add a signal that takes in the defaultValue as an object*/
-export const $WeakStore = function (initialValue) {
-    let state = { ...initialValue };
-    const listeners = new Set();
-    return {
-        /**
-         * set the signal's value
-         */
-        set(key, value) {
-            state[key] = value;
-            listeners.forEach((listener) => listener(state));
-        },
-        /**
-         * returns the signals value
-         */
-        get(key) {
-            return state[key];
-        },
-        /*** subscribe to the signal */
-        subscribe(listener) {
-            listeners.add(listener);
-            return () => listeners.delete(listener);
-        },
-    };
-};
 /*** Create a strongly reactive signal with setters and getters.*/
-export const $Signal = function (defaultValue) {
+export const signal = function (defaultValue) {
     let internalVariable = defaultValue;
     let subscriptions = [];
     const notify = () => {
@@ -84,7 +34,7 @@ export const $Signal = function (defaultValue) {
     };
 };
 /*** Create a reactive store using a Proxy to automatically track and notify changes.*/
-export const $Store = function (initialValue) {
+export const store = function (initialValue) {
     const listeners = new Set();
     const notify = () => {
         listeners.forEach((listener) => listener({ ...state }));

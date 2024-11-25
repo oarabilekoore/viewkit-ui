@@ -1,23 +1,13 @@
-import { rosanaComponentProperties } from "./control.js";
-export class $Element extends rosanaComponentProperties {
+import { ComponentProperties } from "./component.js";
+export class Button extends ComponentProperties {
     type;
-    parent;
-    element;
-    constructor(tag, parent) {
-        super();
-        this.type = tag.toUpperCase();
-        this.parent = parent;
-        this.element = document.createElement(tag);
-        this.element.id = crypto.randomUUID();
-        parent.addChild(this);
-    }
-}
-export class Button extends rosanaComponentProperties {
-    type;
-    constructor(parent) {
+    constructor(parent, text, width, height, options) {
         super();
         this.element = document.createElement("button");
+        //@ts-ignore
+        this.SetSize(width, height);
         this.type = "BUTTON";
-        parent.addChild(this);
+        this.element.textContent = text;
+        parent.AddChild(this);
     }
 }

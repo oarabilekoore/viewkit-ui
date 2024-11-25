@@ -1,34 +1,20 @@
-import { rosanaComponentProperties } from "./control.js";
-import type { rosanaComponent } from "./types.js";
+import { ComponentProperties } from "./component.js";
+import type { Layout } from "./types.js";
 export type HtmlTag = string;
 
-export class $Element extends rosanaComponentProperties {
-    type: HtmlTag;
-    parent: rosanaComponent;
-    element: HTMLElement;
-
-    constructor(tag: HtmlTag, parent: rosanaComponent) {
-        super();
-
-        this.type = tag.toUpperCase() as HtmlTag;
-        this.parent = parent;
-
-        this.element = document.createElement(tag);
-        this.element.id = crypto.randomUUID();
-
-        parent.addChild(this);
-    }
-}
-
-export class Button extends rosanaComponentProperties {
+export class Button extends ComponentProperties {
     type: string;
 
-    constructor(parent: rosanaComponent) {
+    constructor(parent: Layout, text: string, width: number, height: number, options: string) {
         super();
 
         this.element = document.createElement("button");
+        //@ts-ignore
+        this.SetSize(width, height);
         this.type = "BUTTON";
 
-        parent.addChild(this);
+        this.element.textContent = text;
+
+        parent.AddChild(this);
     }
 }

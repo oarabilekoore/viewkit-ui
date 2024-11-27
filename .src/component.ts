@@ -1,5 +1,4 @@
 import { dimensioningHeightFn, dimensioningWidthFn } from "./helpers.js";
-import { optionsApi } from "./layouts.js";
 import { cssParser } from "./parser.js";
 
 export const eventHandlersMap = new Map<string, Function>();
@@ -13,20 +12,19 @@ document.body.addEventListener("click", (event) => {
 
 // Component Controller Class Implementation
 export class ComponentProperties {
-    ismounted: Boolean;
+    private ismounted: Boolean;
+    private classes: string[];
     element: HTMLElement;
-    elementClasses: string[];
 
     constructor() {
-        this.element = document.createElement("div");
-        // Default to a `div` element
-        this.elementClasses = [];
+        this.element = document.createElement("div"); // Default to a `div` element
         this.ismounted = true;
+        this.classes = [];
     }
 
     /**Sets the element backcolor */
-    SetBackColor(color: any) {
-        this.css({ backgroundColor: color });
+    SetBackColor(color: string) {
+        this.element.style.backgroundColor = color;
     }
 
     /**Sets the elements textContent as the provided string */
@@ -55,7 +53,7 @@ export class ComponentProperties {
     }
 
     /**Sets the elements width and height, dimensions specified by you. */
-    SetSize(w: number | null, h: number | null, dimension: string) {
+    SetSize(w: number | null, h: number | null, dimension: any) {
         if (dimension) {
             // Set both width and height
             if (w !== null && h !== null) {
@@ -108,30 +106,9 @@ export class ComponentProperties {
         }
     }
 
-    /**
-     * Set the alignment of child elements in this component.
-     */
-    alignment(options: string): this {
-        if (!options) {
-            console.warn(`Alignment options are undefined for:`, this.element);
-        }
-        optionsApi(this.element, options);
-        return this;
-    }
-
     /*** Batch properties for this component.*/
-    Batch(props: Record<string, unknown>): this {
-        if (!props) {
-            throw new Error(`Null batched props for: ${this}`);
-        }
-
-        Object.entries(props).forEach(([key, value]) => {
-            requestAnimationFrame(() => {
-                (this.element as any)[key] = value;
-            });
-        });
-
-        return this;
+    Batch(props: Record<string, unknown>) {
+        //TODO
     }
 
     /**
@@ -150,7 +127,7 @@ export class ComponentProperties {
     private css(styles: TemplateStringsArray | Record<string, string>): this {
         const className = cssParser(styles);
         this.element.classList.add(className);
-        this.elementClasses.push(className);
+        this.classes.push(className);
         return this;
     }
 

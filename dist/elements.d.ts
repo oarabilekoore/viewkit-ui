@@ -1,7 +1,11 @@
 import { ComponentProperties } from "./component.js";
-import type { Layout } from "./types.js";
+import type { LayoutComponent } from "./types.js";
 export type HtmlTag = string;
 export declare class Button extends ComponentProperties {
     type: string;
-    constructor(parent: Layout, text: string, width: number, height: number, options: string);
+    constructor(parent: LayoutComponent, text: string, width: number, height: number, options: string);
+}
+export declare class Text extends ComponentProperties {
+    type: string;
+    constructor(parent: LayoutComponent, text: string, width: number, height: number, options: string);
 }

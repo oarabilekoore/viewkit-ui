@@ -4,10 +4,23 @@ export class Button extends ComponentProperties {
     constructor(parent, text, width, height, options) {
         super();
         this.element = document.createElement("button");
-        //@ts-ignore
-        this.SetSize(width, height);
+        this.element.id = crypto.randomUUID();
+        this.SetSize(width, height, null);
         this.type = "BUTTON";
         this.element.textContent = text;
+        //@ts-ignore
+        parent.AddChild(this);
+    }
+}
+export class Text extends ComponentProperties {
+    type;
+    constructor(parent, text, width, height, options) {
+        super();
+        options ? (this.element = document.createElement(options.split(",")[0])) : (this.element = document.createElement("span"));
+        this.element.id = crypto.randomUUID();
+        this.type = "TEXT";
+        this.element.textContent = text;
+        //@ts-ignore
         parent.AddChild(this);
     }
 }

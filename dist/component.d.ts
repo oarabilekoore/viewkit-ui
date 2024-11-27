@@ -1,11 +1,11 @@
 export declare const eventHandlersMap: Map<string, Function>;
 export declare class ComponentProperties {
-    ismounted: Boolean;
+    private ismounted;
+    private classes;
     element: HTMLElement;
-    elementClasses: string[];
     constructor();
     /**Sets the element backcolor */
-    SetBackColor(color: any): void;
+    SetBackColor(color: string): void;
     /**Sets the elements textContent as the provided string */
     SetText(text: string): void;
     /**Sets the elements innerHtml as the provided string */
@@ -17,17 +17,13 @@ export declare class ComponentProperties {
     /**Set the aria text of this element, good for accesability */
     SetDescription(text: string): void;
     /**Sets the elements width and height, dimensions specified by you. */
-    SetSize(w: number | null, h: number | null, dimension: string): void;
+    SetSize(w: number | null, h: number | null, dimension: any): void;
     /*** Callback invoked when the component is added to the DOM/Android DOM.*/
     SetOnMount(Fn: Function): void;
     /*** Callback invoked when the component is removed from the DOM or Android DOM*/
     SetOnUnMount(Fn: Function): void;
-    /**
-     * Set the alignment of child elements in this component.
-     */
-    alignment(options: string): this;
     /*** Batch properties for this component.*/
-    Batch(props: Record<string, unknown>): this;
+    Batch(props: Record<string, unknown>): void;
     /**
      * Add an onclick event listener to this component.
      */

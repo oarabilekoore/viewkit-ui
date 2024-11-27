@@ -1,4 +1,4 @@
-import { createApp } from "droidscript-native-for-web";
+import { createApp } from "rosana";
 
 import homePage from "./pages/+homePage";
 

@@ -53,16 +53,15 @@ function layoutFitApi(layout, type, options) {
             layout.classList.add("layout-frame");
             break;
         case "stack":
-            const directionClass = options?.includes("vertical")
-                ? "layout-stack-vertical"
-                : "layout-stack-horizontal";
+            const directionClass = options?.includes("vertical") ? "layout-stack-vertical" : "layout-stack-horizontal";
             layout.classList.add(directionClass);
             break;
         default:
             console.error("Unknown Layout", layoutTYPE);
     }
 }
-const rosanaLayout = class extends ComponentProperties {
+//@ts-ignore
+const Layout = class extends ComponentProperties {
     type;
     /**
      * Creates a new layout element with the specified type and options.
@@ -94,7 +93,4 @@ const rosanaLayout = class extends ComponentProperties {
         return this;
     }
 };
-const $Layout = function (type, options) {
-    return new rosanaLayout(type, options);
-};
-export default $Layout;
+export default Layout;

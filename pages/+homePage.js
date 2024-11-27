@@ -1,17 +1,20 @@
-import { $Layout, $Button } from "droidscript-native-for-web";
+import { Layout, Button } from "rosanas";
 
-const homePage = $Layout("linear", "fillxy, top");
+const homePage = new Layout("linear", "fillxy, top");
+homePage.SetBackColor("green");
 
-const NavigationBar = $Layout("linear", "fillx, vcenter");
+const NavigationBar = new Layout("linear", "fillx");
+NavigationBar.SetBackColor("white");
 NavigationBar.SetSize(null, 52, "px");
-NavigationBar.SetBackColor("red");
+
 homePage.AddChild(NavigationBar);
 
-const View = $Layout("linear", "fillxy, vcenter");
+const View = new Layout("linear", "fillxy, vcenter");
+View.SetBackColor("orange");
 homePage.AddChild(View);
 
-const Button = $Button(View, "Hello World", 0.5, -1);
-Button.SetOnTouch(function () {
+const btn = new Button(View, "Hello World", 0.08, -1);
+btn.SetOnTouch(function () {
     alert("Hello World");
 });
 

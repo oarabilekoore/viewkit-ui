@@ -1,25 +1,16 @@
 export interface Component {
-    ismounted: Boolean;
     element: HTMLElement;
-    elementClasses: string[];
-
     alignment(options: string): this;
     Batch(props: Record<string, unknown>): this;
+    SetOnTouch(handler: Function): this;
     Show(): this;
     Hide(): this;
     Gone(): this;
 }
 
-export interface Layout {
+export interface LayoutComponent {
     AddChild(child: Component): this;
     DestroyChild(child: Component): this;
-}
-
-export type EasingFunction = (amount: number) => number;
-export interface tweenProperties {
-    easing: string;
-    target: object;
-    duration: number;
 }
 
 export interface Route {

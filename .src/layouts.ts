@@ -1,5 +1,5 @@
 import { ComponentProperties } from "./component.js";
-import type { Component, Layout } from "./types.js";
+import type { Component, LayoutComponent } from "./types.js";
 import { eventHandlersMap } from "./component.js";
 import { debugInfo } from "./helpers.js";
 let viewOptions = [
@@ -56,9 +56,7 @@ function layoutFitApi(layout: HTMLElement, type: string, options: string) {
             layout.classList.add("layout-frame");
             break;
         case "stack":
-            const directionClass = options?.includes("vertical")
-                ? "layout-stack-vertical"
-                : "layout-stack-horizontal";
+            const directionClass = options?.includes("vertical") ? "layout-stack-vertical" : "layout-stack-horizontal";
             layout.classList.add(directionClass);
             break;
         default:
@@ -66,7 +64,8 @@ function layoutFitApi(layout: HTMLElement, type: string, options: string) {
     }
 }
 
-const rosanaLayout = class extends ComponentProperties {
+//@ts-ignore
+const Layout: LayoutComponent = class extends ComponentProperties {
     type: string;
     /**
      * Creates a new layout element with the specified type and options.
@@ -93,11 +92,7 @@ const rosanaLayout = class extends ComponentProperties {
     /*** Remove a child component from the layout */
     DestroyChild(child: Component): this {
         if (!child?.element) {
-            debugInfo(
-                "The passed child is null/undefined or not a valid Rosana component.",
-                "destroyChild Function",
-                child
-            );
+            debugInfo("The passed child is null/undefined or not a valid Rosana component.", "destroyChild Function", child);
             return this;
         }
 
@@ -107,8 +102,4 @@ const rosanaLayout = class extends ComponentProperties {
     }
 };
 
-const $Layout = function (type: string, options: string): Layout {
-    return new rosanaLayout(type, options);
-};
-
-export default $Layout;
+export default Layout;

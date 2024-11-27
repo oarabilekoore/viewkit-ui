@@ -1,13 +1,95 @@
-# droidscript native for web
+# rosana-js
 
-This is an experimental framework the main purpose is to create an ESM like version of DroidScript, and reduce, separate app.* Functions into individual functions.
+<div align="center"><img src="rosana.png" width="100" /></div>
 
-Whilst giving this framework its own style and spin to things, I will be getting inspiration from DroidScript and React-Native.
+<div align="center">
+<img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
+<img alt="Version Badge" src="https://img.shields.io/badge/version-1.0.5-brightgreen.svg">
 
-The project needs to be able to draw DOM Objects and draw Android Ui just as how trully native DroidScript Does.
+</div>
 
-## Why not use DroidScript Hybrid or Native Ds ?
+<br>
 
-I contemplated this however here are the constraints of Ds, hybrid uses react 16 under the hood and uses no ESM by default, this means we loose on features like tree-shaking and an output of smaller file bundles.
+rosana-js is a framework inspired by DroidScript that I have built because I am used to the mental model or thinking way that I am used to, when using DroidScript. However DroidScript is native to Android so i can't port it everywhere.
 
-Native Ds is also suspect to these constraints, so there is a need of a new spin to things, and a framework that will still work well with native Ds.
+## Installation
+
+To install the project, follow these steps:
+
+- Install the npm package or jsr package:
+- `npm install rosana`
+- `deno add jsr:@roseframework/rosana`
+
+## Documentation
+
+I am working on it, at the moment you could look at the [DroidScript Docs](https://droidscript.github.io/Docs/docs/v265/app_Controls.htm) for each control then import eqaully familiar functions but use them as their `Add` alternative.
+
+However before this check out the `App.js` File First.
+
+For Example
+
+```javascript
+// In DroidScript Native
+
+let btn = app.AddButton(parent, text, width, height, options);
+
+// In Rosana
+
+import { Button } from 'rosana'
+let btn = new Button(parent, text, width, height, options);
+```
+
+## Features
+
+### Reactivity Using Signals
+
+Rosana comes with an in-built `signal` function, this function takes in a parameter and returns a setter/getter function and a subscriber.
+
+```javascript
+let theme = signal("light");
+
+theme.subscribe((mode) => {
+    console.log(mode);
+});
+
+theme.value = "dark";
+```
+
+### Reactivity using showIF
+
+rosana-js comes with this function, it takes in a restingParameter and based on the truthiness of it, an element will be shown.
+
+```javascript
+showIF(restingParameter, onTruthyElement, onFalslyElement);
+```
+
+### Functional Component Authoring Model
+
+### Event Managment /Specifically OnClick/
+
+I implemented a Map that maps your elements id to the function you have set, then there is one global onclick event handling function - its monitoring all clicks happening in the document.
+
+When a click happens it checks if the target maps to the element id's in the map, this is great because it causes less event handlers being attached to every element.
+
+```javascript
+let button = new Button(parent, 'Hello World');
+button.SetOnTouch(()=>{
+    alert(`Hello World`)
+});
+```
+
+## Contributing
+
+To contribute, please follow these steps:
+
+- Fork the repository.
+- Create a new branch (git checkout -b feature-branch).
+- Make your changes and commit (git commit -am 'Add new feature').
+- Push to the branch (git push origin feature-branch).
+- Create a Pull Request.
+
+You can also suggest features that you want that i should add.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

@@ -1,5 +1,4 @@
 import { dimensioningHeightFn, dimensioningWidthFn } from "./helpers.js";
-import { optionsApi } from "./layouts.js";
 import { cssParser } from "./parser.js";
 export const eventHandlersMap = new Map();
 document.body.addEventListener("click", (event) => {
@@ -11,17 +10,16 @@ document.body.addEventListener("click", (event) => {
 // Component Controller Class Implementation
 export class ComponentProperties {
     ismounted;
+    classes;
     element;
-    elementClasses;
     constructor() {
-        this.element = document.createElement("div");
-        // Default to a `div` element
-        this.elementClasses = [];
+        this.element = document.createElement("div"); // Default to a `div` element
         this.ismounted = true;
+        this.classes = [];
     }
     /**Sets the element backcolor */
     SetBackColor(color) {
-        this.css({ backgroundColor: color });
+        this.element.style.backgroundColor = color;
     }
     /**Sets the elements textContent as the provided string */
     SetText(text) {
@@ -95,27 +93,9 @@ export class ComponentProperties {
             Fn();
         }
     }
-    /**
-     * Set the alignment of child elements in this component.
-     */
-    alignment(options) {
-        if (!options) {
-            console.warn(`Alignment options are undefined for:`, this.element);
-        }
-        optionsApi(this.element, options);
-        return this;
-    }
     /*** Batch properties for this component.*/
     Batch(props) {
-        if (!props) {
-            throw new Error(`Null batched props for: ${this}`);
-        }
-        Object.entries(props).forEach(([key, value]) => {
-            requestAnimationFrame(() => {
-                this.element[key] = value;
-            });
-        });
-        return this;
+        //TODO
     }
     /**
      * Add an onclick event listener to this component.
@@ -132,7 +112,7 @@ export class ComponentProperties {
     css(styles) {
         const className = cssParser(styles);
         this.element.classList.add(className);
-        this.elementClasses.push(className);
+        this.classes.push(className);
         return this;
     }
     /**

@@ -1,6 +1,9 @@
 import { ComponentProperties } from "./component.js";
-import type { Component, LayoutComponent } from "./types.js";
-export type HtmlTag = string;
+import type { LayoutComponent } from "./types.js";
+
+// In this file, I am extending the ComponentProperties class
+// and then building more classes eqaul to DroidScript Ui
+// controls with similar properties and behaviours.
 
 export class Button extends ComponentProperties {
     type: string;

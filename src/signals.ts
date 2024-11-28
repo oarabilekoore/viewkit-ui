@@ -1,4 +1,7 @@
-/*** Create a strongly reactive signal with setters and getters.*/
+// create a signal, it takes in a default value with the type of any
+// it returns these functions : a setter/ getter of value and a
+// subscribe function.
+
 export const signal = function (defaultValue: any) {
     let internalVariable = defaultValue;
     let subscriptions: Array<Function> = [];
@@ -10,25 +13,18 @@ export const signal = function (defaultValue: any) {
     };
 
     return {
-        /**
-         * Set the signal's value.
-         */
+        /** set the signal's value.*/
         set value(val: any) {
             internalVariable = val;
             notify();
         },
 
-        /**
-         * Get the signal's value.
-         */
+        /** get the signal's value.*/
         get value() {
             return internalVariable;
         },
 
-        /**
-         * Subscribe to the signal.
-         * Returns an unsubscribe function to remove the subscription.
-         */
+        /** subscribe to the signal.*/
         subscribe(fn: Function) {
             subscriptions.push(fn);
             return () => {
@@ -38,7 +34,10 @@ export const signal = function (defaultValue: any) {
     };
 };
 
-/*** Create a reactive store using a Proxy to automatically track and notify changes.*/
+// create a signal which takes in its defaultValue as an Object,
+// it uses a Proxy which will be used for the reactivity and
+// returns a get / set / getState and subscribe Function.
+
 export const store = function (initialValue: object) {
     const listeners: Set<Function> = new Set();
 
@@ -66,34 +65,25 @@ export const store = function (initialValue: object) {
     );
 
     return {
-        /**
-         * Get a property from the store's state.
-         */
+        /** get a property from the store's state.*/
         get(key: any) {
             //@ts-ignore
             return state[key];
         },
 
-        /**
-         * Set a property in the store's state.
-         */
+        /** set a property in the store's state.*/
         set(key: any, value: any) {
             //@ts-ignore
             state[key] = value;
         },
 
-        /**
-         * Subscribe to changes in the store's state.
-         * Returns an unsubscribe function to remove the subscription.
-         */
+        /** subscribe to changes in the store's state.*/
         subscribe(listener: Function) {
             listeners.add(listener);
             return () => listeners.delete(listener);
         },
 
-        /**
-         * Get the entire state object.
-         */
+        /** get the entire state object.*/
         getState() {
             return { ...state };
         },

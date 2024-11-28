@@ -1,10 +1,10 @@
-# rosana-js
+# rosana /js + ts/
 
 <div align="center"><img src="rosana.png" width="100" /></div>
 
 <div align="center">
 <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
-<img alt="Version Badge" src="https://img.shields.io/badge/version-1.0.5-brightgreen.svg">
+<img alt="Version Badge" src="https://img.shields.io/badge/version-1.0.51-brightgreen.svg">
 
 </div>
 
@@ -64,6 +64,8 @@ showIF(restingParameter, onTruthyElement, onFalslyElement);
 ```
 
 ### Functional Component Authoring Model
+
+TODO ~ I am being fr, i will write this.
 
 ### Event Managment /Specifically OnClick/
 

@@ -1,7 +1,8 @@
 import { ComponentProperties } from "./component.js";
 import { eventHandlersMap } from "./component.js";
 import { debugInfo } from "./helpers.js";
-let viewOptions = [
+// This array is all the options available into the layout View.
+const viewOptions = [
     "noscrollbar",
     "scrollxy",
     "scrollx",
@@ -18,9 +19,7 @@ let viewOptions = [
     "fillx",
     "filly",
 ];
-/**
- * Applies the provided options to the given HTML element by adding corresponding CSS classes.
- */
+// This function applies the correct child alignment in the Layout.
 export const optionsApi = (element, options) => {
     options
         .toLowerCase()
@@ -35,9 +34,7 @@ export const optionsApi = (element, options) => {
         }
     });
 };
-/**
- * Applies layout styles to the provided element based on the layout type and options.
- */
+// This function applies the appropriate classes to the matched Layout Type
 function layoutFitApi(layout, type, options) {
     if (options)
         optionsApi(layout, options);
@@ -60,23 +57,25 @@ function layoutFitApi(layout, type, options) {
             console.error("Unknown Layout", layoutTYPE);
     }
 }
-//@ts-ignore
-const Layout = class extends ComponentProperties {
+// This class extends ComponentProperties class and returns a Layout view,
+// In which takes in the type and sets correct styling this is also done
+// To the childAlignmentProperties.
+class Layout extends ComponentProperties {
     type;
-    /**
-     * Creates a new layout element with the specified type and options.
-     */
-    constructor(type, options) {
+    options;
+    constructor(type, childAlignmentProperties) {
         super();
         this.element = document.createElement("div");
         this.element.id = crypto.randomUUID();
+        this.options = childAlignmentProperties;
         this.type = `LAYOUT`;
-        type ? layoutFitApi(this.element, type, options) : null;
+        type ? layoutFitApi(this.element, type, this.options) : null;
     }
     /*** Add a child component to this component.*/
     AddChild(child) {
         if (!child?.element) {
-            console.warn(`The passed object is not a valid Rosana/HTML element.`, child);
+            console.warn(`The passed object is not a valid
+                Rosana/HTML element.`, child);
             return this;
         }
         this.element.appendChild(child.element);
@@ -92,5 +91,5 @@ const Layout = class extends ComponentProperties {
         child.element.remove();
         return this;
     }
-};
+}
 export default Layout;

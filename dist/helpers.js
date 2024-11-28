@@ -2,10 +2,8 @@ const createUniqueIdGenerator = (prefix) => {
     let count = 0;
     return () => `${prefix}-${count++}`;
 };
-export const generateClassName = createUniqueIdGenerator("rosana-class");
-/**
- * Allows me to provide better debug info on errors and stop function execution
- */
+export const generateClassName = createUniqueIdGenerator("rs");
+// Allows me to provide better Errors to the Developer.
 export const debugInfo = function (title, source, debugObject) {
     let template = `rosana.js Error : ${title}\n
     The Following Debug Info Has Been Provided By ${source}\n
@@ -14,6 +12,8 @@ export const debugInfo = function (title, source, debugObject) {
     Object Values : ${Object.values(debugObject)}`;
     throw Error(template);
 };
+// This ratio class is useful for getting the screen size ratio to the
+// used DroidScript Sizing of Controls
 export class Ratio {
     consequent;
     antecedent;

@@ -1,7 +1,3 @@
-/**
- * Creates and initializes the main application with a root component.
- * The rootComponent should be the main page of your application
- * Allows you to add plugins with use methods
- */
-declare const createApp: (mainComponent: any) => object;
+import type { LayoutComponent } from "./types";
+declare const createApp: (mainComponent: LayoutComponent) => object;
 export default createApp;

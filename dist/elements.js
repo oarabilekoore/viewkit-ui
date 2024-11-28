@@ -1,4 +1,7 @@
 import { ComponentProperties } from "./component.js";
+// In this file, I am extending the ComponentProperties class
+// and then building more classes eqaul to DroidScript Ui
+// controls with similar properties and behaviours.
 export class Button extends ComponentProperties {
     type;
     constructor(parent, text, width, height, options) {

@@ -1,4 +1,4 @@
-import { Layout, Button } from "rosanas";
+import { Layout, Button } from "rosana";
 
 const homePage = new Layout("linear", "fillxy, top");
 homePage.SetBackColor("green");
@@ -15,7 +15,7 @@ homePage.AddChild(View);
 
 const btn = new Button(View, "Hello World", 0.08, -1);
 btn.SetOnTouch(function () {
-    alert("Hello World");
+    app.router.navigate("/about");
 });
 
 export default homePage;

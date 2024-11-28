@@ -1,6 +1,6 @@
 # rosana /js + ts/
 
-<div align="center"><img src="rosana.png" width="100" /></div>
+<div align="center"><img src="./dist/rosana.png" width="100" /></div>
 
 <div align="center">
 <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">

@@ -1,38 +1,31 @@
 import type { Component } from "./types.js";
 export declare const eventHandlersMap: Map<string, Function>;
-export declare class ComponentProperties {
+/** ComponentProperties class extended for improved type handling and flexibility */
+export declare class ComponentProperties implements Component {
     private ismounted;
     private classes;
     element: HTMLElement;
+    type: string;
     constructor();
-    /** Sets the element backcolor */
-    SetBackColor(color: string): void;
-    /** Sets the elements textContent as the provided string */
-    SetText(text: string): void;
-    /** Sets the elements innerHtml as the provided string */
-    Html(html: string): void;
-    /** Set the focus of the page to be on that element */
-    Focus(): void;
-    /** Remove the focus on this element */
-    ClearFocus(): void;
-    /** Set the aria text of this element, good for accesability */
-    SetDescription(text: string): void;
-    /** Sets the elements width and height, dimensions specified by you. */
-    SetSize(width: number | null, height: number | null, unit: "px" | "%" | "em" | "rem" | null): void;
-    /*** Callback invoked when the component is added to the DOM DOM.*/
-    SetOnMount(Fn: Function): void;
-    /*** Callback invoked when the component is removed from the DOM*/
-    SetOnUnMount(Fn: Function): void;
-    /*** Batch properties for this component.*/
-    Batch(props: Partial<Record<keyof Component, any>>): void;
-    /** Add an onclick like event listener to this component.*/
-    SetOnTouch(handler: Function): void;
-    /** Add scoped css as an object similar to Emotion or as a TemplateLiteral.*/
+    SetBackColor(color: string): this;
+    SetText(text: string): this;
+    SetHtml(html: string): this;
+    Focus(): this;
+    ClearFocus(): this;
+    SetDescription(text: string): this;
+    SetSize(width: number | null, height: number | null, unit: "px" | "%" | "em" | "rem" | null): this;
+    SetOnMount(callback: () => void): this;
+    SetOnUnMount(callback: () => void): this;
+    Batch(props: Partial<Record<keyof Component, any>>): this;
+    SetOnTouch(handler: () => void): this;
+    SetId(id: string): this;
+    SetType(type: string): this;
+    SetClassList(classnames: TemplateStringsArray, ...expressions: any[]): this;
+    RemoveClassList(classnames: TemplateStringsArray, ...expressions: any[]): this;
     Styled(styles: TemplateStringsArray | Record<string, string>): this;
-    /** Make this component visible.*/
     Show(): this;
-    /** Hide this component.*/
     Hide(): this;
-    /** Hide this component as if it was not there.*/
     Gone(): this;
+    /** Helper method to process template literals */
+    private interpolateTemplate;
 }

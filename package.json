@@ -1,6 +1,6 @@
 {
     "name": "rosana",
-    "version": "1.0.51",
+    "version": "1.0.52",
     "type": "module",
     "main": "dist/index.js",
     "module": "dist/index.js",

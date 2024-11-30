@@ -1,8 +1,5 @@
 import { dimensioningHeightFn, dimensioningWidthFn } from "./helpers.js";
 import { cssParser } from "./parser.js";
-// This Map takes in an elements id and its handler Function, It will
-// monitor all clicks on the page and check if the target maps to the
-// element, great as it reduces eventListeners = reduces memory usage
 export const eventHandlersMap = new Map();
 document.body.addEventListener("click", (event) => {
     const target = event.target;
@@ -10,43 +7,42 @@ document.body.addEventListener("click", (event) => {
         eventHandlersMap.get(target.id)?.();
     }
 });
-// This class holds all the controls properties and if an element
-// is not initalized it will resolve to building its own element
-// a div.
+/** ComponentProperties class extended for improved type handling and flexibility */
 export class ComponentProperties {
     ismounted;
     classes;
-    element;
+    element; // Flexible element type
+    type;
     constructor() {
         this.element = document.createElement("div");
         this.ismounted = true;
         this.classes = [];
+        this.type = "DIV";
     }
-    /** Sets the element backcolor */
     SetBackColor(color) {
         this.element.style.backgroundColor = color;
+        return this;
     }
-    /** Sets the elements textContent as the provided string */
     SetText(text) {
         this.element.textContent = text;
+        return this;
     }
-    /** Sets the elements innerHtml as the provided string */
-    Html(html) {
+    SetHtml(html) {
         this.element.innerHTML = html;
+        return this;
     }
-    /** Set the focus of the page to be on that element */
     Focus() {
         this.element.focus();
+        return this;
     }
-    /** Remove the focus on this element */
     ClearFocus() {
         this.element.blur();
+        return this;
     }
-    /** Set the aria text of this element, good for accesability */
     SetDescription(text) {
         this.element.setAttribute("aria-label", text);
+        return this;
     }
-    /** Sets the elements width and height, dimensions specified by you. */
     SetSize(width, height, unit) {
         if (unit) {
             this.Styled({
@@ -60,65 +56,82 @@ export class ComponentProperties {
                 height: height !== null ? `${dimensioningHeightFn(height)}px` : "auto",
             });
         }
+        return this;
     }
-    /*** Callback invoked when the component is added to the DOM DOM.*/
-    SetOnMount(Fn) {
-        if (this.element && typeof Fn === "function") {
-            Fn();
-        }
+    SetOnMount(callback) {
+        if (this.ismounted)
+            callback();
+        return this;
     }
-    /*** Callback invoked when the component is removed from the DOM*/
-    SetOnUnMount(Fn) {
-        if (!this.ismounted) {
-            Fn();
-        }
+    SetOnUnMount(callback) {
+        if (!this.ismounted)
+            callback();
+        return this;
     }
-    /*** Batch properties for this component.*/
     Batch(props) {
         Object.entries(props).forEach(([key, value]) => {
-            const method = key;
-            // Check if the method exists on the instance and is callable
-            if (typeof this[method] === "function") {
-                // Dynamically call the method with the provided value
-                this[method](value);
+            const method = this[key];
+            if (typeof method === "function") {
+                method.call(this, value);
             }
             else {
-                console.warn(`Property ${key} is not a valid
-                    method in that Object.`);
+                console.warn(`Property ${key} is not a valid method on this component.`);
             }
         });
+        return this;
     }
-    /** Add an onclick like event listener to this component.*/
     SetOnTouch(handler) {
         if (typeof handler !== "function") {
-            throw new Error(`The SetOnTouch Function expects a 
-                function, but received: ${typeof handler}`);
+            throw new Error(`SetOnTouch expects a function but received: ${typeof handler}`);
         }
         eventHandlersMap.set(this.element.id, handler);
+        return this;
     }
-    /** Add scoped css as an object similar to Emotion or as a TemplateLiteral.*/
+    SetId(id) {
+        this.element.id = id;
+        return this;
+    }
+    SetType(type) {
+        this.type = type.toUpperCase();
+        return this;
+    }
+    SetClassList(classnames, ...expressions) {
+        const combined = this.interpolateTemplate(classnames, expressions);
+        const classList = combined.trim().split(/\s+/);
+        this.classes.push(...classList);
+        this.element.classList.add(...classList);
+        return this;
+    }
+    RemoveClassList(classnames, ...expressions) {
+        const combined = this.interpolateTemplate(classnames, expressions);
+        const classList = combined.trim().split(/\s+/);
+        this.classes = this.classes.filter((cls) => !classList.includes(cls));
+        this.element.classList.remove(...classList);
+        return this;
+    }
     Styled(styles) {
         const className = cssParser(styles);
         this.element.classList.add(className);
         this.classes.push(className);
         return this;
     }
-    /** Make this component visible.*/
     Show() {
         this.element.classList.remove("hide", "gone");
         this.element.classList.add("show");
         return this;
     }
-    /** Hide this component.*/
     Hide() {
         this.element.classList.remove("show");
         this.element.classList.add("hide");
         return this;
     }
-    /** Hide this component as if it was not there.*/
     Gone() {
         this.element.classList.remove("show", "hide");
         this.element.classList.add("gone");
         return this;
+    }
+    /** Helper method to process template literals */
+    interpolateTemplate(classnames, expressions) {
+        return classnames.reduce((result, part, i) => result + part + (expressions[i] || ""), "");
     }
 }

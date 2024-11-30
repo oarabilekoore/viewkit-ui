@@ -1,4 +1,4 @@
-import { Layout, Button } from "rosana";
+import { Layout, Button, CheckBox } from "rosana";
 
 const homePage = new Layout("linear", "fillxy, top");
 homePage.SetBackColor("green");
@@ -15,7 +15,10 @@ homePage.AddChild(View);
 
 const btn = new Button(View, "Hello World", 0.08, -1);
 btn.SetOnTouch(function () {
-    app.router.navigate("/about");
+    btn.SetHtml`<span>Newly Added</span>`;
+    btn.SetId`random-new-id`;
 });
+
+const ck = new CheckBox(View, "Turn Wifi On", false);
 
 export default homePage;

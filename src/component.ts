@@ -2,9 +2,6 @@ import { dimensioningHeightFn, dimensioningWidthFn } from "./helpers.js";
 import type { Component } from "./types.js";
 import { cssParser } from "./parser.js";
 
-// This Map takes in an elements id and its handler Function, It will
-// monitor all clicks on the page and check if the target maps to the
-// element, great as it reduces eventListeners = reduces memory usage
 export const eventHandlersMap = new Map<string, Function>();
 
 document.body.addEventListener("click", (event) => {
@@ -14,52 +11,51 @@ document.body.addEventListener("click", (event) => {
     }
 });
 
-// This class holds all the controls properties and if an element
-// is not initalized it will resolve to building its own element
-// a div.
-export class ComponentProperties {
-    private ismounted: Boolean;
+/** ComponentProperties class extended for improved type handling and flexibility */
+export class ComponentProperties implements Component {
+    private ismounted: boolean;
     private classes: string[];
-    element: HTMLElement;
+    element: HTMLElement; // Flexible element type
+    type: string;
 
     constructor() {
         this.element = document.createElement("div");
         this.ismounted = true;
         this.classes = [];
+        this.type = "DIV";
     }
 
-    /** Sets the element backcolor */
-    SetBackColor(color: string) {
+    SetBackColor(color: string): this {
         this.element.style.backgroundColor = color;
+        return this;
     }
 
-    /** Sets the elements textContent as the provided string */
-    SetText(text: string) {
+    SetText(text: string): this {
         this.element.textContent = text;
+        return this;
     }
 
-    /** Sets the elements innerHtml as the provided string */
-    Html(html: string) {
+    SetHtml(html: string): this {
         this.element.innerHTML = html;
+        return this;
     }
 
-    /** Set the focus of the page to be on that element */
-    Focus() {
+    Focus(): this {
         this.element.focus();
+        return this;
     }
 
-    /** Remove the focus on this element */
-    ClearFocus() {
+    ClearFocus(): this {
         this.element.blur();
+        return this;
     }
 
-    /** Set the aria text of this element, good for accesability */
-    SetDescription(text: string) {
+    SetDescription(text: string): this {
         this.element.setAttribute("aria-label", text);
+        return this;
     }
 
-    /** Sets the elements width and height, dimensions specified by you. */
-    SetSize(width: number | null, height: number | null, unit: "px" | "%" | "em" | "rem" | null): void {
+    SetSize(width: number | null, height: number | null, unit: "px" | "%" | "em" | "rem" | null): this {
         if (unit) {
             this.Styled({
                 width: width !== null ? `${width}${unit}` : "auto",
@@ -71,48 +67,65 @@ export class ComponentProperties {
                 height: height !== null ? `${dimensioningHeightFn(height)}px` : "auto",
             });
         }
+        return this;
     }
 
-    /*** Callback invoked when the component is added to the DOM DOM.*/
-    SetOnMount(Fn: Function) {
-        if (this.element && typeof Fn === "function") {
-            Fn();
-        }
+    SetOnMount(callback: () => void): this {
+        if (this.ismounted) callback();
+        return this;
     }
 
-    /*** Callback invoked when the component is removed from the DOM*/
-    SetOnUnMount(Fn: Function) {
-        if (!this.ismounted) {
-            Fn();
-        }
+    SetOnUnMount(callback: () => void): this {
+        if (!this.ismounted) callback();
+        return this;
     }
 
-    /*** Batch properties for this component.*/
-    Batch(props: Partial<Record<keyof Component, any>>): void {
+    Batch(props: Partial<Record<keyof Component, any>>): this {
         Object.entries(props).forEach(([key, value]) => {
-            const method = key as keyof this;
-
-            // Check if the method exists on the instance and is callable
-            if (typeof this[method] === "function") {
-                // Dynamically call the method with the provided value
-                (this[method] as Function)(value);
+            const method = this[key as keyof this];
+            if (typeof method === "function") {
+                method.call(this, value);
             } else {
-                console.warn(`Property ${key} is not a valid
-                    method in that Object.`);
+                console.warn(`Property ${key} is not a valid method on this component.`);
             }
         });
+        return this;
     }
 
-    /** Add an onclick like event listener to this component.*/
-    SetOnTouch(handler: Function) {
+    SetOnTouch(handler: () => void): this {
         if (typeof handler !== "function") {
-            throw new Error(`The SetOnTouch Function expects a 
-                function, but received: ${typeof handler}`);
+            throw new Error(`SetOnTouch expects a function but received: ${typeof handler}`);
         }
         eventHandlersMap.set(this.element.id, handler);
+        return this;
     }
 
-    /** Add scoped css as an object similar to Emotion or as a TemplateLiteral.*/
+    SetId(id: string): this {
+        this.element.id = id;
+        return this;
+    }
+
+    SetType(type: string): this {
+        this.type = type.toUpperCase();
+        return this;
+    }
+
+    SetClassList(classnames: TemplateStringsArray, ...expressions: any[]): this {
+        const combined = this.interpolateTemplate(classnames, expressions);
+        const classList = combined.trim().split(/\s+/);
+        this.classes.push(...classList);
+        this.element.classList.add(...classList);
+        return this;
+    }
+
+    RemoveClassList(classnames: TemplateStringsArray, ...expressions: any[]): this {
+        const combined = this.interpolateTemplate(classnames, expressions);
+        const classList = combined.trim().split(/\s+/);
+        this.classes = this.classes.filter((cls) => !classList.includes(cls));
+        this.element.classList.remove(...classList);
+        return this;
+    }
+
     Styled(styles: TemplateStringsArray | Record<string, string>): this {
         const className = cssParser(styles);
         this.element.classList.add(className);
@@ -120,24 +133,26 @@ export class ComponentProperties {
         return this;
     }
 
-    /** Make this component visible.*/
     Show(): this {
         this.element.classList.remove("hide", "gone");
         this.element.classList.add("show");
         return this;
     }
 
-    /** Hide this component.*/
     Hide(): this {
         this.element.classList.remove("show");
         this.element.classList.add("hide");
         return this;
     }
 
-    /** Hide this component as if it was not there.*/
     Gone(): this {
         this.element.classList.remove("show", "hide");
         this.element.classList.add("gone");
         return this;
+    }
+
+    /** Helper method to process template literals */
+    private interpolateTemplate(classnames: TemplateStringsArray, expressions: any[]): string {
+        return classnames.reduce((result, part, i) => result + part + (expressions[i] || ""), "");
     }
 }

@@ -1,4 +1,4 @@
-import { Layout, Button, CheckBox } from "rosana";
+import { Layout, Button, Slider, ProgressBar } from "rosana";
 
 const homePage = new Layout("linear", "fillxy, top");
 homePage.SetBackColor("green");
@@ -19,6 +19,6 @@ btn.SetOnTouch(function () {
     btn.SetId`random-new-id`;
 });
 
-const ck = new CheckBox(View, "Turn Wifi On", false);
+const ck = new ProgressBar(View, 40, 100);
 
 export default homePage;

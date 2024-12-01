@@ -2,6 +2,9 @@ import { dimensioningHeightFn, dimensioningWidthFn } from "./helpers.js";
 import type { Component } from "./types.js";
 import { cssParser } from "./parser.js";
 
+// This Map takes in an elements id and its handler Function, It will
+// monitor all clicks on the page and check if the target maps to the
+// element, great as it reduces eventListeners = reduces memory usage
 export const eventHandlersMap = new Map<string, Function>();
 
 document.body.addEventListener("click", (event) => {
@@ -11,7 +14,9 @@ document.body.addEventListener("click", (event) => {
     }
 });
 
-/** ComponentProperties class extended for improved type handling and flexibility */
+// This class holds all the controls properties and if an element
+// is not initalized it will resolve to building its own element
+// a div.
 export class ComponentProperties implements Component {
     private ismounted: boolean;
     private classes: string[];
@@ -25,36 +30,43 @@ export class ComponentProperties implements Component {
         this.type = "DIV";
     }
 
+    /** Set an elements backColor */
     SetBackColor(color: string): this {
         this.element.style.backgroundColor = color;
         return this;
     }
 
+    /** Set the textContent of this element */
     SetText(text: string): this {
         this.element.textContent = text;
         return this;
     }
 
+    /** Set the innerHtml of the element */
     SetHtml(html: string): this {
         this.element.innerHTML = html;
         return this;
     }
 
+    /** Set the focus of the page on this element */
     Focus(): this {
         this.element.focus();
         return this;
     }
 
+    /** Remove the focus of the page from this element */
     ClearFocus(): this {
         this.element.blur();
         return this;
     }
 
+    /** Set the Aria-label attribute of this element */
     SetDescription(text: string): this {
         this.element.setAttribute("aria-label", text);
         return this;
     }
 
+    /** Set the size of this element, you can add an unit or rely on the screen-to-ratio 0 to 1 unit ratio */
     SetSize(width: number | null, height: number | null, unit: "px" | "%" | "em" | "rem" | null): this {
         if (unit) {
             this.Styled({
@@ -70,16 +82,19 @@ export class ComponentProperties implements Component {
         return this;
     }
 
+    /** Call a function when the element is mounted to the DOM */
     SetOnMount(callback: () => void): this {
         if (this.ismounted) callback();
         return this;
     }
 
+    /** Call a function when the element is unmounted from the DOM */
     SetOnUnMount(callback: () => void): this {
         if (!this.ismounted) callback();
         return this;
     }
 
+    /** Batch the elements methods in succesion, great for fast updates */
     Batch(props: Partial<Record<keyof Component, any>>): this {
         Object.entries(props).forEach(([key, value]) => {
             const method = this[key as keyof this];
@@ -92,6 +107,7 @@ export class ComponentProperties implements Component {
         return this;
     }
 
+    /** Call a function when this element is clicked */
     SetOnTouch(handler: () => void): this {
         if (typeof handler !== "function") {
             throw new Error(`SetOnTouch expects a function but received: ${typeof handler}`);
@@ -100,16 +116,19 @@ export class ComponentProperties implements Component {
         return this;
     }
 
+    /** Set this elemements Id */
     SetId(id: string): this {
         this.element.id = id;
         return this;
     }
 
+    /** Set this elements type */
     SetType(type: string): this {
         this.type = type.toUpperCase();
         return this;
     }
 
+    /** Add classes to this element */
     SetClassList(classnames: TemplateStringsArray, ...expressions: any[]): this {
         const combined = this.interpolateTemplate(classnames, expressions);
         const classList = combined.trim().split(/\s+/);
@@ -118,6 +137,7 @@ export class ComponentProperties implements Component {
         return this;
     }
 
+    /** Remove classes from this element */
     RemoveClassList(classnames: TemplateStringsArray, ...expressions: any[]): this {
         const combined = this.interpolateTemplate(classnames, expressions);
         const classList = combined.trim().split(/\s+/);
@@ -126,6 +146,7 @@ export class ComponentProperties implements Component {
         return this;
     }
 
+    /** Add scoped css to this element, as an Emotion like object or a template literal */
     Styled(styles: TemplateStringsArray | Record<string, string>): this {
         const className = cssParser(styles);
         this.element.classList.add(className);
@@ -133,18 +154,21 @@ export class ComponentProperties implements Component {
         return this;
     }
 
+    /** Make the element visiblr */
     Show(): this {
         this.element.classList.remove("hide", "gone");
         this.element.classList.add("show");
         return this;
     }
 
+    /** Hide the element visually */
     Hide(): this {
         this.element.classList.remove("show");
         this.element.classList.add("hide");
         return this;
     }
 
+    /** Hide the element visually, and take no space in the DOM */
     Gone(): this {
         this.element.classList.remove("show", "hide");
         this.element.classList.add("gone");

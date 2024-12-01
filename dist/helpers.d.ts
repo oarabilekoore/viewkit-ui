@@ -1,4 +1,5 @@
-export declare const generateClassName: Function;
+export declare const generateId: () => string;
+export declare const generateClassName: () => string;
 export declare const debugInfo: (title: string, source: string, debugObject: object) => never;
 export declare class Ratio {
     consequent: number;

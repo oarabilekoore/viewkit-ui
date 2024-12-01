@@ -1,6 +1,5 @@
 import type { Component } from "./types.js";
 export declare const eventHandlersMap: Map<string, Function>;
-/** ComponentProperties class extended for improved type handling and flexibility */
 export declare class ComponentProperties implements Component {
     private ismounted;
     private classes;

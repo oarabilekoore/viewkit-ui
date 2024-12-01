@@ -1,7 +1,7 @@
 import type { Component, LayoutComponent } from "./types.js";
 import { ComponentProperties } from "./component.js";
 import { eventHandlersMap } from "./component.js";
-import { debugInfo } from "./helpers.js";
+import { generateId } from "./helpers.js";
 
 // This array is all the options available into the layout View.
 const viewOptions = [
@@ -66,14 +66,14 @@ function layoutFitApi(layout: HTMLElement, type: string, options: string) {
 // In which takes in the type and sets correct styling this is also done
 // To the childAlignmentProperties.
 
-class Layout extends ComponentProperties {
+class LayoutView extends ComponentProperties implements LayoutComponent {
     type: string;
     options: string;
 
     constructor(type: string, childAlignmentProperties: string) {
         super();
         this.element = document.createElement("div");
-        this.element.id = crypto.randomUUID();
+        this.element.id = generateId();
         this.options = childAlignmentProperties;
 
         this.type = `LAYOUT`;
@@ -97,7 +97,10 @@ class Layout extends ComponentProperties {
     /*** Remove a child component from the layout */
     DestroyChild(child: Component): this {
         if (!child?.element) {
-            debugInfo("The passed child is null/undefined or not a valid Rosana component.", "destroyChild Function", child);
+            throw Error(
+                `The passed child is null/undefined or not a
+                 valid Rosana component.", "destroyChild Function`
+            );
             return this;
         }
 
@@ -106,5 +109,15 @@ class Layout extends ComponentProperties {
         return this;
     }
 }
+
+/**
+ * Create a layout, basically a special div. There are 4 types of layouts
+ * (linear, absolute, stacked, frame)
+ * The layouts align your children in a certain way, and more controlled
+ * with the childAlignmentProperties.
+ */
+const Layout = function (type: string, childAlignmentProperties: string) {
+    return new LayoutView(type, childAlignmentProperties);
+};
 
 export default Layout;

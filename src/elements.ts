@@ -1,10 +1,7 @@
 import { ComponentProperties } from "./component.js";
 import type { LayoutComponent } from "./types.js";
+import { generateId } from "./helpers.js";
 
-// Helper function for generating unique IDs
-const generateId = (): string => {
-    return typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `id-${Math.random().toString(36).substr(2, 9)}`;
-};
 export class Button extends ComponentProperties {
     constructor(parent: LayoutComponent, text: string, width: number, height: number, options?: string) {
         super();

@@ -1,8 +1,5 @@
 import { ComponentProperties } from "./component.js";
-// Helper function for generating unique IDs
-const generateId = () => {
-    return typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `id-${Math.random().toString(36).substr(2, 9)}`;
-};
+import { generateId } from "./helpers.js";
 export class Button extends ComponentProperties {
     constructor(parent, text, width, height, options) {
         super();

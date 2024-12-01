@@ -1,6 +1,6 @@
+import { debugInfo, generateId } from "./helpers.js";
 import { ComponentProperties } from "./component.js";
 import { eventHandlersMap } from "./component.js";
-import { debugInfo } from "./helpers.js";
 // This array is all the options available into the layout View.
 const viewOptions = [
     "noscrollbar",
@@ -66,7 +66,7 @@ class Layout extends ComponentProperties {
     constructor(type, childAlignmentProperties) {
         super();
         this.element = document.createElement("div");
-        this.element.id = crypto.randomUUID();
+        this.element.id = generateId();
         this.options = childAlignmentProperties;
         this.type = `LAYOUT`;
         type ? layoutFitApi(this.element, type, this.options) : null;

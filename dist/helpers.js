@@ -1,8 +1,9 @@
-const createUniqueIdGenerator = (prefix) => {
-    let count = 0;
-    return () => `${prefix}-${count++}`;
+export const generateId = function () {
+    return `rs-${Math.random().toString(36).substr(2, 9)}`;
 };
-export const generateClassName = createUniqueIdGenerator("rs");
+export const generateClassName = function () {
+    return `rs-${Math.random().toString(36).substr(2, 9)}`;
+};
 // Allows me to provide better Errors to the Developer.
 export const debugInfo = function (title, source, debugObject) {
     let template = `rosana.js Error : ${title}\n

@@ -1,5 +1,8 @@
 import { dimensioningHeightFn, dimensioningWidthFn } from "./helpers.js";
 import { cssParser } from "./parser.js";
+// This Map takes in an elements id and its handler Function, It will
+// monitor all clicks on the page and check if the target maps to the
+// element, great as it reduces eventListeners = reduces memory usage
 export const eventHandlersMap = new Map();
 document.body.addEventListener("click", (event) => {
     const target = event.target;
@@ -7,7 +10,9 @@ document.body.addEventListener("click", (event) => {
         eventHandlersMap.get(target.id)?.();
     }
 });
-/** ComponentProperties class extended for improved type handling and flexibility */
+// This class holds all the controls properties and if an element
+// is not initalized it will resolve to building its own element
+// a div.
 export class ComponentProperties {
     ismounted;
     classes;

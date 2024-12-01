@@ -1,8 +1,10 @@
-const createUniqueIdGenerator = (prefix: string): Function => {
-    let count = 0;
-    return () => `${prefix}-${count++}`;
+export const generateId = function (): string {
+    return `rs-${Math.random().toString(36).substr(2, 9)}`;
 };
-export const generateClassName = createUniqueIdGenerator("rs");
+
+export const generateClassName = function (): string {
+    return `rs-${Math.random().toString(36).substr(2, 9)}`;
+};
 
 // Allows me to provide better Errors to the Developer.
 

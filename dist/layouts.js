@@ -1,5 +1,5 @@
 import { ComponentProperties } from "./component.js";
-import { eventHandlersMap } from "./component.js";
+import { onclickEventHandlerMap } from "./component.js";
 import { generateId } from "./helpers.js";
 // This array is all the options available into the layout View.
 const viewOptions = [
@@ -90,7 +90,7 @@ class PageLayout extends ComponentProperties {
                  valid Rosana component.", "destroyChild Function`);
             return this;
         }
-        eventHandlersMap.delete(child.element.id);
+        onclickEventHandlerMap.delete(child.element.id);
         child.element.remove();
         return this;
     }

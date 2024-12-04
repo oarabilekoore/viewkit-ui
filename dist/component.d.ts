@@ -1,5 +1,16 @@
 import type { Component } from "./types.js";
-export declare const eventHandlersMap: Map<string, Function>;
+export declare const onclickEventHandlerMap: Map<string, Function>;
+/**
+ * This class manages all the properties of controls.
+ * If an element is not initialized, it defaults to creating its own
+ * HTML element, typically a `<div>`.
+ *
+ * @class ComponentProperties
+ * @description
+ * The `ComponentProperties` class ensures that all controls have the necessary
+ * properties and provides a fallback mechanism to create a `<div>`
+ * when an element is not explicitly defined.
+ */
 export declare class ComponentProperties implements Component {
     private ismounted;
     private classes;

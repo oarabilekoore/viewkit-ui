@@ -3,16 +3,24 @@ import { cssParser } from "./parser.js";
 // This Map takes in an elements id and its handler Function, It will
 // monitor all clicks on the page and check if the target maps to the
 // element, great as it reduces eventListeners = reduces memory usage
-export const eventHandlersMap = new Map();
+export const onclickEventHandlerMap = new Map();
 document.body.addEventListener("click", (event) => {
     const target = event.target;
-    if (target?.id && eventHandlersMap.has(target.id)) {
-        eventHandlersMap.get(target.id)?.();
+    if (target?.id && onclickEventHandlerMap.has(target.id)) {
+        onclickEventHandlerMap.get(target.id)?.();
     }
 });
-// This class holds all the controls properties and if an element
-// is not initalized it will resolve to building its own element
-// a div.
+/**
+ * This class manages all the properties of controls.
+ * If an element is not initialized, it defaults to creating its own
+ * HTML element, typically a `<div>`.
+ *
+ * @class ComponentProperties
+ * @description
+ * The `ComponentProperties` class ensures that all controls have the necessary
+ * properties and provides a fallback mechanism to create a `<div>`
+ * when an element is not explicitly defined.
+ */
 export class ComponentProperties {
     ismounted;
     classes;
@@ -100,7 +108,7 @@ export class ComponentProperties {
         if (typeof handler !== "function") {
             throw new Error(`SetOnTouch expects a function but received: ${typeof handler}`);
         }
-        eventHandlersMap.set(this.element.id, handler);
+        onclickEventHandlerMap.set(this.element.id, handler);
         return this;
     }
     /** Set this elemements Id */

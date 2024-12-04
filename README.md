@@ -4,7 +4,7 @@
 
 <div align="center">
 <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
-<img alt="Version Badge" src="https://img.shields.io/badge/version-1.0.53-brightgreen.svg">
+<img alt="Version Badge" src="https://img.shields.io/badge/version-1.0.54-brightgreen.svg">
 
 </div>
 
@@ -24,19 +24,24 @@ To install the project, follow these steps:
 
 I am working on it, at the moment you could look at the [DroidScript Docs](https://droidscript.github.io/Docs/docs/v265/app_Controls.htm) for each control then import eqaully familiar functions but use them as their `Add` alternative.
 
-However before this check out the `App.js` File First.
+However before this check out the `main.js` File First In Componenets Folder.
 
 For Example
 
 ```javascript
 // In DroidScript Native
-
+let parent = app.CreateLayout('linear', 'fillxy, vcenter')
 let btn = app.AddButton(parent, text, width, height, options);
 
+app.AddLayout(parent)
 // In Rosana
 
-import { Button } from 'rosana'
-let btn = new Button(parent, text, width, height, options);
+import { PageLayout, Button } from 'rosana'
+
+let parent = new PageLayout('linear', 'fillxy, vcenter')
+let btn = Button(parent, text, width, height, options);
+
+export parent;
 ```
 
 ## Features
@@ -74,7 +79,7 @@ I implemented a Map that maps your elements id to the function you have set, the
 When a click happens it checks if the target maps to the element id's in the map, this is great because it causes less event handlers being attached to every element.
 
 ```javascript
-let button = new Button(parent, 'Hello World');
+let button = Button(parent, 'Hello World');
 button.SetOnTouch(()=>{
     alert(`Hello World`)
 });

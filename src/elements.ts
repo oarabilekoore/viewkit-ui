@@ -1,122 +1,51 @@
 import { ComponentProperties } from "./component.js";
-import type { LayoutComponent } from "./types.js";
+import type { Layout } from "./types.js";
 import { generateId } from "./helpers.js";
 
-export class Button extends ComponentProperties {
-    constructor(parent: LayoutComponent, text: string, width: number, height: number, options?: string) {
+/**
+ * Represents an HTML widget, inheriting properties from ComponentProperties.
+ * Automatically creates an HTML element of the specified tag, assigns it a unique ID,
+ * and attaches it to a parent layout if provided.
+ */
+export class HtmlWidget extends ComponentProperties {
+    /**
+     * @param {Layout} parent - The parent layout to attach the widget to.
+     * @param {string} tag - The HTML tag to create for the widget.
+     */
+    constructor(parent: Layout, tag: string) {
         super();
-        this.element = document.createElement("button");
-        this.SetSize(width, height, null).SetId(generateId()).SetType("BUTTON").SetText(text);
 
-        //@ts-ignore
-        parent?.AddChild?.(this);
+        this.element = document.createElement(tag);
+        this.SetId(generateId());
+        parent?.AddChild(this);
     }
 }
 
-export class Text extends ComponentProperties {
-    constructor(parent: LayoutComponent, text: string, width: number, height: number, options?: string) {
-        super();
-        const elementTag = options?.split(",")[0] || "span";
-        this.element = document.createElement(elementTag);
-        this.SetSize(width, height, null).SetId(generateId()).SetType("TEXT").SetText(text);
-        //@ts-ignore
-        parent?.AddChild?.(this);
-    }
-}
+/**
+ * Adds an HTML button to the specified layout.
+ *
+ * @param {Layout} parent - The parent layout to attach the button to.
+ * @param {string} text - The text content of the button.
+ * @param {number} width - The width of the button.
+ * @param {number} height - The height of the button.
+ * @returns {HtmlWidget} The created button widget.
+ */
+export const Button = function (parent: Layout, text: string, width: number, height: number) {
+    return new HtmlWidget(parent, "button").SetText(text).SetSize(width, height, null);
+};
 
-export class Input extends ComponentProperties {
-    constructor(parent: LayoutComponent, type: string, width: number, height: number, placeholder?: string) {
-        super();
-        const elementTag = type?.split(",")[0] || "input";
-        this.element = document.createElement(elementTag);
-        this.SetSize(width, height, null).SetId(generateId()).SetType(`${type.toUpperCase()}-INPUT`);
-
-        if (placeholder) {
-            this.element.setAttribute("placeholder", placeholder);
-        }
-        //@ts-ignore
-        parent?.AddChild?.(this);
-    }
-}
-
-export class CheckBox extends ComponentProperties {
-    constructor(parent: LayoutComponent, label: string, checked: boolean, options?: string) {
-        super();
-        this.element = document.createElement("label");
-
-        const input = document.createElement("input");
-        input.type = "checkbox";
-        input.checked = checked;
-        this.element.appendChild(input);
-
-        const span = document.createElement("span");
-        span.textContent = label;
-        this.element.appendChild(span);
-
-        this.SetId(generateId()).SetType("CHECKBOX");
-        //@ts-ignore
-        parent?.AddChild?.(this);
-    }
-
-    /**Call a function once the state of the check is changed */
-    SetOnCheck(handlerFn: Function) {
-        if (typeof handlerFn === "function") {
-            handlerFn();
-        } else {
-            console.error(`The Provided SetOnCheck Parameter Expects A 
-                Function, But Recieved : ${typeof handlerFn}`);
-            return;
-        }
-    }
-}
-
-export class Slider extends ComponentProperties {
-    constructor(parent: LayoutComponent, min: number, max: number, value: number, step: number) {
-        super();
-        this.element = document.createElement("input");
-        //@ts-ignore
-        (this.element as HTMLInputElement).range = "range";
-        this.element.setAttribute("min", min.toString());
-        this.element.setAttribute("max", max.toString());
-        this.element.setAttribute("value", value.toString());
-        this.element.setAttribute("step", step.toString());
-
-        this.SetId(generateId()).SetType("SLIDER");
-        //@ts-ignore
-        parent?.AddChild?.(this);
-    }
-}
-
-export class ImageView extends ComponentProperties {
-    constructor(parent: LayoutComponent, src: string, width: number, height: number, options?: string) {
-        super();
-        this.element = document.createElement("img");
-        (this.element as HTMLImageElement).src = src;
-        this.SetSize(width, height, null).SetId(generateId()).SetType("IMAGE");
-        //@ts-ignore
-        parent?.AddChild?.(this);
-    }
-}
-
-export class ProgressBar extends ComponentProperties {
-    constructor(parent: LayoutComponent, value: number, max: number, options?: string) {
-        super();
-        this.element = document.createElement("progress");
-        (this.element as HTMLProgressElement).value = value;
-        (this.element as HTMLProgressElement).max = max;
-
-        this.SetId(generateId()).SetType("PROGRESS");
-        //@ts-ignore
-        parent?.AddChild?.(this);
-    }
-}
-
-export class TextArea extends ComponentProperties {
-    constructor(parent: LayoutComponent, text: string, width: number, height: number, options?: string) {
-        super();
-        this.element = document.createElement("textarea");
-        this.SetSize(width, height, null).SetId(generateId()).SetType("TEXTAREA").SetText(text);
-        //@ts-ignore
-        parent?.AddChild?.(this);
-    }
-}
+/**
+ * Adds a text view to the specified layout. Allows specifying the type of text
+ * element via the options parameter.
+ *
+ * @param {Layout} parent - The parent layout to attach the text view to.
+ * @param {string} text - The text content of the text view.
+ * @param {number} width - The width of the text view.
+ * @param {number} height - The height of the text view.
+ * @param {string} [options] - A comma-separated string specifying the text element tag (e.g., "p,h1,h6").
+ * Defaults to "span" if no valid option is provided.
+ * @returns {HtmlWidget} The created text view widget.
+ */
+export const Text = function (parent: Layout, text: string, width: number, height: number, options: string) {
+    return new HtmlWidget(parent, options?.split(",")[0] || "span").SetText(text).SetSize(width, height, null);
+};

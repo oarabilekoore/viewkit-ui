@@ -62,7 +62,7 @@ export interface Component {
     Gone(): this;
 }
 
-export interface LayoutComponent {
+export interface Layout {
     element: HTMLElement;
     type: string;
 

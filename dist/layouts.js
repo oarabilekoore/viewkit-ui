@@ -1,6 +1,6 @@
-import { debugInfo, generateId } from "./helpers.js";
 import { ComponentProperties } from "./component.js";
 import { eventHandlersMap } from "./component.js";
+import { generateId } from "./helpers.js";
 // This array is all the options available into the layout View.
 const viewOptions = [
     "noscrollbar",
@@ -57,10 +57,12 @@ function layoutFitApi(layout, type, options) {
             console.error("Unknown Layout", layoutTYPE);
     }
 }
-// This class extends ComponentProperties class and returns a Layout view,
-// In which takes in the type and sets correct styling this is also done
-// To the childAlignmentProperties.
-class Layout extends ComponentProperties {
+/**
+ * This class extends ComponentProperties class and returns a Layout view,
+ * In which takes in the type and sets correct styling this is also done
+ * To the childAlignmentProperties.
+ */
+class PageLayout extends ComponentProperties {
     type;
     options;
     constructor(type, childAlignmentProperties) {
@@ -84,7 +86,8 @@ class Layout extends ComponentProperties {
     /*** Remove a child component from the layout */
     DestroyChild(child) {
         if (!child?.element) {
-            debugInfo("The passed child is null/undefined or not a valid Rosana component.", "destroyChild Function", child);
+            throw Error(`The passed child is null/undefined or not a
+                 valid Rosana component.", "destroyChild Function`);
             return this;
         }
         eventHandlersMap.delete(child.element.id);
@@ -92,4 +95,4 @@ class Layout extends ComponentProperties {
         return this;
     }
 }
-export default Layout;
+export default PageLayout;

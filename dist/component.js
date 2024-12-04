@@ -24,30 +24,37 @@ export class ComponentProperties {
         this.classes = [];
         this.type = "DIV";
     }
+    /** Set an elements backColor */
     SetBackColor(color) {
         this.element.style.backgroundColor = color;
         return this;
     }
+    /** Set the textContent of this element */
     SetText(text) {
         this.element.textContent = text;
         return this;
     }
+    /** Set the innerHtml of the element */
     SetHtml(html) {
         this.element.innerHTML = html;
         return this;
     }
+    /** Set the focus of the page on this element */
     Focus() {
         this.element.focus();
         return this;
     }
+    /** Remove the focus of the page from this element */
     ClearFocus() {
         this.element.blur();
         return this;
     }
+    /** Set the Aria-label attribute of this element */
     SetDescription(text) {
         this.element.setAttribute("aria-label", text);
         return this;
     }
+    /** Set the size of this element, you can add an unit or rely on the screen-to-ratio 0 to 1 unit ratio */
     SetSize(width, height, unit) {
         if (unit) {
             this.Styled({
@@ -63,16 +70,19 @@ export class ComponentProperties {
         }
         return this;
     }
+    /** Call a function when the element is mounted to the DOM */
     SetOnMount(callback) {
         if (this.ismounted)
             callback();
         return this;
     }
+    /** Call a function when the element is unmounted from the DOM */
     SetOnUnMount(callback) {
         if (!this.ismounted)
             callback();
         return this;
     }
+    /** Batch the elements methods in succesion, great for fast updates */
     Batch(props) {
         Object.entries(props).forEach(([key, value]) => {
             const method = this[key];
@@ -85,6 +95,7 @@ export class ComponentProperties {
         });
         return this;
     }
+    /** Call a function when this element is clicked */
     SetOnTouch(handler) {
         if (typeof handler !== "function") {
             throw new Error(`SetOnTouch expects a function but received: ${typeof handler}`);
@@ -92,14 +103,17 @@ export class ComponentProperties {
         eventHandlersMap.set(this.element.id, handler);
         return this;
     }
+    /** Set this elemements Id */
     SetId(id) {
         this.element.id = id;
         return this;
     }
+    /** Set this elements type */
     SetType(type) {
         this.type = type.toUpperCase();
         return this;
     }
+    /** Add classes to this element */
     SetClassList(classnames, ...expressions) {
         const combined = this.interpolateTemplate(classnames, expressions);
         const classList = combined.trim().split(/\s+/);
@@ -107,6 +121,7 @@ export class ComponentProperties {
         this.element.classList.add(...classList);
         return this;
     }
+    /** Remove classes from this element */
     RemoveClassList(classnames, ...expressions) {
         const combined = this.interpolateTemplate(classnames, expressions);
         const classList = combined.trim().split(/\s+/);
@@ -114,22 +129,26 @@ export class ComponentProperties {
         this.element.classList.remove(...classList);
         return this;
     }
+    /** Add scoped css to this element, as an Emotion like object or a template literal */
     Styled(styles) {
         const className = cssParser(styles);
         this.element.classList.add(className);
         this.classes.push(className);
         return this;
     }
+    /** Make the element visiblr */
     Show() {
         this.element.classList.remove("hide", "gone");
         this.element.classList.add("show");
         return this;
     }
+    /** Hide the element visually */
     Hide() {
         this.element.classList.remove("show");
         this.element.classList.add("hide");
         return this;
     }
+    /** Hide the element visually, and take no space in the DOM */
     Gone() {
         this.element.classList.remove("show", "hide");
         this.element.classList.add("gone");

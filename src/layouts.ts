@@ -1,6 +1,6 @@
-import type { Component, LayoutComponent } from "./types.js";
+import type { Component, Layout } from "./types.js";
 import { ComponentProperties } from "./component.js";
-import { eventHandlersMap } from "./component.js";
+import { onclickEventHandlerMap } from "./component.js";
 import { generateId } from "./helpers.js";
 
 // This array is all the options available into the layout View.
@@ -62,11 +62,12 @@ function layoutFitApi(layout: HTMLElement, type: string, options: string) {
     }
 }
 
-// This class extends ComponentProperties class and returns a Layout view,
-// In which takes in the type and sets correct styling this is also done
-// To the childAlignmentProperties.
-
-class LayoutView extends ComponentProperties implements LayoutComponent {
+/**
+ * This class extends ComponentProperties class and returns a Layout view,
+ * In which takes in the type and sets correct styling this is also done
+ * To the childAlignmentProperties.
+ */
+class PageLayout extends ComponentProperties implements Layout {
     type: string;
     options: string;
 
@@ -104,20 +105,10 @@ class LayoutView extends ComponentProperties implements LayoutComponent {
             return this;
         }
 
-        eventHandlersMap.delete(child.element.id);
+        onclickEventHandlerMap.delete(child.element.id);
         child.element.remove();
         return this;
     }
 }
 
-/**
- * Create a layout, basically a special div. There are 4 types of layouts
- * (linear, absolute, stacked, frame)
- * The layouts align your children in a certain way, and more controlled
- * with the childAlignmentProperties.
- */
-const Layout = function (type: string, childAlignmentProperties: string) {
-    return new LayoutView(type, childAlignmentProperties);
-};
-
-export default Layout;
+export default PageLayout;

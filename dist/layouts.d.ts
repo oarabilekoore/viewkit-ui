@@ -1,7 +1,12 @@
-import type { Component, LayoutComponent } from "./types.js";
+import type { Component, Layout } from "./types.js";
 import { ComponentProperties } from "./component.js";
 export declare const optionsApi: (element: HTMLElement, options: string) => void;
-declare class Layout extends ComponentProperties implements LayoutComponent {
+/**
+ * This class extends ComponentProperties class and returns a Layout view,
+ * In which takes in the type and sets correct styling this is also done
+ * To the childAlignmentProperties.
+ */
+declare class PageLayout extends ComponentProperties implements Layout {
     type: string;
     options: string;
     constructor(type: string, childAlignmentProperties: string);
@@ -10,4 +15,4 @@ declare class Layout extends ComponentProperties implements LayoutComponent {
     /*** Remove a child component from the layout */
     DestroyChild(child: Component): this;
 }
-export default Layout;
+export default PageLayout;

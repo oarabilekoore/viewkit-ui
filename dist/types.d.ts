@@ -46,7 +46,7 @@ export interface Component {
     /** Hides the component completely */
     Gone(): this;
 }
-export interface LayoutComponent {
+export interface Layout {
     element: HTMLElement;
     type: string;
     /**

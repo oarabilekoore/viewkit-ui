@@ -10,7 +10,9 @@
         "noImplicitAny": true,
         "noImplicitThis": true,
         "alwaysStrict": true,
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "jsx": "react",
+        "jsxFactory": "createComponent"
     },
     "include": ["src/**/*.ts"],
     "exclude": ["node_modules", "dist"]

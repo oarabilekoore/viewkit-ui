@@ -76,7 +76,7 @@ export class ComponentProperties implements Component {
     }
 
     /** Set the size of this element, you can add an unit or rely on the screen-to-ratio 0 to 1 unit ratio */
-    SetSize(width: number | null, height: number | null, unit: "px" | "%" | "em" | "rem" | null): this {
+    SetSize(width: number | null, height: number | null, unit?: "px" | "%" | "em" | "rem" | null): this {
         if (unit) {
             this.Styled({
                 width: width !== null ? `${width}${unit}` : "auto",

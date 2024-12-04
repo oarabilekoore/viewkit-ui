@@ -1,10 +1,10 @@
 # _rosana.ds
 
-<div align="center"><img src="./dist/rosana.png" width="100" /></div>
+<div align="center"><img src="./rosana.png" width="100" /></div>
 
 <div align="center">
 <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
-<img alt="Version Badge" src="https://img.shields.io/badge/version-1.0.54-brightgreen.svg">
+<img alt="Version Badge" src="https://img.shields.io/badge/version-1.0.55-brightgreen.svg">
 
 </div>
 
@@ -24,7 +24,7 @@ To install the project, follow these steps:
 
 I am working on it, at the moment you could look at the [DroidScript Docs](https://droidscript.github.io/Docs/docs/v265/app_Controls.htm) for each control then import eqaully familiar functions but use them as their `Add` alternative.
 
-However before this check out the `main.js` File First In Componenets Folder.
+However before this check out the `App.ts` File First In Componenets Folder.
 
 For Example
 
@@ -51,7 +51,7 @@ export parent;
 Rosana comes with an in-built `signal` function, this function takes in a parameter and returns a setter/getter function and a subscriber.
 
 ```javascript
-let theme = signal("light");
+let theme = Signal("light");
 
 theme.subscribe((mode) => {
     console.log(mode);
@@ -65,7 +65,7 @@ theme.value = "dark";
 rosana-js comes with this function, it takes in a restingParameter and based on the truthiness of it, an element will be shown.
 
 ```javascript
-showIF(restingParameter, onTruthyElement, onFalslyElement);
+ShowIF(restingParameter, onTruthyElement, onFalslyElement);
 ```
 
 ### Functional Component Authoring Model

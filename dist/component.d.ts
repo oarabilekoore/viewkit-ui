@@ -30,7 +30,7 @@ export declare class ComponentProperties implements Component {
     /** Set the Aria-label attribute of this element */
     SetDescription(text: string): this;
     /** Set the size of this element, you can add an unit or rely on the screen-to-ratio 0 to 1 unit ratio */
-    SetSize(width: number | null, height: number | null, unit: "px" | "%" | "em" | "rem" | null): this;
+    SetSize(width: number | null, height: number | null, unit?: "px" | "%" | "em" | "rem" | null): this;
     /** Call a function when the element is mounted to the DOM */
     SetOnMount(callback: () => void): this;
     /** Call a function when the element is unmounted from the DOM */

@@ -1,12 +1,13 @@
 import type { Component, Layout } from "./types.js";
-import { signal, store } from "./signals.js";
-import createRouter from "./router.js";
-import createApp from "./createapp.js";
-import PageLayout from "./layouts.js";
-import showIF from "./showif.js";
+import BootstrapApplication from "./createapp.js";
+import Signal from "./signal.js";
+import PageRouter from "./router.js";
 
-export { createApp, createRouter, store, signal, showIF };
+import PageLayout from "./layouts.js";
+import ShowIF from "./showif.js";
+
+export { BootstrapApplication, PageRouter, Signal, ShowIF };
 export type { Component, Layout };
 
-import { Button, Text } from "./elements.js";
-export { PageLayout, Button, Text };
+import { Button, Text, Image } from "./elements.js";
+export { PageLayout, Button, Text, Image };

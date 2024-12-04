@@ -17,6 +17,17 @@ export class HtmlWidget extends ComponentProperties {
         parent?.AddChild(this);
     }
 }
+class ImageWidget extends ComponentProperties {
+    element;
+    constructor(parent, sourceUrl, width = -1, height = -1, options) {
+        super();
+        this.element = document.createElement("img");
+        this.element.src = sourceUrl;
+        this.SetId(generateId());
+        this.SetSize(width, height);
+        parent?.AddChild(this);
+    }
+}
 /**
  * Adds an HTML button to the specified layout.
  *
@@ -26,7 +37,7 @@ export class HtmlWidget extends ComponentProperties {
  * @param {number} height - The height of the button.
  * @returns {HtmlWidget} The created button widget.
  */
-export const Button = function (parent, text, width, height) {
+export const Button = function (parent, text = "", width = 0.5, height = -1) {
     return new HtmlWidget(parent, "button").SetText(text).SetSize(width, height, null);
 };
 /**
@@ -41,6 +52,11 @@ export const Button = function (parent, text, width, height) {
  * Defaults to "span" if no valid option is provided.
  * @returns {HtmlWidget} The created text view widget.
  */
-export const Text = function (parent, text, width, height, options) {
-    return new HtmlWidget(parent, options?.split(",")[0] || "span").SetText(text).SetSize(width, height, null);
+export const Text = function (parent, text = "", width = 0.5, height = -1, options) {
+    return new HtmlWidget(parent, options?.split(",")[0] || "span")
+        .SetText(text)
+        .SetSize(width, height, null);
+};
+export const Image = function (parent, sourceUrl, width = -1, height = -1, options) {
+    return new ImageWidget(parent, sourceUrl, width, height, options);
 };

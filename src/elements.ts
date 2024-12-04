@@ -1,5 +1,5 @@
 import { ComponentProperties } from "./component.js";
-import type { Layout } from "./types.js";
+import type { Component, Layout } from "./types.js";
 import { generateId } from "./helpers.js";
 
 /**
@@ -7,7 +7,7 @@ import { generateId } from "./helpers.js";
  * Automatically creates an HTML element of the specified tag, assigns it a unique ID,
  * and attaches it to a parent layout if provided.
  */
-export class HtmlWidget extends ComponentProperties {
+export class HtmlWidget extends ComponentProperties implements Component {
     /**
      * @param {Layout} parent - The parent layout to attach the widget to.
      * @param {string} tag - The HTML tag to create for the widget.
@@ -21,6 +21,25 @@ export class HtmlWidget extends ComponentProperties {
     }
 }
 
+class ImageWidget extends ComponentProperties implements Component {
+    element: HTMLImageElement;
+    constructor(
+        parent: Layout,
+        sourceUrl: string,
+        width: number = -1,
+        height: number = -1,
+        options?: string,
+    ) {
+        super();
+
+        this.element = document.createElement("img");
+        this.element.src = sourceUrl;
+        this.SetId(generateId());
+        this.SetSize(width, height);
+        parent?.AddChild(this);
+    }
+}
+
 /**
  * Adds an HTML button to the specified layout.
  *
@@ -30,7 +49,12 @@ export class HtmlWidget extends ComponentProperties {
  * @param {number} height - The height of the button.
  * @returns {HtmlWidget} The created button widget.
  */
-export const Button = function (parent: Layout, text: string, width: number, height: number) {
+export const Button = function (
+    parent: Layout,
+    text: string = "",
+    width: number = 0.5,
+    height: number = -1,
+): Component {
     return new HtmlWidget(parent, "button").SetText(text).SetSize(width, height, null);
 };
 
@@ -46,6 +70,32 @@ export const Button = function (parent: Layout, text: string, width: number, hei
  * Defaults to "span" if no valid option is provided.
  * @returns {HtmlWidget} The created text view widget.
  */
-export const Text = function (parent: Layout, text: string, width: number, height: number, options: string) {
-    return new HtmlWidget(parent, options?.split(",")[0] || "span").SetText(text).SetSize(width, height, null);
+export const Text = function (
+    parent: Layout,
+    text: string = "",
+    width: number = 0.5,
+    height: number = -1,
+    options?: string,
+): Component {
+    return new HtmlWidget(parent, options?.split(",")[0] || "span")
+        .SetText(text)
+        .SetSize(width, height, null);
+};
+
+/**
+ * Add an Image Element
+ * @param {Layout} parent - The parent layout to attach the image view to.
+ * @param {string} text - The text content of the image view.
+ * @param {number} width - The width of the image view.
+ * @param {number} height - The height of the image view.
+ * @returns
+ */
+export const Image = function (
+    parent: Layout,
+    sourceUrl: string,
+    width: number = -1,
+    height: number = -1,
+    options?: string,
+): Component {
+    return new ImageWidget(parent, sourceUrl, width, height, options);
 };

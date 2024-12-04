@@ -1,7 +1,7 @@
 import type { Route, MatchedRoute, RouteOptions } from "./types.js";
 
 /*** A secure router with route guards, 404 handling, lazy loading, and nested routes support.*/
-function createRouter(routes: Array<Route>) {
+function PageRouter(routes: Array<Route>) {
     const guards: Array<(route: any) => boolean | Promise<boolean>> = [];
     let params: Record<string, string> | null = null;
     let notFound: (() => Promise<{ default: any }>) | null = null;
@@ -152,4 +152,4 @@ function createRouter(routes: Array<Route>) {
     };
 }
 
-export default createRouter;
+export default PageRouter;

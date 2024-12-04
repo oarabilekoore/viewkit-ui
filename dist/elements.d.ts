@@ -1,11 +1,11 @@
 import { ComponentProperties } from "./component.js";
-import type { Layout } from "./types.js";
+import type { Component, Layout } from "./types.js";
 /**
  * Represents an HTML widget, inheriting properties from ComponentProperties.
  * Automatically creates an HTML element of the specified tag, assigns it a unique ID,
  * and attaches it to a parent layout if provided.
  */
-export declare class HtmlWidget extends ComponentProperties {
+export declare class HtmlWidget extends ComponentProperties implements Component {
     /**
      * @param {Layout} parent - The parent layout to attach the widget to.
      * @param {string} tag - The HTML tag to create for the widget.
@@ -21,7 +21,7 @@ export declare class HtmlWidget extends ComponentProperties {
  * @param {number} height - The height of the button.
  * @returns {HtmlWidget} The created button widget.
  */
-export declare const Button: (parent: Layout, text: string, width: number, height: number) => HtmlWidget;
+export declare const Button: (parent: Layout, text?: string, width?: number, height?: number) => Component;
 /**
  * Adds a text view to the specified layout. Allows specifying the type of text
  * element via the options parameter.
@@ -34,4 +34,5 @@ export declare const Button: (parent: Layout, text: string, width: number, heigh
  * Defaults to "span" if no valid option is provided.
  * @returns {HtmlWidget} The created text view widget.
  */
-export declare const Text: (parent: Layout, text: string, width: number, height: number, options: string) => HtmlWidget;
+export declare const Text: (parent: Layout, text?: string, width?: number, height?: number, options?: string) => Component;
+export declare const Image: (parent: Layout, sourceUrl: string, width?: number, height?: number, options?: string) => Component;

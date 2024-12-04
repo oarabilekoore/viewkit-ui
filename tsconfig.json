@@ -11,8 +11,10 @@
         "noImplicitThis": true,
         "alwaysStrict": true,
         "moduleResolution": "node",
-        "jsx": "react",
-        "jsxFactory": "createComponent"
+        "baseUrl": ".", // Required for paths to work
+        "paths": {
+            "rosana": ["dist"] // Maps "rosana" to the dist directory
+        }
     },
     "include": ["src/**/*.ts"],
     "exclude": ["node_modules", "dist"]

@@ -1,9 +1,3 @@
-export declare const signal: (defaultValue: any) => {
-    /** set the signal's value.*/
-    value: any;
-    /** subscribe to the signal.*/
-    subscribe(fn: Function): () => void;
-};
 export declare const store: (initialValue: object) => {
     /** get a property from the store's state.*/
     get(key: any): any;

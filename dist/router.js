@@ -1,5 +1,5 @@
 /*** A secure router with route guards, 404 handling, lazy loading, and nested routes support.*/
-function createRouter(routes) {
+function PageRouter(routes) {
     const guards = [];
     let params = null;
     let notFound = null;
@@ -136,4 +136,4 @@ function createRouter(routes) {
         },
     };
 }
-export default createRouter;
+export default PageRouter;

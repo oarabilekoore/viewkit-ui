@@ -1,4 +1,5 @@
 export interface Component {
+    ismounted: Signal<boolean>;
     element: HTMLElement;
     type: string;
     /** Sets the background color of the element */
@@ -45,6 +46,16 @@ export interface Component {
     Hide(): this;
     /** Hides the component completely */
     Gone(): this;
+    /**
+     * Adds a child component to the layout
+     * @param child The child component to add
+     */
+    AddChild(child: Component): this;
+    /**
+     * Removes a child component from the layout
+     * @param child The child component to remove
+     */
+    RemoveChild(child: Component): this;
 }
 export interface Layout {
     element: HTMLElement;
@@ -58,7 +69,7 @@ export interface Layout {
      * Removes a child component from the layout
      * @param child The child component to remove
      */
-    DestroyChild(child: Component): this;
+    RemoveChild(child: Component): this;
 }
 export interface Plugin {
     /** Install the plugin */
@@ -96,3 +107,28 @@ export interface RouteOptions {
     /** Any custom route options */
     [key: string]: any;
 }
+export type Unit = "px" | "%" | "em" | "rem" | null;
+export type Subscriber<T> = (value: T) => void;
+/**
+ * A generic type representing a reactive signal.
+ * @template T - The type of the value held by the signal.
+ */
+export type Signal<T> = {
+    /** Sets the signal's value. */
+    set value(val: T);
+    /** Gets the signal's value. */
+    get value(): T;
+    /**
+     * Subscribes to the signal. The provided function will be called
+     * whenever the signal's value changes.
+     * @param {Subscriber<T>} fn - The function to call on value changes.
+     * @returns {() => void} A function to unsubscribe the given subscriber.
+     */
+    subscribe(fn: Subscriber<T>): () => void;
+};
+/**
+ * Creates a signal with the specified default value.
+ * @template T - The type of the value held by the signal.
+ * @param {T} defaultValue - The initial value of the signal.
+ * @returns {Signal<T>} The created signal.
+ */

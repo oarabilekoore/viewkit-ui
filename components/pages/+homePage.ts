@@ -14,6 +14,7 @@ Text(nav, `rosana.js Framework`, -1);
 
 // Then here is the main content div
 const body = new PageLayout("linear", "fillxy, vcenter");
+body.SetChildMargins(0, 0, 0, 0.2);
 body.SetBackColor("orange");
 homePage.AddChild(body);
 

@@ -40,12 +40,6 @@ const BootstrapApplication = function (mainComponent: Layout): object {
             }
             return this;
         },
-
-        /** Call a function when the app is paused or placed in the background */
-        set onPause(handler: Function) {},
-
-        /** Call a function when the app is resumed from incuring an onPause event */
-        set onResume(handler: Function) {},
     };
 
     return app;

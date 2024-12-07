@@ -1,12 +1,14 @@
+import type { Signal } from "./types";
 /**
- * create a signal, it takes in a default value with the type of any
- * it returns these functions : a setter/ getter of value and a
- * subscribe function.
+ * Creates a signal, which is a reactive value that can be observed and updated.
+ *
+ * @param {T} defaultValue - The initial value of the signal.
+ * @returns {Signal<T>} The signal object with getter, setter, and subscribe functions.
+ *
+ * A signal provides:
+ * 1. A getter to retrieve the current value.
+ * 2. A setter to update the value and notify all subscribers.
+ * 3. A subscribe function to allow a function to listen for changes.
  */
-declare const Signal: (defaultValue: any) => {
-    /** set the signal's value.*/
-    value: any;
-    /** subscribe to the signal.*/
-    subscribe(fn: Function): () => void;
-};
-export default Signal;
+declare const signal: <T>(defaultValue: T) => Signal<T>;
+export default signal;

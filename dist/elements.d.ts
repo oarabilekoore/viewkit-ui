@@ -35,4 +35,75 @@ export declare const Button: (parent: Layout, text?: string, width?: number, hei
  * @returns {HtmlWidget} The created text view widget.
  */
 export declare const Text: (parent: Layout, text?: string, width?: number, height?: number, options?: string) => Component;
+/**
+ * Add an Image Element
+ * @param {Layout} parent - The parent layout to attach the image view to.
+ * @param {string} text - The text content of the image view.
+ * @param {number} width - The width of the image view.
+ * @param {number} height - The height of the image view.
+ * @returns
+ */
 export declare const Image: (parent: Layout, sourceUrl: string, width?: number, height?: number, options?: string) => Component;
+/**
+ * Adds a Div element to the specified layout.
+ *
+ * @param {Layout} parent - The parent layout to attach the Div element to.
+ * @param {number} width - The width of the Div element.
+ * @param {number} height - The height of the Div element.
+ * @param {string} [options] - Optional properties for customization.
+ * @returns {HtmlWidget} The created Div element.
+ */
+export declare const Div: (parent: Layout, width?: number, height?: number) => Component;
+/**
+ * Adds an Input element to the specified layout.
+ *
+ * @param {Layout} parent - The parent layout to attach the Input element to.
+ * @param {string} type - The type of input (e.g., "text", "number").
+ * @param {number} width - The width of the Input element.
+ * @param {number} height - The height of the Input element.
+ * @returns {HtmlWidget} The created Input element.
+ */
+export declare const Input: (parent: Layout, type?: string, width?: number, height?: number) => Component;
+/**
+ * Adds a CheckBox element to the specified layout.
+ *
+ * @param {Layout} parent - The parent layout to attach the CheckBox element to.
+ * @returns {HtmlWidget} The created CheckBox element.
+ */
+export declare const CheckBox: (parent: Layout) => Component;
+/**
+ * Adds a ProgressBar element to the specified layout.
+ *
+ * @param {Layout} parent - The parent layout to attach the ProgressBar element to.
+ * @param {number} value - The initial value of the ProgressBar (0-100).
+ * @returns {HtmlWidget} The created ProgressBar element.
+ */
+export declare const ProgressBar: (parent: Layout, value?: number) => Component;
+/**
+ * Adds an Iframe element to the specified layout.
+ *
+ * @param {Layout} parent - The parent layout to attach the Iframe element to.
+ * @param {string} sourceUrl - The source URL for the Iframe.
+ * @param {number} width - The width of the Iframe element.
+ * @param {number} height - The height of the Iframe element.
+ * @returns {HtmlWidget} The created Iframe element.
+ */
+export declare const Iframe: (parent: Layout, sourceUrl: string, width?: number, height?: number) => Component;
+/**
+ * Adds a Canvas element to the specified layout.
+ *
+ * @param {Layout} parent - The parent layout to attach the Canvas element to.
+ * @param {number} width - The width of the Canvas element.
+ * @param {number} height - The height of the Canvas element.
+ * @returns {HtmlWidget} The created Canvas element.
+ */
+export declare const Canvas: (parent: Layout, width?: number, height?: number) => Component;
+/**
+ * Adds a List element to the specified layout.
+ *
+ * @param {Layout} parent - The parent layout to attach the List element to.
+ * @param {string[]} items - The items to include in the List.
+ * @param {boolean} ordered - Whether the List should be ordered (ol) or unordered (ul).
+ * @returns {HtmlWidget} The created List element.
+ */
+export declare const List: (parent: Layout, items?: string[], ordered?: boolean) => Component;

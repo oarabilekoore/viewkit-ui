@@ -1,6 +1,7 @@
 import { dimensioningHeightFn, dimensioningWidthFn } from "./helpers.js";
-import type { Component } from "./types.js";
+import type { Component, Signal, Unit } from "./types.js";
 import { cssParser } from "./parser.js";
+import signal from "./signal.js";
 
 // This Map takes in an elements id and its handler Function, It will
 // monitor all clicks on the page and check if the target maps to the
@@ -27,16 +28,47 @@ document.body.addEventListener("click", (event) => {
  */
 
 export class ComponentProperties implements Component {
-    private ismounted: boolean;
-    private classes: string[];
-    element: HTMLElement; // Flexible element type
+    ismounted: Signal<boolean>;
+    element: HTMLElement;
     type: string;
 
+    private classes: string[];
     constructor() {
         this.element = document.createElement("div");
-        this.ismounted = true;
+        this.ismounted = signal(true);
         this.classes = [];
         this.type = "DIV";
+    }
+
+    /*** Add a child component to this component.*/
+    AddChild(child: Component): this {
+        if (!child?.element) {
+            console.warn(
+                `The passed object is not a valid
+                Rosana/HTML element.`,
+                child,
+            );
+            return this;
+        }
+        this.element.appendChild(child.element);
+        child.ismounted.value = true;
+        return this;
+    }
+
+    /*** Remove a child component from the layout */
+    RemoveChild(child: Component): this {
+        if (!child?.element) {
+            throw Error(
+                `The passed child is null/undefined or not a
+                 valid Rosana component.", "destroyChild Function`,
+            );
+            return this;
+        }
+
+        onclickEventHandlerMap.delete(child.element.id);
+        child.ismounted.value = false;
+        child.element.remove();
+        return this;
     }
 
     /** Set an elements backColor */
@@ -76,7 +108,7 @@ export class ComponentProperties implements Component {
     }
 
     /** Set the size of this element, you can add an unit or rely on the screen-to-ratio 0 to 1 unit ratio */
-    SetSize(width: number | null, height: number | null, unit?: "px" | "%" | "em" | "rem" | null): this {
+    SetSize(width: number | null, height: number | null, unit?: Unit): this {
         if (unit) {
             this.Styled({
                 width: width !== null ? `${width}${unit}` : "auto",
@@ -91,15 +123,153 @@ export class ComponentProperties implements Component {
         return this;
     }
 
+    /**
+     * Set the margins of this element.
+     * @param {number} [left] - The left margin value.
+     * @param {number} [top] - The top margin value.
+     * @param {number} [right] - The right margin value.
+     * @param {number} [bottom] - The bottom margin value.
+     * @param {Unit} [unit] - The unit of measurement (e.g., px, %, em, rem). Defaults to responsive scaling.
+     */
+    SetMargins(left?: number, top?: number, right?: number, bottom?: number, unit?: Unit) {
+        // top and bottom margins are height based
+        // left and right are width based
+        // isWidth will be boolean to represent that
+        const convertValue = (value: number | undefined, isWidth: boolean) => {
+            if (value === undefined) return "0"; // Default to "0" if no value provided
+            if (unit) {
+                return `${value}${unit}`;
+            }
+            // Use dimensioning functions for responsive scaling
+            return `${isWidth ? dimensioningWidthFn(value) : dimensioningHeightFn(value)}px`;
+        };
+
+        const margins = [
+            convertValue(top, false),
+            convertValue(right, true),
+            convertValue(bottom, false),
+            convertValue(left, true),
+        ].join(" ");
+
+        this.Styled({
+            margin: margins,
+        });
+    }
+
+    /**
+     * Set the padding of this element.
+     * @param {number} [left] - The left padding value.
+     * @param {number} [top] - The top padding value.
+     * @param {number} [right] - The right padding value.
+     * @param {number} [bottom] - The bottom padding value.
+     * @param {Unit} [unit] - The unit of measurement (e.g., px, %, em, rem). Defaults to responsive scaling.
+     */
+    SetPadding(left?: number, top?: number, right?: number, bottom?: number, unit?: Unit) {
+        // top and bottom margins are height based
+        // left and right are width based
+        // isWidth will be boolean to represent that
+        const convertValue = (value: number | undefined, isWidth: boolean) => {
+            if (value === undefined) return "0"; // Default to "0" if no value provided
+            if (unit) {
+                return `${value}${unit}`;
+            }
+            // Use dimensioning functions for responsive scaling
+            return `${isWidth ? dimensioningWidthFn(value) : dimensioningHeightFn(value)}px`;
+        };
+
+        const paddings = [
+            convertValue(top, false),
+            convertValue(right, true),
+            convertValue(bottom, false),
+            convertValue(left, true),
+        ].join(" ");
+
+        this.Styled({
+            padding: paddings,
+        });
+    }
+
+    /**
+     * Set the margins for all child elements of this component.
+     * @param {number} [left] - The left margin value for children.
+     * @param {number} [top] - The top margin value for children.
+     * @param {number} [right] - The right margin value for children.
+     * @param {number} [bottom] - The bottom margin value for children.
+     * @param {Unit} [unit] - The unit of measurement (e.g., px, %, em, rem). Defaults to responsive scaling.
+     */
+    SetChildMargins(left?: number, top?: number, right?: number, bottom?: number, unit?: Unit) {
+        const convertValue = (value: number | undefined, isWidth: boolean) => {
+            if (value === undefined) return "0"; // Default to "0" if no value provided
+            if (unit) {
+                return `${value}${unit}`; // Use provided unit
+            }
+            // Use dimensioning functions for responsive scaling
+            return `${isWidth ? dimensioningWidthFn(value) : dimensioningHeightFn(value)}px`;
+        };
+
+        const margins = [
+            convertValue(top, false),
+            convertValue(right, true),
+            convertValue(bottom, false),
+            convertValue(left, true),
+        ].join(" ");
+
+        // Apply styles to child elements using this.Styled
+        this.Styled({
+            "& > *": {
+                margin: margins,
+            },
+        });
+    }
+
+    /**
+     * Set the position of this element.
+     * @param {string} type - The position type (e.g., "absolute", "relative", "fixed", "sticky").
+     * @param {number} [left] - The left offset of the element.
+     * @param {number} [top] - The top offset of the element.
+     * @param {number} [right] - The right offset of the element.
+     * @param {number} [bottom] - The bottom offset of the element.
+     * @param {Unit} [unit] - The unit of measurement (e.g., px, %, em, rem). Defaults to responsive scaling.
+     */
+    SetPosition(
+        type: "absolute" | "relative" | "fixed" | "sticky",
+        left?: number,
+        top?: number,
+        right?: number,
+        bottom?: number,
+        unit?: Unit,
+    ) {
+        const convertValue = (value: number | undefined, isWidth: boolean) => {
+            if (value === undefined) return "auto"; // Default to "auto" if no value provided
+            if (unit) {
+                return `${value}${unit}`;
+            }
+            // Use dimensioning functions for responsive scaling
+            return `${isWidth ? dimensioningWidthFn(value) : dimensioningHeightFn(value)}px`;
+        };
+
+        this.Styled({
+            position: type,
+            top: convertValue(top, false),
+            right: convertValue(right, true),
+            bottom: convertValue(bottom, false),
+            left: convertValue(left, true),
+        });
+    }
+
     /** Call a function when the element is mounted to the DOM */
     SetOnMount(callback: () => void): this {
-        if (this.ismounted) callback();
+        this.ismounted.subscribe((ismounted) => {
+            if (ismounted) callback();
+        });
         return this;
     }
 
     /** Call a function when the element is unmounted from the DOM */
     SetOnUnMount(callback: () => void): this {
-        if (!this.ismounted) callback();
+        this.ismounted.subscribe((ismounted) => {
+            if (!ismounted) callback();
+        });
         return this;
     }
 
@@ -156,7 +326,7 @@ export class ComponentProperties implements Component {
     }
 
     /** Add scoped css to this element, as an Emotion like object or a template literal */
-    Styled(styles: TemplateStringsArray | Record<string, string>): this {
+    Styled(styles: TemplateStringsArray | Object): this {
         const className = cssParser(styles);
         this.element.classList.add(className);
         this.classes.push(className);

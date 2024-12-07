@@ -4,7 +4,7 @@
 
 <div align="center">
 <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
-<img alt="Version Badge" src="https://img.shields.io/badge/version-1.0.55-brightgreen.svg">
+<img alt="Version Badge" src="https://img.shields.io/badge/version-1.0.56-brightgreen.svg">
 
 </div>
 
@@ -51,7 +51,7 @@ export parent;
 Rosana comes with an in-built `signal` function, this function takes in a parameter and returns a setter/getter function and a subscriber.
 
 ```javascript
-let theme = Signal("light");
+let theme:Signal<string> = signal("light");
 
 theme.subscribe((mode) => {
     console.log(mode);
@@ -65,12 +65,8 @@ theme.value = "dark";
 rosana-js comes with this function, it takes in a restingParameter and based on the truthiness of it, an element will be shown.
 
 ```javascript
-ShowIF(restingParameter, onTruthyElement, onFalslyElement);
+showIF(restingParameter, onTruthyElement, onFalslyElement);
 ```
-
-### Functional Component Authoring Model
-
-TODO ~ I am being fr, i will write this.
 
 ### Event Managment /Specifically OnClick/
 

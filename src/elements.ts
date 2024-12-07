@@ -99,3 +99,110 @@ export const Image = function (
 ): Component {
     return new ImageWidget(parent, sourceUrl, width, height, options);
 };
+
+/**
+ * Adds a Div element to the specified layout.
+ *
+ * @param {Layout} parent - The parent layout to attach the Div element to.
+ * @param {number} width - The width of the Div element.
+ * @param {number} height - The height of the Div element.
+ * @param {string} [options] - Optional properties for customization.
+ * @returns {HtmlWidget} The created Div element.
+ */
+export const Div = function (parent: Layout, width: number = 1, height: number = -1): Component {
+    return new HtmlWidget(parent, "div").SetSize(width, height);
+};
+
+/**
+ * Adds an Input element to the specified layout.
+ *
+ * @param {Layout} parent - The parent layout to attach the Input element to.
+ * @param {string} type - The type of input (e.g., "text", "number").
+ * @param {number} width - The width of the Input element.
+ * @param {number} height - The height of the Input element.
+ * @returns {HtmlWidget} The created Input element.
+ */
+export const Input = function (
+    parent: Layout,
+    type: string = "text",
+    width: number = 1,
+    height: number = -1,
+): Component {
+    const input = new HtmlWidget(parent, "input");
+    input.element.setAttribute("type", type);
+    return input.SetSize(width, height, null);
+};
+
+/**
+ * Adds a CheckBox element to the specified layout.
+ *
+ * @param {Layout} parent - The parent layout to attach the CheckBox element to.
+ * @returns {HtmlWidget} The created CheckBox element.
+ */
+export const CheckBox = function (parent: Layout): Component {
+    return Input(parent, "checkbox");
+};
+
+/**
+ * Adds a ProgressBar element to the specified layout.
+ *
+ * @param {Layout} parent - The parent layout to attach the ProgressBar element to.
+ * @param {number} value - The initial value of the ProgressBar (0-100).
+ * @returns {HtmlWidget} The created ProgressBar element.
+ */
+export const ProgressBar = function (parent: Layout, value: number = 0): Component {
+    const progress = new HtmlWidget(parent, "progress");
+    progress.element.setAttribute("value", value.toString());
+    return progress;
+};
+
+/**
+ * Adds an Iframe element to the specified layout.
+ *
+ * @param {Layout} parent - The parent layout to attach the Iframe element to.
+ * @param {string} sourceUrl - The source URL for the Iframe.
+ * @param {number} width - The width of the Iframe element.
+ * @param {number} height - The height of the Iframe element.
+ * @returns {HtmlWidget} The created Iframe element.
+ */
+export const Iframe = function (
+    parent: Layout,
+    sourceUrl: string,
+    width: number = 1,
+    height: number = -1,
+): Component {
+    const iframe = new HtmlWidget(parent, "iframe");
+    iframe.element.setAttribute("src", sourceUrl);
+    return iframe.SetSize(width, height, null);
+};
+
+/**
+ * Adds a Canvas element to the specified layout.
+ *
+ * @param {Layout} parent - The parent layout to attach the Canvas element to.
+ * @param {number} width - The width of the Canvas element.
+ * @param {number} height - The height of the Canvas element.
+ * @returns {HtmlWidget} The created Canvas element.
+ */
+export const Canvas = function (parent: Layout, width: number = 1, height: number = 1): Component {
+    return new HtmlWidget(parent, "canvas").SetSize(width, height, null);
+};
+
+/**
+ * Adds a List element to the specified layout.
+ *
+ * @param {Layout} parent - The parent layout to attach the List element to.
+ * @param {string[]} items - The items to include in the List.
+ * @param {boolean} ordered - Whether the List should be ordered (ol) or unordered (ul).
+ * @returns {HtmlWidget} The created List element.
+ */
+export const List = function (parent: Layout, items: string[] = [], ordered: boolean = false): Component {
+    const tag = ordered ? "ol" : "ul";
+    const list = new HtmlWidget(parent, tag);
+    items.forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        list.element.appendChild(li);
+    });
+    return list;
+};

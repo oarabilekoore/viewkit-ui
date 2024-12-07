@@ -16,3 +16,4 @@ const router = PageRouter(routes);
 router.setNotFound(() => import("./pages/+notFound"));
 globalThis.app = BootstrapApplication(homePage);
 globalThis.app.mountView("#app").usePlugin(router);
+

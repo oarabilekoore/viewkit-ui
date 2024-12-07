@@ -1,7 +1,6 @@
-import type { Component, Layout } from "./types.js";
 import { ComponentProperties } from "./component.js";
-import { onclickEventHandlerMap } from "./component.js";
 import { generateId } from "./helpers.js";
+import type { Layout } from "./types.js";
 
 // This array is all the options available into the layout View.
 const viewOptions = [
@@ -54,7 +53,9 @@ function layoutFitApi(layout: HTMLElement, type: string, options: string) {
             layout.classList.add("layout-frame");
             break;
         case "stack":
-            const directionClass = options?.includes("vertical") ? "layout-stack-vertical" : "layout-stack-horizontal";
+            const directionClass = options?.includes("vertical")
+                ? "layout-stack-vertical"
+                : "layout-stack-horizontal";
             layout.classList.add(directionClass);
             break;
         default:
@@ -79,35 +80,6 @@ class PageLayout extends ComponentProperties implements Layout {
 
         this.type = `LAYOUT`;
         type ? layoutFitApi(this.element, type, this.options) : null;
-    }
-
-    /*** Add a child component to this component.*/
-    AddChild(child: Component): this {
-        if (!child?.element) {
-            console.warn(
-                `The passed object is not a valid
-                Rosana/HTML element.`,
-                child
-            );
-            return this;
-        }
-        this.element.appendChild(child.element);
-        return this;
-    }
-
-    /*** Remove a child component from the layout */
-    DestroyChild(child: Component): this {
-        if (!child?.element) {
-            throw Error(
-                `The passed child is null/undefined or not a
-                 valid Rosana component.", "destroyChild Function`
-            );
-            return this;
-        }
-
-        onclickEventHandlerMap.delete(child.element.id);
-        child.element.remove();
-        return this;
     }
 }
 

@@ -1,15 +1,10 @@
-import { PageLayout, Button, Text } from "rosana";
+import { Container, Text } from "rosana";
 
-const aboutPage = new PageLayout("linear", "fillxy, vcenter");
-aboutPage.SetBackColor("yellow");
+const aboutPage = new Container("linear", "fillxy, vcenter");
+aboutPage.backColor("yellow");
 
-const description = Text(aboutPage);
-description.SetText(`
-    Hello Welcome To The Rosana.JS AboutPage
-`);
-
-const goBackBtn = Button(aboutPage, "Go Back");
-goBackBtn.SetOnTouch(() => {
-    globalThis.app.router.back();
+Text(`Hello Welcome !`, {
+    parent: aboutPage,
 });
+
 export default aboutPage;

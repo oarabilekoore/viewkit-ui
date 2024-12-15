@@ -1,6 +1,6 @@
+import type { Layout, propertiesObject } from "./types.js";
 import { ComponentProperties } from "./component.js";
 import { generateId } from "./helpers.js";
-import type { Layout } from "./types.js";
 
 // This array is all the options available into the layout View.
 const viewOptions = [
@@ -68,19 +68,26 @@ function layoutFitApi(layout: HTMLElement, type: string, options: string) {
  * In which takes in the type and sets correct styling this is also done
  * To the childAlignmentProperties.
  */
-class PageLayout extends ComponentProperties implements Layout {
-    type: string;
+class Container extends ComponentProperties implements Layout {
+    eltype: string;
     options: string;
 
-    constructor(type: string, childAlignmentProperties: string) {
+    constructor(type: string, childAlignmentProperties: string, properties: Partial<propertiesObject> = {}) {
         super();
         this.element = document.createElement("div");
         this.element.id = generateId();
+        this.eltype = `LAYOUT`;
         this.options = childAlignmentProperties;
-
-        this.type = `LAYOUT`;
         type ? layoutFitApi(this.element, type, this.options) : null;
+
+        if (properties) {
+            const height: number | undefined = properties?.height;
+            const width: number | undefined = properties?.width;
+            const parent = properties.parent;
+            this.size(width, height, null);
+            parent?.addChild(this);
+        }
     }
 }
 
-export default PageLayout;
+export default Container;

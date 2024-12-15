@@ -25,16 +25,16 @@ document.body.addEventListener("click", (event) => {
 export class ComponentProperties {
     ismounted;
     element;
-    type;
+    eltype;
     classes;
     constructor() {
         this.element = document.createElement("div");
         this.ismounted = signal(true);
         this.classes = [];
-        this.type = "DIV";
+        this.eltype = "DIV";
     }
     /*** Add a child component to this component.*/
-    AddChild(child) {
+    addChild(child) {
         if (!child?.element) {
             console.warn(`The passed object is not a valid
                 Rosana/HTML element.`, child);
@@ -45,7 +45,7 @@ export class ComponentProperties {
         return this;
     }
     /*** Remove a child component from the layout */
-    RemoveChild(child) {
+    removeChild(child) {
         if (!child?.element) {
             throw Error(`The passed child is null/undefined or not a
                  valid Rosana component.", "destroyChild Function`);
@@ -57,46 +57,48 @@ export class ComponentProperties {
         return this;
     }
     /** Set an elements backColor */
-    SetBackColor(color) {
+    backColor(color) {
         this.element.style.backgroundColor = color;
         return this;
     }
     /** Set the textContent of this element */
-    SetText(text) {
+    text(text) {
         this.element.textContent = text;
         return this;
     }
     /** Set the innerHtml of the element */
-    SetHtml(html) {
+    html(html) {
         this.element.innerHTML = html;
         return this;
     }
     /** Set the focus of the page on this element */
-    Focus() {
+    focus() {
         this.element.focus();
         return this;
     }
     /** Remove the focus of the page from this element */
-    ClearFocus() {
+    clearFocus() {
         this.element.blur();
         return this;
     }
     /** Set the Aria-label attribute of this element */
-    SetDescription(text) {
+    setDescription(text) {
         this.element.setAttribute("aria-label", text);
         return this;
     }
     /** Set the size of this element, you can add an unit or rely on the screen-to-ratio 0 to 1 unit ratio */
-    SetSize(width, height, unit) {
+    size(width, height, unit) {
         if (unit) {
-            this.Styled({
+            this.styled({
                 width: width !== null ? `${width}${unit}` : "auto",
                 height: height !== null ? `${height}${unit}` : "auto",
             });
         }
         else {
-            this.Styled({
+            this.styled({
+                //@ts-ignore
                 width: width !== null ? `${dimensioningWidthFn(width)}px` : "auto",
+                //@ts-ignore
                 height: height !== null ? `${dimensioningHeightFn(height)}px` : "auto",
             });
         }
@@ -110,7 +112,7 @@ export class ComponentProperties {
      * @param {number} [bottom] - The bottom margin value.
      * @param {Unit} [unit] - The unit of measurement (e.g., px, %, em, rem). Defaults to responsive scaling.
      */
-    SetMargins(left, top, right, bottom, unit) {
+    margins(left, top, right, bottom, unit) {
         // top and bottom margins are height based
         // left and right are width based
         // isWidth will be boolean to represent that
@@ -129,7 +131,7 @@ export class ComponentProperties {
             convertValue(bottom, false),
             convertValue(left, true),
         ].join(" ");
-        this.Styled({
+        this.styled({
             margin: margins,
         });
     }
@@ -141,7 +143,7 @@ export class ComponentProperties {
      * @param {number} [bottom] - The bottom padding value.
      * @param {Unit} [unit] - The unit of measurement (e.g., px, %, em, rem). Defaults to responsive scaling.
      */
-    SetPadding(left, top, right, bottom, unit) {
+    padding(left, top, right, bottom, unit) {
         // top and bottom margins are height based
         // left and right are width based
         // isWidth will be boolean to represent that
@@ -160,7 +162,7 @@ export class ComponentProperties {
             convertValue(bottom, false),
             convertValue(left, true),
         ].join(" ");
-        this.Styled({
+        this.styled({
             padding: paddings,
         });
     }
@@ -172,7 +174,7 @@ export class ComponentProperties {
      * @param {number} [bottom] - The bottom margin value for children.
      * @param {Unit} [unit] - The unit of measurement (e.g., px, %, em, rem). Defaults to responsive scaling.
      */
-    SetChildMargins(left, top, right, bottom, unit) {
+    childMargins(left, top, right, bottom, unit) {
         const convertValue = (value, isWidth) => {
             if (value === undefined)
                 return "0"; // Default to "0" if no value provided
@@ -188,8 +190,8 @@ export class ComponentProperties {
             convertValue(bottom, false),
             convertValue(left, true),
         ].join(" ");
-        // Apply styles to child elements using this.Styled
-        this.Styled({
+        // Apply styles to child elements using this.styled
+        this.styled({
             "& > *": {
                 margin: margins,
             },
@@ -204,7 +206,7 @@ export class ComponentProperties {
      * @param {number} [bottom] - The bottom offset of the element.
      * @param {Unit} [unit] - The unit of measurement (e.g., px, %, em, rem). Defaults to responsive scaling.
      */
-    SetPosition(type, left, top, right, bottom, unit) {
+    position(type, left, top, right, bottom, unit) {
         const convertValue = (value, isWidth) => {
             if (value === undefined)
                 return "auto"; // Default to "auto" if no value provided
@@ -214,7 +216,7 @@ export class ComponentProperties {
             // Use dimensioning functions for responsive scaling
             return `${isWidth ? dimensioningWidthFn(value) : dimensioningHeightFn(value)}px`;
         };
-        this.Styled({
+        this.styled({
             position: type,
             top: convertValue(top, false),
             right: convertValue(right, true),
@@ -223,7 +225,7 @@ export class ComponentProperties {
         });
     }
     /** Call a function when the element is mounted to the DOM */
-    SetOnMount(callback) {
+    onMount(callback) {
         this.ismounted.subscribe((ismounted) => {
             if (ismounted)
                 callback();
@@ -231,7 +233,7 @@ export class ComponentProperties {
         return this;
     }
     /** Call a function when the element is unmounted from the DOM */
-    SetOnUnMount(callback) {
+    onUnMount(callback) {
         this.ismounted.subscribe((ismounted) => {
             if (!ismounted)
                 callback();
@@ -239,7 +241,7 @@ export class ComponentProperties {
         return this;
     }
     /** Batch the elements methods in succesion, great for fast updates */
-    Batch(props) {
+    batch(props) {
         Object.entries(props).forEach(([key, value]) => {
             const method = this[key];
             if (typeof method === "function") {
@@ -252,25 +254,24 @@ export class ComponentProperties {
         return this;
     }
     /** Call a function when this element is clicked */
-    SetOnTouch(handler) {
+    set onPress(handler) {
         if (typeof handler !== "function") {
             throw new Error(`SetOnTouch expects a function but received: ${typeof handler}`);
         }
         onclickEventHandlerMap.set(this.element.id, handler);
-        return this;
     }
     /** Set this elemements Id */
-    SetId(id) {
+    id(id) {
         this.element.id = id;
         return this;
     }
     /** Set this elements type */
-    SetType(type) {
-        this.type = type.toUpperCase();
+    type(type) {
+        this.eltype = type.toUpperCase();
         return this;
     }
     /** Add classes to this element */
-    SetClassList(classnames, ...expressions) {
+    classList(classnames, ...expressions) {
         const combined = this.interpolateTemplate(classnames, expressions);
         const classList = combined.trim().split(/\s+/);
         this.classes.push(...classList);
@@ -278,7 +279,7 @@ export class ComponentProperties {
         return this;
     }
     /** Remove classes from this element */
-    RemoveClassList(classnames, ...expressions) {
+    removeClassList(classnames, ...expressions) {
         const combined = this.interpolateTemplate(classnames, expressions);
         const classList = combined.trim().split(/\s+/);
         this.classes = this.classes.filter((cls) => !classList.includes(cls));
@@ -286,26 +287,26 @@ export class ComponentProperties {
         return this;
     }
     /** Add scoped css to this element, as an Emotion like object or a template literal */
-    Styled(styles) {
+    styled(styles) {
         const className = cssParser(styles);
         this.element.classList.add(className);
         this.classes.push(className);
         return this;
     }
     /** Make the element visiblr */
-    Show() {
+    show() {
         this.element.classList.remove("hide", "gone");
         this.element.classList.add("show");
         return this;
     }
     /** Hide the element visually */
-    Hide() {
+    hide() {
         this.element.classList.remove("show");
         this.element.classList.add("hide");
         return this;
     }
     /** Hide the element visually, and take no space in the DOM */
-    Gone() {
+    gone() {
         this.element.classList.remove("show", "hide");
         this.element.classList.add("gone");
         return this;

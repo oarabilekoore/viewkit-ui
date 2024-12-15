@@ -14,27 +14,27 @@ export declare const onclickEventHandlerMap: Map<string, Function>;
 export declare class ComponentProperties implements Component {
     ismounted: Signal<boolean>;
     element: HTMLElement;
-    type: string;
+    eltype: string;
     private classes;
     constructor();
     /*** Add a child component to this component.*/
-    AddChild(child: Component): this;
+    addChild(child: Component): this;
     /*** Remove a child component from the layout */
-    RemoveChild(child: Component): this;
+    removeChild(child: Component): this;
     /** Set an elements backColor */
-    SetBackColor(color: string): this;
+    backColor(color: string): this;
     /** Set the textContent of this element */
-    SetText(text: string): this;
+    text(text: string): this;
     /** Set the innerHtml of the element */
-    SetHtml(html: string): this;
+    html(html: string): this;
     /** Set the focus of the page on this element */
-    Focus(): this;
+    focus(): this;
     /** Remove the focus of the page from this element */
-    ClearFocus(): this;
+    clearFocus(): this;
     /** Set the Aria-label attribute of this element */
-    SetDescription(text: string): this;
+    setDescription(text: string): this;
     /** Set the size of this element, you can add an unit or rely on the screen-to-ratio 0 to 1 unit ratio */
-    SetSize(width: number | null, height: number | null, unit?: Unit): this;
+    size(width: number | null | undefined, height: number | null | undefined, unit?: Unit): this;
     /**
      * Set the margins of this element.
      * @param {number} [left] - The left margin value.
@@ -43,7 +43,7 @@ export declare class ComponentProperties implements Component {
      * @param {number} [bottom] - The bottom margin value.
      * @param {Unit} [unit] - The unit of measurement (e.g., px, %, em, rem). Defaults to responsive scaling.
      */
-    SetMargins(left?: number, top?: number, right?: number, bottom?: number, unit?: Unit): void;
+    margins(left?: number, top?: number, right?: number, bottom?: number, unit?: Unit): void;
     /**
      * Set the padding of this element.
      * @param {number} [left] - The left padding value.
@@ -52,7 +52,7 @@ export declare class ComponentProperties implements Component {
      * @param {number} [bottom] - The bottom padding value.
      * @param {Unit} [unit] - The unit of measurement (e.g., px, %, em, rem). Defaults to responsive scaling.
      */
-    SetPadding(left?: number, top?: number, right?: number, bottom?: number, unit?: Unit): void;
+    padding(left?: number, top?: number, right?: number, bottom?: number, unit?: Unit): void;
     /**
      * Set the margins for all child elements of this component.
      * @param {number} [left] - The left margin value for children.
@@ -61,7 +61,7 @@ export declare class ComponentProperties implements Component {
      * @param {number} [bottom] - The bottom margin value for children.
      * @param {Unit} [unit] - The unit of measurement (e.g., px, %, em, rem). Defaults to responsive scaling.
      */
-    SetChildMargins(left?: number, top?: number, right?: number, bottom?: number, unit?: Unit): void;
+    childMargins(left?: number, top?: number, right?: number, bottom?: number, unit?: Unit): void;
     /**
      * Set the position of this element.
      * @param {string} type - The position type (e.g., "absolute", "relative", "fixed", "sticky").
@@ -71,31 +71,31 @@ export declare class ComponentProperties implements Component {
      * @param {number} [bottom] - The bottom offset of the element.
      * @param {Unit} [unit] - The unit of measurement (e.g., px, %, em, rem). Defaults to responsive scaling.
      */
-    SetPosition(type: "absolute" | "relative" | "fixed" | "sticky", left?: number, top?: number, right?: number, bottom?: number, unit?: Unit): void;
+    position(type: "absolute" | "relative" | "fixed" | "sticky", left?: number, top?: number, right?: number, bottom?: number, unit?: Unit): void;
     /** Call a function when the element is mounted to the DOM */
-    SetOnMount(callback: () => void): this;
+    onMount(callback: () => void): this;
     /** Call a function when the element is unmounted from the DOM */
-    SetOnUnMount(callback: () => void): this;
+    onUnMount(callback: () => void): this;
     /** Batch the elements methods in succesion, great for fast updates */
-    Batch(props: Partial<Record<keyof Component, any>>): this;
+    batch(props: Partial<Record<keyof Component, any>>): this;
     /** Call a function when this element is clicked */
-    SetOnTouch(handler: () => void): this;
+    set onPress(handler: Function);
     /** Set this elemements Id */
-    SetId(id: string): this;
+    id(id: string | any): this;
     /** Set this elements type */
-    SetType(type: string): this;
+    type(type: string | any): this;
     /** Add classes to this element */
-    SetClassList(classnames: TemplateStringsArray, ...expressions: any[]): this;
+    classList(classnames: TemplateStringsArray, ...expressions: any[]): this;
     /** Remove classes from this element */
-    RemoveClassList(classnames: TemplateStringsArray, ...expressions: any[]): this;
+    removeClassList(classnames: TemplateStringsArray, ...expressions: any[]): this;
     /** Add scoped css to this element, as an Emotion like object or a template literal */
-    Styled(styles: TemplateStringsArray | Object): this;
+    styled(styles: TemplateStringsArray | Object): this;
     /** Make the element visiblr */
-    Show(): this;
+    show(): this;
     /** Hide the element visually */
-    Hide(): this;
+    hide(): this;
     /** Hide the element visually, and take no space in the DOM */
-    Gone(): this;
+    gone(): this;
     /** Helper method to process template literals */
     private interpolateTemplate;
 }

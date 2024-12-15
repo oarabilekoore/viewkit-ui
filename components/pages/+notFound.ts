@@ -1,15 +1,13 @@
-import { PageLayout, Button, Text } from "rosana";
+import { Container, Button, Text } from "rosana";
 
-const aboutPage = new PageLayout("linear", "fillxy, vcenter");
-aboutPage.SetBackColor("yellow");
+const notFoundPage = new Container("linear", "fillxy, vcenter");
 
-const description = Text(aboutPage);
-description.SetText(`
-    Couldnt Find That Page
-`);
-
-const goBackBtn = Button(aboutPage, "Go Back");
-goBackBtn.SetOnTouch(() => {
-    globalThis.app.router.navigate("./");
+Text("404", {
+    parent: notFoundPage,
 });
-export default aboutPage;
+
+Button("Go Back", {
+    parent: notFoundPage,
+}).onPress = () => globalThis.router.navigateTo("./");
+
+export default notFoundPage;

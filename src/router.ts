@@ -2,16 +2,16 @@ import type { Route, MatchedRoute, RouteOptions } from "./types.js";
 
 /**
  * A secure router that supports route guards, 404 handling, lazy loading, and nested routes.
- * 
+ *
  * This router provides the ability to manage navigation, dynamically match routes with parameters,
  * and load components lazily. It also allows for route guards to be added, and includes support
  * for nested routes and handling of 404 errors.
- * 
+ *
  * @param {Array<Route>} routes - The initial list of routes to configure the router with.
- * 
+ *
  * @returns {Object} An API for managing routes, guards, and navigation within the app.
  */
-function PageRouter(routes: Array<Route>) {
+function pageRouter(routes: Array<Route>) {
     const guards: Array<(route: any) => boolean | Promise<boolean>> = [];
     let params: Record<string, string> | null = null;
     let notFound: (() => Promise<{ default: any }>) | null = null;
@@ -48,10 +48,10 @@ function PageRouter(routes: Array<Route>) {
     /**
      * Matches the given path to the defined routes, including handling dynamic route parameters
      * and nested routes.
-     * 
+     *
      * @param {string} path - The current URL path to match.
      * @param {Array<Route>} routes - The list of routes to search through.
-     * 
+     *
      * @returns {MatchedRoute | null} The matched route or null if no match is found.
      */
     const matchRoute = (path: string, routes: Array<Route>): MatchedRoute | null => {
@@ -80,9 +80,9 @@ function PageRouter(routes: Array<Route>) {
 
     /**
      * Converts a route path to a regular expression, allowing for dynamic parameters.
-     * 
+     *
      * @param {string} path - The route path to convert to a regex.
-     * 
+     *
      * @returns {{ regex: RegExp, keys: string[] }} The regex and an array of parameter keys.
      */
     const pathToRegex = (path: string): { regex: RegExp; keys: string[] } => {
@@ -99,9 +99,9 @@ function PageRouter(routes: Array<Route>) {
 
     /**
      * Loads a route's component, supporting lazy loading and nested routes.
-     * 
+     *
      * @param {MatchedRoute} route - The matched route for which to load the component.
-     * 
+     *
      * @returns {Promise<void>} Resolves when the component has been successfully loaded.
      */
     const loadComponent = async (route: MatchedRoute): Promise<void> => {
@@ -145,7 +145,7 @@ function PageRouter(routes: Array<Route>) {
     return {
         /**
          * Installs the router into the provided app instance.
-         * 
+         *
          * @param {any} app - The app instance where the router will be installed.
          */
         install(app: any) {
@@ -155,7 +155,7 @@ function PageRouter(routes: Array<Route>) {
 
         /**
          * Adds a guard function to the router that will be called before navigation.
-         * 
+         *
          * @param {(route: any) => boolean | Promise<boolean>} guardFn - The guard function that will be invoked on route changes.
          */
         addGuard(guardFn: (route: any) => boolean | Promise<boolean>) {
@@ -164,7 +164,7 @@ function PageRouter(routes: Array<Route>) {
 
         /**
          * Sets the component to be shown when a route is not found.
-         * 
+         *
          * @param {() => Promise<{ default: any }>} component - The 404 component to be shown when a route is not found.
          */
         setNotFound(component: () => Promise<{ default: any }>) {
@@ -173,7 +173,7 @@ function PageRouter(routes: Array<Route>) {
 
         /**
          * Adds a new route to the router.
-         * 
+         *
          * @param {string} path - The route path to match.
          * @param {() => Promise<{ default: any }>} component - The component to be loaded for the route.
          * @param {RouteOptions} options - Additional options for the route.
@@ -184,7 +184,7 @@ function PageRouter(routes: Array<Route>) {
 
         /**
          * Registers a function to be called when the route is loaded.
-         * 
+         *
          * @param {string} route - The route path to match.
          * @param {(component: any) => void} fn - The function to be called when the route is loaded.
          */
@@ -195,11 +195,11 @@ function PageRouter(routes: Array<Route>) {
 
         /**
          * Navigates to the specified path, replacing dynamic route parameters with provided values.
-         * 
+         *
          * @param {string} path - The route path to navigate to.
          * @param {Record<string, string>} params - The parameters to replace in the route path.
          */
-        navigate(path: string, params: Record<string, string> = {}) {
+        navigateTo(path: string, params: Record<string, string> = {}) {
             const fullPath = path.replace(/:([\w]+)/g, (_, key) => {
                 if (params[key] === undefined) {
                     console.error(`Parameter "${key}" not provided for path: ${path}`);
@@ -236,4 +236,4 @@ function PageRouter(routes: Array<Route>) {
     };
 }
 
-export default PageRouter;
+export default pageRouter;

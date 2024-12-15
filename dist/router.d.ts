@@ -10,7 +10,7 @@ import type { Route, RouteOptions } from "./types.js";
  *
  * @returns {Object} An API for managing routes, guards, and navigation within the app.
  */
-declare function PageRouter(routes: Array<Route>): {
+declare function pageRouter(routes: Array<Route>): {
     /**
      * Installs the router into the provided app instance.
      *
@@ -54,7 +54,7 @@ declare function PageRouter(routes: Array<Route>): {
      * @param {string} path - The route path to navigate to.
      * @param {Record<string, string>} params - The parameters to replace in the route path.
      */
-    navigate(path: string, params?: Record<string, string>): void;
+    navigateTo(path: string, params?: Record<string, string>): void;
     /**
      * Initializes the router and listens for popstate events (back/forward navigation).
      */
@@ -68,4 +68,4 @@ declare function PageRouter(routes: Array<Route>): {
      */
     forward(): void;
 };
-export default PageRouter;
+export default pageRouter;

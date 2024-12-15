@@ -63,16 +63,23 @@ function layoutFitApi(layout, type, options) {
  * In which takes in the type and sets correct styling this is also done
  * To the childAlignmentProperties.
  */
-class PageLayout extends ComponentProperties {
-    type;
+class Container extends ComponentProperties {
+    eltype;
     options;
-    constructor(type, childAlignmentProperties) {
+    constructor(type, childAlignmentProperties, properties = {}) {
         super();
         this.element = document.createElement("div");
         this.element.id = generateId();
+        this.eltype = `LAYOUT`;
         this.options = childAlignmentProperties;
-        this.type = `LAYOUT`;
         type ? layoutFitApi(this.element, type, this.options) : null;
+        if (properties) {
+            const height = properties?.height;
+            const width = properties?.width;
+            const parent = properties.parent;
+            this.size(width, height, null);
+            parent?.addChild(this);
+        }
     }
 }
-export default PageLayout;
+export default Container;

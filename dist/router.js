@@ -9,7 +9,7 @@
  *
  * @returns {Object} An API for managing routes, guards, and navigation within the app.
  */
-function PageRouter(routes) {
+function pageRouter(routes) {
     const guards = [];
     let params = null;
     let notFound = null;
@@ -180,7 +180,7 @@ function PageRouter(routes) {
          * @param {string} path - The route path to navigate to.
          * @param {Record<string, string>} params - The parameters to replace in the route path.
          */
-        navigate(path, params = {}) {
+        navigateTo(path, params = {}) {
             const fullPath = path.replace(/:([\w]+)/g, (_, key) => {
                 if (params[key] === undefined) {
                     console.error(`Parameter "${key}" not provided for path: ${path}`);
@@ -212,4 +212,4 @@ function PageRouter(routes) {
         },
     };
 }
-export default PageRouter;
+export default pageRouter;

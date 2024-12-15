@@ -4,13 +4,14 @@
 
 <div align="center">
 <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
-<img alt="Version Badge" src="https://img.shields.io/badge/version-1.0.56-brightgreen.svg">
+<img alt="Version Badge" src="https://img.shields.io/badge/version-1.0.57-brightgreen.svg">
 
 </div>
 
 <br>
 
-rosana-js is a framework inspired by DroidScript that I have built because I am used to the mental model or thinking way that I am used to, when using DroidScript. However DroidScript is native to Android so i can't port it everywhere.
+rosana-js is a framework I built that is based off how most native frameworks operate, I am used to
+that mental model.
 
 ## Installation
 
@@ -22,26 +23,48 @@ To install the project, follow these steps:
 
 ## Documentation
 
-I am working on it, at the moment you could look at the [DroidScript Docs](https://droidscript.github.io/Docs/docs/v265/app_Controls.htm) for each control then import eqaully familiar functions but use them as their `Add` alternative.
+I am working on it, however this framework is still usable if you look at this code and the lsp suggestions given.
 
-However before this check out the `App.ts` File First In Componenets Folder.
+However before this check out the `App.js` File First In Componenets Folder.
 
 For Example
 
 ```javascript
-// In DroidScript Native
-let parent = app.CreateLayout('linear', 'fillxy, vcenter')
-let btn = app.AddButton(parent, text, width, height, options);
+// In Your App.js File :
+import { renderApplication, pageRouter } from "rosana";
+import homePage from "./pages/+homePage";
 
-app.AddLayout(parent)
-// In Rosana
+const routes = [
+    { path: "/", component: homePage },
+    {
+        path: "/about",
+        component: function () {
+            return import("./pages/aboutPage");
+        },
+    },
+];
 
-import { PageLayout, Button } from 'rosana'
+globalThis.app = renderApplication(homePage);
+globalThis.app.mountView("#app");
 
-let parent = new PageLayout('linear', 'fillxy, vcenter')
-let btn = Button(parent, text, width, height, options);
+globalThis.router = pageRouter(routes);
+globalThis.router.setNotFound(() => {
+    return import("./pages/+notFound");
+});
+globalThis.router.init();
 
-export parent;
+```
+
+```javascript
+//In homePage.ts File :
+import { Container, Button } from 'rosana'
+
+const homePage = new Container('linear', 'fillxy, vcenter')
+let btn = Button(text, {
+    parent: homePage
+});
+
+export homePage;
 ```
 
 ## Features
@@ -75,10 +98,15 @@ I implemented a Map that maps your elements id to the function you have set, the
 When a click happens it checks if the target maps to the element id's in the map, this is great because it causes less event handlers being attached to every element.
 
 ```javascript
-let button = Button(parent, 'Hello World');
-button.SetOnTouch(()=>{
-    alert(`Hello World`)
+let button = Button('Hello World', {
+    parent: homePage,
+    width: 0.05,
+    height: -1,
 });
+
+button.onPress = ()=>{
+    alert(`Hello World`)
+};
 ```
 
 ## Contributing

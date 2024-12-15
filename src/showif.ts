@@ -19,8 +19,8 @@ const showIF = function (restingParameter: boolean, onTruthyElement: Component, 
         console.error(`one of the elements is undefined on showIF`);
         return;
     }
-    restingParameter ? onTruthyElement.Show() : onTruthyElement.Hide();
-    !restingParameter ? onFalseyElement.Show() : onFalseyElement.Hide();
+    restingParameter ? onTruthyElement.show() : onTruthyElement.hide();
+    !restingParameter ? onFalseyElement.show() : onFalseyElement.hide();
 };
 
 export default showIF;

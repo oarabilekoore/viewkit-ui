@@ -1,4 +1,4 @@
-import { cssParser } from "./parser";
+import { cssParser } from "./parser.js";
 class StyleSheet {
     static classMap = {};
     constructor() { }

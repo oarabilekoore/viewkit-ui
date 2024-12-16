@@ -1,5 +1,6 @@
 import renderApplication from "./render.js";
 import pageRouter from "./router.js";
+import StyleSheet from "./styled.js";
 import signal from "./signal.js";
 import showIF from "./showif.js";
 import store from "./store.js";
@@ -7,4 +8,4 @@ export { renderApplication, pageRouter };
 export { signal, store, showIF };
 import Container from "./layouts.js";
 import { Button, Text, Image } from "./elements.js";
-export { Container, Button, Text, Image };
+export { StyleSheet, Container, Button, Text, Image };

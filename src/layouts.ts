@@ -1,4 +1,5 @@
-import type { Layout, propertiesObject } from "./types.js";
+import type { Layout, Component, propertiesObject } from "./types.js";
+import { onclickEventHandlerMap } from "./component.js";
 import { ComponentProperties } from "./component.js";
 import { generateId } from "./helpers.js";
 
@@ -69,24 +70,61 @@ function layoutFitApi(layout: HTMLElement, type: string, options: string) {
  * To the childAlignmentProperties.
  */
 class Container extends ComponentProperties implements Layout {
-    eltype: string;
+    type: string;
     options: string;
 
     constructor(type: string, childAlignmentProperties: string, properties: Partial<propertiesObject> = {}) {
         super();
         this.element = document.createElement("div");
         this.element.id = generateId();
-        this.eltype = `LAYOUT`;
+        this.type = `LAYOUT`;
         this.options = childAlignmentProperties;
         type ? layoutFitApi(this.element, type, this.options) : null;
 
         if (properties) {
-            const height: number | undefined = properties?.height;
-            const width: number | undefined = properties?.width;
             const parent = properties.parent;
-            this.size(width, height, null);
-            parent?.addChild(this);
+            const style = properties.style;
+
+            this.Styled(style);
+            parent?.AddChild(this);
         }
+    }
+
+    /*** Add a child component to this component.*/
+    AddChild(child: Component): this {
+        if (!child?.element) {
+            console.warn(
+                `The passed object is not a valid
+                Rosana/HTML element.`,
+                child,
+            );
+            return this;
+        }
+        this.element.appendChild(child.element);
+        child.isMounted.value = true;
+        return this;
+    }
+
+    /** Clear the layout and remove all children */
+    Clear(): this {
+        this.element.innerHTML = "";
+        return this;
+    }
+
+    /*** Remove a child component from the layout */
+    RemoveChild(child: Component): this {
+        if (!child?.element) {
+            throw Error(
+                `The passed child is null/undefined or not a
+                 valid Rosana component.", "destroyChild Function`,
+            );
+            return this;
+        }
+
+        onclickEventHandlerMap.delete(child.element.id);
+        child.isMounted.value = false;
+        child.element.remove();
+        return this;
     }
 }
 

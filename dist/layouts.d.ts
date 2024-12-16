@@ -1,4 +1,4 @@
-import type { Layout, propertiesObject } from "./types.js";
+import type { Layout, Component, propertiesObject } from "./types.js";
 import { ComponentProperties } from "./component.js";
 export declare const optionsApi: (element: HTMLElement, options: string) => void;
 /**
@@ -7,8 +7,14 @@ export declare const optionsApi: (element: HTMLElement, options: string) => void
  * To the childAlignmentProperties.
  */
 declare class Container extends ComponentProperties implements Layout {
-    eltype: string;
+    type: string;
     options: string;
     constructor(type: string, childAlignmentProperties: string, properties?: Partial<propertiesObject>);
+    /*** Add a child component to this component.*/
+    AddChild(child: Component): this;
+    /** Clear the layout and remove all children */
+    Clear(): this;
+    /*** Remove a child component from the layout */
+    RemoveChild(child: Component): this;
 }
 export default Container;

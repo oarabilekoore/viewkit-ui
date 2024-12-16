@@ -1,3 +1,4 @@
+import { onclickEventHandlerMap } from "./component.js";
 import { ComponentProperties } from "./component.js";
 import { generateId } from "./helpers.js";
 // This array is all the options available into the layout View.
@@ -64,22 +65,49 @@ function layoutFitApi(layout, type, options) {
  * To the childAlignmentProperties.
  */
 class Container extends ComponentProperties {
-    eltype;
+    type;
     options;
     constructor(type, childAlignmentProperties, properties = {}) {
         super();
         this.element = document.createElement("div");
         this.element.id = generateId();
-        this.eltype = `LAYOUT`;
+        this.type = `LAYOUT`;
         this.options = childAlignmentProperties;
         type ? layoutFitApi(this.element, type, this.options) : null;
         if (properties) {
-            const height = properties?.height;
-            const width = properties?.width;
             const parent = properties.parent;
-            this.size(width, height, null);
-            parent?.addChild(this);
+            const style = properties.style;
+            this.Styled(style);
+            parent?.AddChild(this);
         }
+    }
+    /*** Add a child component to this component.*/
+    AddChild(child) {
+        if (!child?.element) {
+            console.warn(`The passed object is not a valid
+                Rosana/HTML element.`, child);
+            return this;
+        }
+        this.element.appendChild(child.element);
+        child.isMounted.value = true;
+        return this;
+    }
+    /** Clear the layout and remove all children */
+    Clear() {
+        this.element.innerHTML = "";
+        return this;
+    }
+    /*** Remove a child component from the layout */
+    RemoveChild(child) {
+        if (!child?.element) {
+            throw Error(`The passed child is null/undefined or not a
+                 valid Rosana component.", "destroyChild Function`);
+            return this;
+        }
+        onclickEventHandlerMap.delete(child.element.id);
+        child.isMounted.value = false;
+        child.element.remove();
+        return this;
     }
 }
 export default Container;

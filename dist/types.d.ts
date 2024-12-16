@@ -1,35 +1,10 @@
 export interface Component {
-    ismounted: Signal<boolean>;
+    isMounted: Signal<boolean>;
     element: HTMLElement;
-    eltype: string;
-    /** Sets the background color of the element */
-    backColor(color: string): this;
-    /** Sets the text content of the element */
-    text(text: string): this;
-    /** Sets the inner HTML of the element */
-    html(html: string): this;
-    /** Focuses the element */
-    focus(): this;
-    /** Removes focus from the element */
-    clearFocus(): this;
-    /** Sets the ARIA label for accessibility */
-    setDescription(text: string): this;
-    /**
-     * Sets the dimensions of the element
-     * @param width Width of the element, or `null` to keep unchanged
-     * @param height Height of the element, or `null` to keep unchanged
-     * @param unit Dimension unit (e.g., px, %, em, rem, or `null` for default)
-     */
-    size(width: number | null, height: number | null, unit: "px" | "%" | "em" | "rem" | null): this;
     /** Sets a callback to invoke when the component is mounted */
-    onMount(callback: () => void): this;
+    set onMount(callback: () => void);
     /** Sets a callback to invoke when the component is unmounted */
-    onUnMount(callback: () => void): this;
-    /**
-     * Batch sets multiple properties for the component
-     * @param props A record of properties and their values
-     */
-    batch(props: Partial<Record<keyof Component, any>>): this;
+    set onUnMount(callback: () => void);
     /**
      * Sets a click/touch event handler for the element
      * @param handler The event handler function
@@ -39,44 +14,35 @@ export interface Component {
      * Adds scoped CSS styles to the element
      * @param styles Styles as a template literal or a style object
      */
-    styled(styles: TemplateStringsArray | Record<string, string>): this;
+    Styled(className: string): this;
     /** Makes the component visible */
-    show(): this;
+    Show(): this;
     /** Hides the component */
-    hide(): this;
+    Hide(): this;
     /** Hides the component completely */
-    gone(): this;
-    /**
-     * Adds a child component to the layout
-     * @param child The child component to add
-     */
-    addChild(child: Component): this;
-    /**
-     * Removes a child component from the layout
-     * @param child The child component to remove
-     */
-    removeChild(child: Component): this;
+    Gone(): this;
 }
 export type propertiesObject = Partial<{
     options: string;
-    height: number;
-    width: number;
+    style: string;
 }> & {
     parent: Layout;
 };
 export interface Layout {
     element: HTMLElement;
-    eltype: string;
+    type: string;
     /**
      * Adds a child component to the layout
      * @param child The child component to add
      */
-    addChild(child: Component): this;
+    AddChild(child: Component): this;
+    /** Clear the layout and remove all children */
+    Clear(): this;
     /**
      * Removes a child component from the layout
      * @param child The child component to remove
      */
-    removeChild(child: Component): this;
+    RemoveChild(child: Component): this;
 }
 export interface Plugin {
     /** Install the plugin */

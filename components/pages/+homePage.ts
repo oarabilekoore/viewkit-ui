@@ -1,44 +1,35 @@
 import { Container, Button, Text, Image } from "rosana";
+import { home } from "../ui/styles";
 
 // This is like the main app div that contains other smaller
-// divs and html elemContainerents
+// divs and html elements, we call these widgets
 const homePage = new Container("linear", "fillxy, top");
 
 // Then this is the like a div we built for the nav bar
 const nav = new Container("linear", "fillx, vcenter", {
     parent: homePage,
-    height: 0.05,
+    style: home.nav,
 });
 
-nav.backColor("white");
-
 Text("rosana.js", {
+    style: home.text,
     options: "p",
-    width: 0.1,
-    height: -1,
     parent: nav,
 });
 
-// Then here is the main content div
 const body = new Container("linear", "fillxy, vcenter", {
+    style: home.body,
     parent: homePage,
 });
 
-body.childMargins(0, 0, 0, 0.2);
-body.backColor("orange");
-
 Image("../rosana.png", {
-    width: 0.1,
-    height: -1,
+    style: home.image,
     parent: body,
-}).setDescription("Framework Logo");
+}).element.ariaLabel = "Framework Logo";
 
-const btn = Button("Hello World", {
-    width: 0.1,
-    height: -1,
+Button("Hello World", {
+    style: home.button,
     parent: body,
-});
-
-btn.onPress = () => globalThis.router.navigateTo("/about");
+}).onPress = () => globalThis.router.navigateTo("/about");
 
 export default homePage;

@@ -17,7 +17,7 @@ const renderApplication = function (mainComponent) {
             document.body.style.margin = "0";
             if (!container)
                 console.error(`No element found for selector "${selector}"`);
-            if (instance && instance.element && instance.eltype === "LAYOUT") {
+            if (instance && instance.element && instance.type === "LAYOUT") {
                 container.appendChild(instance.element);
             }
             else {

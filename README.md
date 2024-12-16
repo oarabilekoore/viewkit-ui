@@ -4,13 +4,13 @@
 
 <div align="center">
 <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
-<img alt="Version Badge" src="https://img.shields.io/badge/version-1.0.57-brightgreen.svg">
+<img alt="Version Badge" src="https://img.shields.io/badge/version-1.0.58-brightgreen.svg">
 
 </div>
 
 <br>
 
-rosana-js is a framework I built that is based off how most native frameworks operate, I am used to
+rosana.ds is a framework I built that is based off how most native frameworks operate, I am used to
 that mental model.
 
 ## Installation
@@ -91,23 +91,27 @@ rosana-js comes with this function, it takes in a restingParameter and based on 
 showIF(restingParameter, onTruthyElement, onFalslyElement);
 ```
 
-### Event Managment /Specifically OnClick/
+### Event Managment An onclick Alternative.
 
 I implemented a Map that maps your elements id to the function you have set, then there is one global onclick event handling function - its monitoring all clicks happening in the document.
 
 When a click happens it checks if the target maps to the element id's in the map, this is great because it causes less event handlers being attached to every element.
 
+Therefore it is recommended to use onPress instead.
+
 ```javascript
 let button = Button('Hello World', {
-    parent: homePage,
-    width: 0.05,
-    height: -1,
+    parent: homePage
 });
 
 button.onPress = ()=>{
     alert(`Hello World`)
 };
 ```
+
+Check out the documentation here 🧩
+
+1. [Getting Started](./docs/+Getting_Started.md)
 
 ## Contributing
 

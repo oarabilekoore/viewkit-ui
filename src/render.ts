@@ -21,7 +21,7 @@ const renderApplication = function (mainComponent: Layout): object {
 
             if (!container) console.error(`No element found for selector "${selector}"`);
 
-            if (instance && instance.element && instance.eltype === "LAYOUT") {
+            if (instance && instance.element && instance.type === "LAYOUT") {
                 container.appendChild(instance.element);
             } else {
                 console.error("View is not a rosana.js Component - Must be a Layout");

@@ -13,22 +13,35 @@ class HtmlWidget extends ComponentProperties {
     constructor(parent, tag) {
         super();
         this.element = document.createElement(tag);
-        this.id(generateId());
-        parent?.addChild(this);
+        this.element.id = generateId();
+        parent?.AddChild(this);
+    }
+    text(value) {
+        this.element.textContent = value;
+        return this;
     }
 }
 class ImageWidget extends ComponentProperties {
     element;
     constructor(sourceURL, properties) {
         super();
-        const height = properties?.height;
-        const width = properties?.width;
-        const parent = properties.parent;
         this.element = document.createElement("img");
+        properties.parent.AddChild(this);
+        this.element.id = generateId();
         this.element.src = sourceURL;
-        this.size(width, height);
-        this.id(generateId());
-        parent.addChild(this);
+        this.Styled(properties.style);
+    }
+}
+export class CustomWidget extends ComponentProperties {
+    element;
+    constructor(customTag, properties) {
+        super();
+        if (!customTag.includes("-")) {
+            throw Error(`The provided tag is not a custom element : ${customTag}`);
+        }
+        this.element = document.createElement(customTag);
+        properties.parent.AddChild(this);
+        this.element.id = generateId();
     }
 }
 /**
@@ -38,27 +51,25 @@ class ImageWidget extends ComponentProperties {
  * @returns
  */
 export const Button = function (text = "", properties) {
-    const height = properties?.height;
-    const width = properties?.width;
     const parent = properties.parent;
-    return new HtmlWidget(parent, "button").text(text).size(width, height, null);
+    const style = properties.style;
+    return new HtmlWidget(parent, "button").text(text).Styled(style);
 };
 /**
- * Adds a text view to the specified layout. Allows specifying the type of text
+ * Adds a text widget to the specified layout. Allows specifying the type of text
  * element via the options parameter.
- * @param {string} text - The text content of the text view.
- * @returns {HtmlWidget} The created text view widget.
+ * @param {string} text - The text content of the text widget.
+ * @returns {HtmlWidget} The created text widget widget.
  */
 export const Text = function (text = "", properties) {
     const options = properties.options;
-    const height = properties.height;
     const parent = properties.parent;
-    const width = properties.width;
-    return new HtmlWidget(parent, options?.split(",")[0] || "span").text(text).size(width, height, null);
+    const style = properties.style;
+    return new HtmlWidget(parent, options?.split(",")[0] || "span").text(text).Styled(style);
 };
 /**
  * Add an Image Element
- * @param {string} sourceUrl - The url of the image view.
+ * @param {string} sourceUrl - The url of the image widget.
  * @returns
  */
 export const Image = function (sourceUrl, properties) {

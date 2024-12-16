@@ -1,4 +1,4 @@
-import { cssParser } from "./parser";
+import { cssParser } from "./parser.js";
 
 type StyleDefinition = Record<string, string | number | Record<string, any>>;
 type Styles = Record<string, StyleDefinition>;

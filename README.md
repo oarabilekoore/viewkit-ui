@@ -4,7 +4,7 @@
 
 <div align="center">
 <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
-<img alt="Version Badge" src="https://img.shields.io/badge/version-1.0.59-brightgreen.svg">
+<img alt="Version Badge" src="https://img.shields.io/badge/version-1.1.59-brightgreen.svg">
 
 </div>
 
@@ -44,15 +44,8 @@ const routes = [
     },
 ];
 
-globalThis.app = renderApplication(homePage);
-globalThis.app.mountView("#app");
-
-globalThis.router = pageRouter(routes);
-globalThis.router.setNotFound(() => {
-    return import("./pages/+notFound");
-});
-globalThis.router.init();
-
+pageRouter(routes);
+renderApplication(homePage).mountView("#app");
 ```
 
 ```javascript

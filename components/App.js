@@ -11,11 +11,10 @@ const routes = [
     },
 ];
 
-globalThis.app = renderApplication(homePage);
-globalThis.app.mountView("#app");
-
 globalThis.router = pageRouter(routes);
 globalThis.router.setNotFound(() => {
     return import("./pages/+notFound");
 });
 globalThis.router.init();
+
+renderApplication(homePage).mountView("#app");

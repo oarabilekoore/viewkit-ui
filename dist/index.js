@@ -7,5 +7,5 @@ import store from "./store.js";
 export { renderApplication, pageRouter };
 export { signal, store, showIF };
 import Container from "./layouts.js";
-import { Button, Text, Image } from "./elements.js";
-export { StyleSheet, Container, Button, Text, Image };
+import { Button, Image, Anchor, Heading, Input, TextArea, Select, Option, Video, Audio, IFrame, Canvas, Hr, Br, } from "./elements.js";
+export { StyleSheet, Container, Button, Image, Anchor, Heading, Input, TextArea, Select, Option, Video, Audio, IFrame, Canvas, Hr, Br, };

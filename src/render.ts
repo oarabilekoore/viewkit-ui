@@ -1,4 +1,4 @@
-import type { Layout, Plugin } from "./types";
+import type { Layout } from "./types";
 
 /**
  * The `renderApplication` function initializes an application with a root component.
@@ -27,17 +27,6 @@ const renderApplication = function (mainComponent: Layout): object {
                 console.error("View is not a rosana.js Component - Must be a Layout");
             }
 
-            return this;
-        },
-
-        /** Adds a plugin to the application */
-        usePlugin: function (plugin: Plugin) {
-            if (plugin && typeof plugin.install === "function") {
-                //@ts-ignore
-                plugin.install(this);
-            } else {
-                console.error("Plugin is missing install method:", plugin);
-            }
             return this;
         },
     };

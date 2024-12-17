@@ -1,6 +1,6 @@
-export interface Component {
+export interface Widget<T extends HTMLElement = HTMLElement> {
     isMounted: Signal<boolean>;
-    element: HTMLElement;
+    element: T;
     /** Sets a callback to invoke when the component is mounted */
     set onMount(callback: () => void);
     /** Sets a callback to invoke when the component is unmounted */
@@ -10,20 +10,8 @@ export interface Component {
      * @param handler The event handler function
      */
     set onPress(handler: Function);
-    /**
-     * Adds scoped CSS styles to the element
-     * @param styles Styles as a template literal or a style object
-     */
-    Styled(className: string): this;
-    /** Makes the component visible */
-    Show(): this;
-    /** Hides the component */
-    Hide(): this;
-    /** Hides the component completely */
-    Gone(): this;
 }
-export type propertiesObject = Partial<{
-    options: string;
+export type WidgetOptions = Partial<{
     style: string;
 }> & {
     parent: Layout;
@@ -35,22 +23,14 @@ export interface Layout {
      * Adds a child component to the layout
      * @param child The child component to add
      */
-    AddChild(child: Component): this;
+    AddChild(child: Widget): this;
     /** Clear the layout and remove all children */
     Clear(): this;
     /**
      * Removes a child component from the layout
      * @param child The child component to remove
      */
-    RemoveChild(child: Component): this;
-}
-export interface Plugin {
-    /** Install the plugin */
-    install(): this;
-    /** Optional plugin metadata */
-    name?: string;
-    version?: string;
-    author?: string;
+    RemoveChild(child: Widget): this;
 }
 export interface Route {
     /** Path of the route */

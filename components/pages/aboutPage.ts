@@ -1,8 +1,8 @@
-import { Container, Text } from "rosana";
+import { Container, Heading } from "rosana";
 
 const aboutPage = new Container("linear", "fillxy, vcenter", {});
 
-Text(`Hello Welcome !`, {
+Heading(`Hello Welcome !`, 3, {
     parent: aboutPage,
 });
 

@@ -1,6 +1,6 @@
-import type { Layout, Component, propertiesObject } from "./types.js";
-import { onclickEventHandlerMap } from "./component.js";
-import { ComponentProperties } from "./component.js";
+import type { Layout, Widget, WidgetOptions } from "./types.js";
+import { onPressEventHanlerMap } from "./component.js";
+import { WidgetProperties } from "./component.js";
 import { generateId } from "./helpers.js";
 
 // This array is all the options available into the layout View.
@@ -54,9 +54,7 @@ function layoutFitApi(layout: HTMLElement, type: string, options: string) {
             layout.classList.add("layout-frame");
             break;
         case "stack":
-            const directionClass = options?.includes("vertical")
-                ? "layout-stack-vertical"
-                : "layout-stack-horizontal";
+            const directionClass = options?.includes("vertical") ? "layout-stack-vertical" : "layout-stack-horizontal";
             layout.classList.add(directionClass);
             break;
         default:
@@ -65,15 +63,15 @@ function layoutFitApi(layout: HTMLElement, type: string, options: string) {
 }
 
 /**
- * This class extends ComponentProperties class and returns a Layout view,
+ * This class extends WidgetProperties class and returns a Layout view,
  * In which takes in the type and sets correct styling this is also done
  * To the childAlignmentProperties.
  */
-class Container extends ComponentProperties implements Layout {
+class Container extends WidgetProperties implements Layout {
     type: string;
     options: string;
 
-    constructor(type: string, childAlignmentProperties: string, properties: Partial<propertiesObject> = {}) {
+    constructor(type: string, childAlignmentProperties: string, properties: Partial<WidgetOptions> = {}) {
         super();
         this.element = document.createElement("div");
         this.element.id = generateId();
@@ -81,17 +79,16 @@ class Container extends ComponentProperties implements Layout {
         this.options = childAlignmentProperties;
         type ? layoutFitApi(this.element, type, this.options) : null;
 
-        if (properties) {
-            const parent = properties.parent;
-            const style = properties.style;
-
-            this.Styled(style);
-            parent?.AddChild(this);
+        const { style = "", parent } = properties;
+        if (style.length === 0) {
+            return;
         }
+        this.element.classList.add(style);
+        parent?.AddChild(this);
     }
 
     /*** Add a child component to this component.*/
-    AddChild(child: Component): this {
+    AddChild(child: Widget): this {
         if (!child?.element) {
             console.warn(
                 `The passed object is not a valid
@@ -112,7 +109,7 @@ class Container extends ComponentProperties implements Layout {
     }
 
     /*** Remove a child component from the layout */
-    RemoveChild(child: Component): this {
+    RemoveChild(child: Widget): this {
         if (!child?.element) {
             throw Error(
                 `The passed child is null/undefined or not a
@@ -121,7 +118,7 @@ class Container extends ComponentProperties implements Layout {
             return this;
         }
 
-        onclickEventHandlerMap.delete(child.element.id);
+        onPressEventHanlerMap.delete(child.element.id);
         child.isMounted.value = false;
         child.element.remove();
         return this;

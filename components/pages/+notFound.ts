@@ -1,16 +1,16 @@
-import { Container, Button, Text } from "rosana";
+import { Container, Button, Heading } from "rosana";
 import { home, notFound } from "../ui/styles";
 
 const notFoundPage = new Container("linear", "fillxy, vcenter", {
     style: notFound.container,
 });
 
-Text("404 - Page Not Found", {
+Heading("404 - Page Not Found", 2, {
     style: notFound.notFoundText,
     parent: notFoundPage,
 });
 
-Text("Oops! The page you are looking for doesn't exist.", {
+Heading("Oops! The page you are looking for doesn't exist.", 4, {
     style: notFound.oopsText,
     parent: notFoundPage,
 });
@@ -18,6 +18,6 @@ Text("Oops! The page you are looking for doesn't exist.", {
 Button("Go To HomePage", {
     style: home.button,
     parent: notFoundPage,
-}).onPress = () => globalThis.router.navigateTo("./");
+}).onPress = () => globalThis.router.open("./");
 
 export default notFoundPage;

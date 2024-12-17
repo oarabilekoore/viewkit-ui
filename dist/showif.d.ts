@@ -1,4 +1,4 @@
-import type { Component } from "./types";
+import type { Widget } from "./types";
 /**
  * The `showIF` function conditionally shows or hides two elements based on a truthy or falsy value.
  * It takes a boolean `restingParameter` to determine which element to Show or Hide.
@@ -8,10 +8,10 @@ import type { Component } from "./types";
  *
  * @param {boolean} restingParameter - The condition to determine which element should be shown or hidden.
  *                                    If truthy, the first element is shown, and the second is hidden.
- * @param {Component} onTruthyElement - The component to Show when `restingParameter` is truthy.
- * @param {Component} onFalseyElement - The component to Show when `restingParameter` is falsy.
+ * @param {Widget} onTruthyElement - The component to Show when `restingParameter` is truthy.
+ * @param {Widget} onFalseyElement - The component to Show when `restingParameter` is falsy.
  *
  * @throws {Error} If either `onTruthyElement` or `onFalseyElement` is `undefined`, an error is logged.
  */
-declare const showIF: (restingParameter: boolean, onTruthyElement: Component, onFalseyElement: Component) => void;
+declare const showIF: (restingParameter: boolean, onTruthyElement: Widget, onFalseyElement: Widget) => void;
 export default showIF;

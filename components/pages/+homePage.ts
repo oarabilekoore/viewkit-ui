@@ -1,4 +1,4 @@
-import { Container, Button, Text, Image } from "rosana";
+import { Container, Button, Heading, Image, Input } from "rosana";
 import { home } from "../ui/styles";
 
 // This is like the main app div that contains other smaller
@@ -11,9 +11,8 @@ const nav = new Container("linear", "fillx, vcenter", {
     style: home.nav,
 });
 
-Text("rosana.js", {
+Heading("rosana.js", 1, {
     style: home.text,
-    options: "p",
     parent: nav,
 });
 
@@ -25,11 +24,11 @@ const body = new Container("linear", "fillxy, vcenter", {
 Image("../rosana.png", {
     style: home.image,
     parent: body,
-}).element.ariaLabel = "Framework Logo";
+});
 
 Button("Hello World", {
     style: home.button,
     parent: body,
-}).onPress = () => globalThis.router.navigateTo("/about");
+}).onPress = () => globalThis.router.open("/about");
 
 export default homePage;

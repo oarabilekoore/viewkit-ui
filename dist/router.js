@@ -129,15 +129,6 @@ function pageRouter(routes) {
     // Public API
     return {
         /**
-         * Installs the router into the provided app instance.
-         *
-         * @param {any} app - The app instance where the router will be installed.
-         */
-        install(app) {
-            app.router = this;
-            this.init();
-        },
-        /**
          * Adds a guard function to the router that will be called before navigation.
          *
          * @param {(route: any) => boolean | Promise<boolean>} guardFn - The guard function that will be invoked on route changes.
@@ -180,7 +171,7 @@ function pageRouter(routes) {
          * @param {string} path - The route path to navigate to.
          * @param {Record<string, string>} params - The parameters to replace in the route path.
          */
-        navigateTo(path, params = {}) {
+        open(path, params = {}) {
             const fullPath = path.replace(/:([\w]+)/g, (_, key) => {
                 if (params[key] === undefined) {
                     console.error(`Parameter "${key}" not provided for path: ${path}`);

@@ -1,5 +1,5 @@
-import { onclickEventHandlerMap } from "./component.js";
-import { ComponentProperties } from "./component.js";
+import { onPressEventHanlerMap } from "./component.js";
+import { WidgetProperties } from "./component.js";
 import { generateId } from "./helpers.js";
 // This array is all the options available into the layout View.
 const viewOptions = [
@@ -50,9 +50,7 @@ function layoutFitApi(layout, type, options) {
             layout.classList.add("layout-frame");
             break;
         case "stack":
-            const directionClass = options?.includes("vertical")
-                ? "layout-stack-vertical"
-                : "layout-stack-horizontal";
+            const directionClass = options?.includes("vertical") ? "layout-stack-vertical" : "layout-stack-horizontal";
             layout.classList.add(directionClass);
             break;
         default:
@@ -60,11 +58,11 @@ function layoutFitApi(layout, type, options) {
     }
 }
 /**
- * This class extends ComponentProperties class and returns a Layout view,
+ * This class extends WidgetProperties class and returns a Layout view,
  * In which takes in the type and sets correct styling this is also done
  * To the childAlignmentProperties.
  */
-class Container extends ComponentProperties {
+class Container extends WidgetProperties {
     type;
     options;
     constructor(type, childAlignmentProperties, properties = {}) {
@@ -74,12 +72,12 @@ class Container extends ComponentProperties {
         this.type = `LAYOUT`;
         this.options = childAlignmentProperties;
         type ? layoutFitApi(this.element, type, this.options) : null;
-        if (properties) {
-            const parent = properties.parent;
-            const style = properties.style;
-            this.Styled(style);
-            parent?.AddChild(this);
+        const { style = "", parent } = properties;
+        if (style.length === 0) {
+            return;
         }
+        this.element.classList.add(style);
+        parent?.AddChild(this);
     }
     /*** Add a child component to this component.*/
     AddChild(child) {
@@ -104,7 +102,7 @@ class Container extends ComponentProperties {
                  valid Rosana component.", "destroyChild Function`);
             return this;
         }
-        onclickEventHandlerMap.delete(child.element.id);
+        onPressEventHanlerMap.delete(child.element.id);
         child.isMounted.value = false;
         child.element.remove();
         return this;

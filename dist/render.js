@@ -25,17 +25,6 @@ const renderApplication = function (mainComponent) {
             }
             return this;
         },
-        /** Adds a plugin to the application */
-        usePlugin: function (plugin) {
-            if (plugin && typeof plugin.install === "function") {
-                //@ts-ignore
-                plugin.install(this);
-            }
-            else {
-                console.error("Plugin is missing install method:", plugin);
-            }
-            return this;
-        },
     };
     return app;
 };

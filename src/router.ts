@@ -11,7 +11,7 @@ import type { Route, MatchedRoute, RouteOptions } from "./types.js";
  *
  * @returns {Object} An API for managing routes, guards, and navigation within the app.
  */
-function pageRouter(routes: Array<Route>) {
+function Router(routes: Array<Route>) {
     const guards: Array<(route: any) => boolean | Promise<boolean>> = [];
     let params: Record<string, string> | null = null;
     let notFound: (() => Promise<{ default: any }>) | null = null;
@@ -25,6 +25,8 @@ function pageRouter(routes: Array<Route>) {
         const path = window.location.pathname;
         const matchedRoute = matchRoute(path, routes);
 
+        console.log(`path: ${path}`);
+        console.log(`matchedRoute: ${matchedRoute}`);
         if (matchedRoute) {
             params = matchedRoute.params;
 
@@ -141,6 +143,7 @@ function pageRouter(routes: Array<Route>) {
         }
     };
 
+    window.addEventListener("popstate", handleRouteChange);
     // Public API
     return {
         /**
@@ -203,18 +206,11 @@ function pageRouter(routes: Array<Route>) {
         },
 
         /**
-         * Initializes the router and listens for popstate events (back/forward navigation).
-         */
-        init() {
-            handleRouteChange();
-            window.addEventListener("popstate", handleRouteChange);
-        },
-
-        /**
          * Navigates back in the browser history.
          */
         back() {
             history.back();
+            history.scrollRestoration;
         },
 
         /**
@@ -225,5 +221,10 @@ function pageRouter(routes: Array<Route>) {
         },
     };
 }
+
+const pageRouter = function (routes: Array<Route>) {
+    //@ts-ignore
+    return (globalThis.router = Router(routes));
+};
 
 export default pageRouter;

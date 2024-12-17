@@ -21,6 +21,15 @@ export type WidgetOptions = Partial<{
     parent: Layout;
 };
 
+export type LinkOptions = Partial<{
+    style: string;
+    behaveLikeLink: boolean;
+    query: Record<string, string>;
+}> & {
+    to: string;
+    parent: Layout;
+};
+
 export interface Layout {
     element: HTMLElement;
     type: string;

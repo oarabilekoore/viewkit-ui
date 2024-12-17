@@ -1,3 +1,4 @@
+import errors from "./errors.js";
 /**
  * A secure router that supports route guards, 404 handling, lazy loading, and nested routes.
  *
@@ -12,17 +13,13 @@
 function Router(routes) {
     const guards = [];
     let params = null;
-    let notFound = null;
+    let notFound = () => {
+        return import("../components/pages/+notFound.js");
+    };
     let currentRoute = null;
-    /**
-     * Handles the route change by matching the current URL path and loading the corresponding component.
-     * It also checks the route guards before proceeding.
-     */
     const handleRouteChange = async () => {
         const path = window.location.pathname;
         const matchedRoute = matchRoute(path, routes);
-        console.log(`path: ${path}`);
-        console.log(`matchedRoute: ${matchedRoute}`);
         if (matchedRoute) {
             params = matchedRoute.params;
             for (const guard of guards) {
@@ -34,23 +31,10 @@ function Router(routes) {
             currentRoute = matchedRoute;
             await loadComponent(matchedRoute);
         }
-        else if (notFound) {
-            //@ts-ignore
-            await loadComponent({ component: notFound });
-        }
         else {
             console.error(`Route not found for path: ${path}`);
         }
     };
-    /**
-     * Matches the given path to the defined routes, including handling dynamic route parameters
-     * and nested routes.
-     *
-     * @param {string} path - The current URL path to match.
-     * @param {Array<Route>} routes - The list of routes to search through.
-     *
-     * @returns {MatchedRoute | null} The matched route or null if no match is found.
-     */
     const matchRoute = (path, routes) => {
         for (const route of routes) {
             const { regex, keys } = pathToRegex(route.path);
@@ -71,13 +55,6 @@ function Router(routes) {
         }
         return null;
     };
-    /**
-     * Converts a route path to a regular expression, allowing for dynamic parameters.
-     *
-     * @param {string} path - The route path to convert to a regex.
-     *
-     * @returns {{ regex: RegExp, keys: string[] }} The regex and an array of parameter keys.
-     */
     const pathToRegex = (path) => {
         const keys = [];
         const regexString = path
@@ -88,48 +65,29 @@ function Router(routes) {
             .replace(/\//g, "\\/");
         return { regex: new RegExp(`^${regexString}$`), keys };
     };
-    /**
-     * Loads a route's component, supporting lazy loading and nested routes.
-     *
-     * @param {MatchedRoute} route - The matched route for which to load the component.
-     *
-     * @returns {Promise<void>} Resolves when the component has been successfully loaded.
-     */
     const loadComponent = async (route) => {
         let component = route.component;
         if (typeof component === "function") {
             const module = await component();
             component = module.default;
         }
-        if (component && typeof route.onLoad === "function") {
-            route.onLoad(component);
-        }
         else if (component) {
             const container = document.querySelector("#app");
-            if (container) {
-                container.innerHTML = "";
-                const instance = component;
-                //@ts-ignore
-                if (instance && instance.element) {
-                    //@ts-ignore
-                    container.appendChild(instance.element);
-                    //@ts-ignore
-                    if (typeof instance.routingInfo === "function") {
-                        //@ts-ignore
-                        instance.routingInfo(params);
-                    }
-                    if (route.nested) {
-                        await loadComponent(route.nested);
-                    }
-                }
-                else {
-                    console.error(`Imported Route Is Not A Valid Component: ${instance}`);
-                }
+            const instance = component;
+            if (!instance.element) {
+                throw Error(`Router Error: Error 101\n` + errors[101]);
             }
+            if (!container) {
+                throw Error(`Router Error: Error 100\n` + errors[100]);
+            }
+            container.replaceChildren();
+            container.appendChild(instance.element);
+        }
+        else {
+            console.error(`Router Error: Error 102\n` + errors[102]);
         }
     };
     window.addEventListener("popstate", handleRouteChange);
-    // Public API
     return {
         /**
          * Adds a guard function to the router that will be called before navigation.
@@ -138,14 +96,6 @@ function Router(routes) {
          */
         addGuard(guardFn) {
             guards.push(guardFn);
-        },
-        /**
-         * Sets the component to be shown when a route is not found.
-         *
-         * @param {() => Promise<{ default: any }>} component - The 404 component to be shown when a route is not found.
-         */
-        setNotFound(component) {
-            notFound = component;
         },
         /**
          * Adds a new route to the router.

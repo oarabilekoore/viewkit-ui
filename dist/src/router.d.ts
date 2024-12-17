@@ -7,14 +7,6 @@ declare const pageRouter: (routes: Array<Route>) => {
      */
     addGuard(guardFn: (route: any) => boolean | Promise<boolean>): void;
     /**
-     * Sets the component to be shown when a route is not found.
-     *
-     * @param {() => Promise<{ default: any }>} component - The 404 component to be shown when a route is not found.
-     */
-    setNotFound(component: () => Promise<{
-        default: any;
-    }>): void;
-    /**
      * Adds a new route to the router.
      *
      * @param {string} path - The route path to match.

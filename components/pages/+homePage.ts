@@ -1,4 +1,4 @@
-import { Container, Button, Heading, Image, Input } from "rosana";
+import { Container, Heading, Image, Link } from "rosana";
 import { home } from "../ui/styles";
 
 // This is like the main app div that contains other smaller
@@ -26,9 +26,10 @@ Image("../rosana.png", {
     parent: body,
 });
 
-Button("Hello World", {
+Link("Hello World", {
     style: home.button,
+    to: "/about",
     parent: body,
-}).onPress = () => globalThis.router.open("/about");
+});
 
 export default homePage;

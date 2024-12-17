@@ -1,4 +1,4 @@
-# _rosana.ds
+# rosana.ds
 
 <div align="center"><img src="./rosana.png" width="100" /></div>
 

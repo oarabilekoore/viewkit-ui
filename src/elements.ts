@@ -1,6 +1,7 @@
-import type { Widget, Layout, WidgetOptions } from "./types.js";
+import type { Widget, Layout, WidgetOptions, LinkOptions } from "./types.js";
 import { WidgetProperties } from "./component.js";
 import { generateId } from "./helpers.js";
+import pageRouter from "./router.js";
 
 // This is a base class for all widgets, we create an
 // instance of it everytime we create a widget.
@@ -70,11 +71,7 @@ type headingLevels = 1 | 2 | 3 | 4 | 5 | 6;
  * @param {WidgetOptions} properties
  * @returns {Widget}
  */
-export const Heading = function (
-    text: string,
-    level: headingLevels,
-    properties: WidgetOptions,
-): Widget<HTMLHeadingElement> {
+export const Heading = function (text: string, level: headingLevels, properties: WidgetOptions): Widget<HTMLHeadingElement> {
     const heading = new HtmlWidget<HTMLHeadingElement>(properties.parent, `h${level}`);
     heading.element.textContent = text;
     const { style = "" } = properties;
@@ -223,4 +220,34 @@ export const Br = function (properties: WidgetOptions): Widget<HTMLBRElement> {
         br.element.classList.add(style);
     }
     return br;
+};
+
+/**
+ * Link Widget is used for routing, add to as a defined route
+ * and your text.
+ */
+export const Link = function (text: string = "", properties: LinkOptions): Widget<HTMLAnchorElement> {
+    const { parent, to = "/", style = "", query = {}, behaveLikeLink = false } = properties;
+
+    const link = new HtmlWidget<HTMLAnchorElement>(parent, "a");
+
+    if (style.length !== 0) {
+        link.element.classList.add(style);
+    }
+
+    link.element.text = text;
+    if (!behaveLikeLink) {
+        link.onPress = () => {
+            //@ts-ignore
+            globalThis.router.open(to, query);
+        };
+    } else {
+        link.element.href = to;
+        link.element.addEventListener("click", (e) => {
+            e.preventDefault();
+            //@ts-ignore
+            globalThis.router.open(to, query);
+        });
+    }
+    return link;
 };

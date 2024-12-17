@@ -11,10 +11,5 @@ const routes = [
     },
 ];
 
-globalThis.router = pageRouter(routes);
-globalThis.router.setNotFound(() => {
-    return import("./pages/+notFound");
-});
-globalThis.router.init();
-
+pageRouter(routes);
 renderApplication(homePage).mountView("#app");

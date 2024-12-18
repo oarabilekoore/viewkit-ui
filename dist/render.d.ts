@@ -1,4 +1,4 @@
-import type { Layout } from "./types";
+import type { ContainerWidget } from "./types";
 /**
  * The `renderApplication` function initializes an application with a root component.
  * This is typically used to set up your homepage or main view.
@@ -6,5 +6,5 @@ import type { Layout } from "./types";
  * To mount the view or layout, use the `mountView` function.
  * Pass the id or class selector where the view will attach, e.g., `#app` or `.container`.
  */
-declare const renderApplication: (mainComponent: Layout) => object;
+declare const renderApplication: (mainComponent: ContainerWidget) => object;
 export default renderApplication;

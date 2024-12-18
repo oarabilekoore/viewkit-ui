@@ -17,11 +17,13 @@ const renderApplication = function (mainComponent) {
             document.body.style.margin = "0";
             if (!container)
                 console.error(`No element found for selector "${selector}"`);
-            if (instance && instance.element && instance.type === "LAYOUT") {
+            // only containers have a .element property
+            if (instance && instance.element instanceof HTMLDivElement) {
                 container.appendChild(instance.element);
             }
             else {
-                console.error("View is not a rosana.js Component - Must be a Layout");
+                const type = instance?.element?.constructor?.name || "unknown type";
+                throw Error(`The Passed Widget Is Not A Container.\nIt is an instance of: ${type}`);
             }
             return this;
         },

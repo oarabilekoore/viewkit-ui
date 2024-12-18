@@ -1,24 +1,28 @@
-export interface Widget<T extends HTMLElement = HTMLElement> {
-    isMounted: Signal<boolean>;
-    element: T;
-
-    /** Sets a callback to invoke when the component is mounted */
-    set onMount(callback: () => void);
-
-    /** Sets a callback to invoke when the component is unmounted */
-    set onUnMount(callback: () => void);
-
-    /**
-     * Sets a click/touch event handler for the element
-     * @param handler The event handler function
-     */
-    set onPress(handler: Function);
+/**
+ * Extends HTMLElement to include an `onPress` setter.
+ * The setter registers a click handler for the element by associating
+ * it with its id in the `onPressEventHanlerMap`.
+ */
+declare global {
+    interface GlobalEventHanlders {
+        set onpress(handler: Function);
+    }
+    interface HTMLElement {
+        set onpress(handler: Function);
+    }
 }
 
 export type WidgetOptions = Partial<{
     style: string;
 }> & {
-    parent: Layout;
+    parent: ContainerWidget;
+};
+
+export type AnchorOptions = Partial<{
+    style: string;
+}> & {
+    href: string;
+    parent: ContainerWidget;
 };
 
 export type LinkOptions = Partial<{
@@ -27,18 +31,18 @@ export type LinkOptions = Partial<{
     query: Record<string, string>;
 }> & {
     to: string;
-    parent: Layout;
+    parent: ContainerWidget;
 };
 
-export interface Layout {
-    element: HTMLElement;
-    type: string;
+export interface ContainerWidget {
+    element: HTMLDivElement;
+    options: string;
 
     /**
      * Adds a child component to the layout
      * @param child The child component to add
      */
-    AddChild(child: Widget): this;
+    AddChild<T extends HTMLElement = HTMLElement>(child: T): this;
 
     /** Clear the layout and remove all children */
     Clear(): this;
@@ -47,7 +51,7 @@ export interface Layout {
      * Removes a child component from the layout
      * @param child The child component to remove
      */
-    RemoveChild(child: Widget): this;
+    RemoveChild<T extends HTMLElement = HTMLElement>(child: T): this;
 }
 
 export interface Route {

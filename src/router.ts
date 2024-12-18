@@ -25,8 +25,6 @@ function Router(routes: Array<Route>) {
         const path = window.location.pathname;
         const matchedRoute = matchRoute(path, routes);
 
-        console.log(`path: ${path}`);
-        console.log(`matchedRoute: ${matchedRoute}`);
         if (matchedRoute) {
             params = matchedRoute.params;
 

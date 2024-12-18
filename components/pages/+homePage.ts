@@ -30,6 +30,8 @@ Link("Hello World", {
     style: home.button,
     to: "/about",
     parent: body,
-});
+}).onpress = () => {
+    console.log("I know what you did from link");
+};
 
 export default homePage;

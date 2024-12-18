@@ -1,6 +1,5 @@
-import type { Layout, Widget, WidgetOptions } from "./types.js";
-import { onPressEventHanlerMap } from "./component.js";
-import { WidgetProperties } from "./component.js";
+import type { ContainerWidget, WidgetOptions } from "./types.js";
+import { onPressEventHanlerMap } from "./onpress.js";
 import { generateId } from "./helpers.js";
 
 // This array is all the options available into the layout View.
@@ -23,7 +22,7 @@ const viewOptions = [
 ];
 
 // This function applies the correct child alignment in the Layout.
-export const optionsApi = (element: HTMLElement, options: string) => {
+const optionsApi = (element: HTMLElement, options: string) => {
     options
         .toLowerCase()
         .replace(/\s/g, "")
@@ -63,42 +62,29 @@ function layoutFitApi(layout: HTMLElement, type: string, options: string) {
 }
 
 /**
- * This class extends WidgetProperties class and returns a Layout view,
- * In which takes in the type and sets correct styling this is also done
- * To the childAlignmentProperties.
+ * Represents a container for holding and managing child elements in a layout.
+ * @class
  */
-class Container extends WidgetProperties implements Layout {
-    type: string;
+class Container implements ContainerWidget {
+    element: HTMLDivElement;
     options: string;
 
     constructor(type: string, childAlignmentProperties: string, properties: Partial<WidgetOptions> = {}) {
-        super();
         this.element = document.createElement("div");
         this.element.id = generateId();
-        this.type = `LAYOUT`;
+
         this.options = childAlignmentProperties;
         type ? layoutFitApi(this.element, type, this.options) : null;
 
-        const { style = "", parent } = properties;
-        if (style.length === 0) {
-            return;
-        }
-        this.element.classList.add(style);
-        parent?.AddChild(this);
+        const { style, parent } = properties;
+
+        style ? this.element.classList.add(style) : null;
+        parent ? parent.AddChild<HTMLDivElement>(this.element) : null;
     }
 
     /*** Add a child component to this component.*/
-    AddChild(child: Widget): this {
-        if (!child?.element) {
-            console.warn(
-                `The passed object is not a valid
-                Rosana/HTML element.`,
-                child,
-            );
-            return this;
-        }
-        this.element.appendChild(child.element);
-        child.isMounted.value = true;
+    AddChild<T extends HTMLElement = HTMLElement>(child: T): this {
+        this.element.appendChild(child);
         return this;
     }
 
@@ -109,18 +95,9 @@ class Container extends WidgetProperties implements Layout {
     }
 
     /*** Remove a child component from the layout */
-    RemoveChild(child: Widget): this {
-        if (!child?.element) {
-            throw Error(
-                `The passed child is null/undefined or not a
-                 valid Rosana component.", "destroyChild Function`,
-            );
-            return this;
-        }
-
-        onPressEventHanlerMap.delete(child.element.id);
-        child.isMounted.value = false;
-        child.element.remove();
+    RemoveChild<T extends HTMLElement = HTMLElement>(child: T): this {
+        onPressEventHanlerMap.delete(child.id);
+        child.remove();
         return this;
     }
 }

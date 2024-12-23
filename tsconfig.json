@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "esnext",
+        "declaration": true,
+        "outDir": "./Dist",
+        "allowJs": true,
+        "checkJs": true,
+        "strict": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
+        "moduleResolution": "node",
+        "baseUrl": ".",
+        "paths": {
+            "rosana": ["Dist"]
+        }
+    },
+    "include": ["Lib/**/*.ts", "Lib/state/observer.ts", "./Lib/global.d.ts"],
+    "exclude": ["node_modules", "dist"]
+}

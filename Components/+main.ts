@@ -1,4 +1,4 @@
-import { CreateLayout, Button } from "../Lib";
+import { CreateLayout, Button } from "../Lib/";
 import { DOMRenderer } from "../Lib";
 import { home } from "./style";
 

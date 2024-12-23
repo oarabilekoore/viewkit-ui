@@ -1,4 +1,4 @@
-import { CreateLayout, Button, Image, Widget } from "./+rosana.ns";
+import { CreateLayout, Button, Image, Widget } from "./+rosana";
 import { DOMRenderer, StyleSheet } from "./renderers/html";
 import { makeThisObservable } from "./state/observer";
 import { signal } from "./state/signal";

@@ -1,4 +1,4 @@
-import { StyleSheet } from "../Lib/renderers/html";
+import { StyleSheet } from "../Lib/renderers/html/index.js";
 
 export const home = StyleSheet.Create({
     page: {

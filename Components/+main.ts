@@ -1,6 +1,6 @@
-import { CreateLayout, Button } from "../Lib/";
-import { DOMRenderer } from "../Lib";
-import { home } from "./style";
+import { CreateLayout, Button } from "../Lib/index.js";
+import { DOMRenderer } from "../Lib/index.js";
+import { home } from "./style.js";
 
 const homePage = CreateLayout("linear", "fillxy,vcenter", {
     styles: home.page,

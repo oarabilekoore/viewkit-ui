@@ -1,4 +1,4 @@
-import type { Route, MatchedRoute, RouteOptions } from "./global";
+import type { Route, MatchedRoute, RouteOptions } from "./global.js";
 
 /**
  * A secure router that supports route guards, 404 handling, lazy loading, and nested routes.

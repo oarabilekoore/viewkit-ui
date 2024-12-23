@@ -1,5 +1,5 @@
-import type { Renderer, UINode } from "../../global";
-import { onPressEventHanlerMap } from "./events";
+import type { Renderer, UINode } from "../../global.js";
+import { onPressEventHanlerMap } from "./events.js";
 
 const viewOptions = [
     "noscrollbar",

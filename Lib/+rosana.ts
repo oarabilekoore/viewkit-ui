@@ -1,6 +1,6 @@
-import { makeThisObservable } from "./state/observer";
-import { generateId } from "./helpers";
-import type { WidgetProps, UINode } from "./global";
+import { makeThisObservable } from "./state/observer.js";
+import { generateId } from "./helpers.js";
+import type { WidgetProps, UINode } from "./global.js";
 
 // To bridge ui concepts from the web and native platforms, we will
 // refer to a View as a Widget, an HtmlElement as a Widget.

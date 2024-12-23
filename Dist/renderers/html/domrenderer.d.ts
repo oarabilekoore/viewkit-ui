@@ -1,4 +1,4 @@
-import type { Renderer, UINode } from "../../global";
+import type { Renderer, UINode } from "../../global.js";
 declare class DOMRenderer implements Renderer {
     root: HTMLElement;
     constructor(root: HTMLElement, node: UINode);

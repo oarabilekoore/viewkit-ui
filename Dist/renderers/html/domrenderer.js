@@ -1,4 +1,4 @@
-import { onPressEventHanlerMap } from "./events";
+import { onPressEventHanlerMap } from "./events.js";
 const viewOptions = [
     "noscrollbar",
     "scrollxy",

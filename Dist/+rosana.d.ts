@@ -1,4 +1,4 @@
-import type { WidgetProps, UINode } from "./global";
+import type { WidgetProps, UINode } from "./global.js";
 export declare class Widget {
     private node;
     constructor();

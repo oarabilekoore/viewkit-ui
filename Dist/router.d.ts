@@ -1,4 +1,4 @@
-import type { Route, RouteOptions } from "./global";
+import type { Route, RouteOptions } from "./global.js";
 declare const pageRouter: (routes: Array<Route>) => {
     /**
      * Adds a guard function to the router that will be called before navigation.

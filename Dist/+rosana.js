@@ -1,5 +1,5 @@
-import { makeThisObservable } from "./state/observer";
-import { generateId } from "./helpers";
+import { makeThisObservable } from "./state/observer.js";
+import { generateId } from "./helpers.js";
 // To bridge ui concepts from the web and native platforms, we will
 // refer to a View as a Widget, an HtmlElement as a Widget.
 export class Widget {

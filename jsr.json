@@ -1,5 +1,0 @@
-{
-    "name": "@roseframework/rosana",
-    "version": "1.2.0",
-    "exports": "./dist/index.js"
-}

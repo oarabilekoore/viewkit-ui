@@ -1,4 +1,4 @@
-import { CreateLayout, Button, Image, Widget } from "./+rosana.ns";
+import { CreateLayout, Button, Image, Widget } from "./+rosana";
 import type { Signal, UINode, WidgetProps } from "./global.d.ts";
 
 import { DOMRenderer, StyleSheet } from "./renderers/html";

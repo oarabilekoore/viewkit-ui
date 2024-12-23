@@ -1,3 +1,3 @@
-import DOMRenderer from "./domrenderer";
-import StyleSheet from "./styled";
+import DOMRenderer from "./domrenderer.js";
+import StyleSheet from "./styled.js";
 export { DOMRenderer, StyleSheet };

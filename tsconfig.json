@@ -16,6 +16,6 @@
             "rosana": ["Dist"]
         }
     },
-    "include": ["Lib/**/*.ts", "Lib/state/observer.ts", "./Lib/global.d.ts"],
-    "exclude": ["node_modules", "dist"]
+    "include": ["Lib/**/*.ts"],
+    "exclude": ["node_modules", "Dist"]
 }

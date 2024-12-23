@@ -43,7 +43,7 @@ Rosana's VDOM system leverages a UINode tree to efficiently manage and update UI
 
 ```typescript
 import { CreateLayout, Button, Image } from "rosana";
-import { DOMRenderer } from "rosana/html";
+import { DOMRenderer } from "rosana";
 import { home } from "./style";
 
 const homePage = CreateLayout("linear", "fillxy,vcenter");
@@ -142,7 +142,7 @@ You add the style property to the widgetproperties parameter of that ui object.
 > Firstly define you script styles:
 
 ```typescript
-import { StyleSheet } from "rosana/html";
+import { StyleSheet } from "rosana";
 
 export const home = StyleSheet.Create({
     nav: {
@@ -168,7 +168,7 @@ export const home = StyleSheet.Create({
 
 ```typescript
 import { CreateLayout, Button, Image } from ".rosana";
-import { DOMRenderer } from "rosana/html";
+import { DOMRenderer } from "rosana";
 import { home } from "./style";
 
 const homePage = CreateLayout("linear", "fillxy,vcenter");

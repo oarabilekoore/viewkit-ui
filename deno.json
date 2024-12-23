@@ -2,5 +2,6 @@
     "name": "rosana",
     "version": "1.3.0",
     "exports": "./Dist/index.js",
-    "DENO_UNSTABLE_SLOPPY_IMPORTS": true
+
+    "unstable": ["unstable-sloppy-imports"]
 }

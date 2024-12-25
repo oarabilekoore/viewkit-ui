@@ -12,6 +12,9 @@ export type UINode = Partial<{
     id: string;
 };
 
+export type Widget = Partial<{
+    children: Widget[];
+}>;
 export type WidgetProps = Partial<UINode>;
 
 export interface Renderer {

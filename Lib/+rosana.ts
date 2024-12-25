@@ -44,6 +44,11 @@ export class Widget {
 
         return this.node;
     }
+    set backColor(color: string) {
+        this.node.attributes = {
+            backColor: color,
+        };
+    }
 }
 
 // Helper function to determine whether an update should occur

@@ -16,5 +16,8 @@ Button("Hello World 2", {
     styles: home.button,
 });
 
+setTimeout(() => {
+    homePage.id = "Hello World";
+}, 2500);
 const appRoot = document.getElementById("app")!;
 window.RENDERER = new DOMRenderer(appRoot, homePage);

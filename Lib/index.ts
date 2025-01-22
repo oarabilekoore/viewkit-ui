@@ -1,15 +1,18 @@
-import { CreateLayout, Button, Image, Widget } from "./+rosana.js";
-import type { Signal, UINode, WidgetProps } from "./global.d.ts";
+import { Layout, LayoutOptions, LayoutTypes, LayoutToPageBinder } from "./+droidxl.js";
+import Button from "./controls/button.js";
 
-import { DOMRenderer, StyleSheet } from "./renderers/html/index.js";
-
-import { makeThisObservable } from "./state/observer.js";
-import { signal } from "./state/signal.js";
-
-export { DOMRenderer, StyleSheet };
-
-export { makeThisObservable, signal };
-
-export type { Signal, UINode, WidgetProps };
-
-export { CreateLayout, Button, Image, Widget };
+export const ui = {
+    AddEventListener: (event: string, callback: Function) => {},
+    AddLayout: (layout: Layout, type?: LayoutTypes, options?: LayoutOptions) => {
+        LayoutToPageBinder(layout, type, options);
+    },
+    CreateLayout: function (type: LayoutTypes, options: LayoutOptions) {
+        return new Layout(type, options);
+    },
+    CreateButton: function (text?: string, width?: number, height?: number, options?: string, parent?: Layout) {
+        return new Button(text, width, height, options, parent);
+    },
+    SetBackColor: function (color: string) {
+        document.body.style.color = color;
+    },
+};

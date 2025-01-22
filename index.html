@@ -2,13 +2,8 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
+        <title>droidxl App</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>rosana.ns App</title>
-        <!---
-        The DOM Is The Main Rendering Target, So I Included These Base Controller
-        Styles For The DOMRenderer, When Running With A Different Renderer, Just
-        Ignore This File.
-        -->
         <style>
             .noscrollbar {
                 overflow: hidden !important;
@@ -116,7 +111,7 @@
         </style>
     </head>
     <body>
-        <div id="app"></div>
-        <script type="module" src="./Components/+main.ts"></script>
+        <div id="root"></div>
+        <script type="module" src="main.ts"></script>
     </body>
 </html>

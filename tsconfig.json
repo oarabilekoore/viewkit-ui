@@ -13,8 +13,10 @@
         "moduleResolution": "node",
         "baseUrl": ".",
         "paths": {
-            "rosana": ["Dist"]
-        }
+            "droidxl": ["Dist"]
+        },
+        "esModuleInterop": true,
+        "skipLibCheck": true
     },
     "include": ["Lib/**/*.ts"],
     "exclude": ["node_modules", "Dist"]

@@ -1,7 +1,3 @@
-export const generateId = function (): string {
-    return `rs-${Math.random().toString(36).substr(2, 9)}`;
-};
-
-export const generateClassName = function (): string {
-    return `rs-${Math.random().toString(36).substr(2, 9)}`;
-};
+export function generateClassName(): string {
+    return `${Math.random().toString(36).substring(2, 15)} ${Math.random().toString(36).substring(2, 15)}`;
+}

@@ -27,6 +27,8 @@ To install the framework, you can choose between npm or deno:
 
 The documentation is evolving as the framework grows. Meanwhile, explore the provided examples and utilize LSP suggestions to get started quickly.
 
+1. [Getting Started](Docs/+getting-started.md)
+
 ## Key Features
 
 To be Documneted.

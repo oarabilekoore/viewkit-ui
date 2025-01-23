@@ -1,10 +1,9 @@
-import { ui } from "droidxl";
+import { Layout, Button } from "droidxl";
 
-function OnStart() {
-    var main = ui.CreateLayout("linear", "center,fillxy");
-    var btn = ui.CreateButton("Hello World");
-    main.AddChild(btn);
-    ui.AddLayout(main);
-}
+const page = Layout("linear", "fillxy center");
+page.BindToPage();
 
-OnStart();
+const button = Button("Hello World", page, {
+    onclick: () => alert("Hello World"),
+    id: "hello-world-button",
+}).SetEnabled(false);

@@ -69,21 +69,17 @@ export type AnimationTypes =
     | "slidetotop";
 
 export type UNIVERSAL_CONTROL_PROPERTIES = {
+    node: HTMLElement;
     Animate: (type: AnimationTypes, callback?: Function, time?: number) => void;
     Batch: (properties: Record<string, any>) => void;
     ClearFocus: () => void;
     Focus: () => void;
     GetFocus: () => string;
-    GetParent: () => UNIVERSAL_CONTROL_PROPERTIES[];
     GetPosition: (options: PositionOptions) => Position;
-    GetVisibility: () => string;
-    GetWidth: (unit?: Unit) => number;
     GetType: () => string;
-    Gone: () => void;
     Hide: () => void;
     IsEnabled: () => boolean;
     IsVisible: () => boolean;
-    IsOverlap: (control: UNIVERSAL_CONTROL_PROPERTIES[], depth: number) => boolean;
     Show: () => void;
     SetDescription: (description: string) => void;
     SetBackColor: (color: string) => void;
@@ -106,6 +102,7 @@ export type UNIVERSAL_CONTROL_PROPERTIES = {
 };
 
 export class UNIVERSAL_PROPERTIES implements UNIVERSAL_CONTROL_PROPERTIES {
+    node!: HTMLElement;
     Animate(type: AnimationTypes, callback?: Function, time?: number): void {
         throw new Error("Method not implemented.");
     }
@@ -121,65 +118,64 @@ export class UNIVERSAL_PROPERTIES implements UNIVERSAL_CONTROL_PROPERTIES {
     GetFocus(): string {
         throw new Error("Method not implemented.");
     }
-    GetParent(): UNIVERSAL_CONTROL_PROPERTIES[] {
-        throw new Error("Method not implemented.");
-    }
     GetPosition(options: PositionOptions): Position {
         throw new Error("Method not implemented.");
     }
-    GetVisibility(): string {
-        throw new Error("Method not implemented.");
-    }
-    GetWidth(unit?: Unit): number {
-        throw new Error("Method not implemented.");
-    }
+
     GetType(): string {
         throw new Error("Method not implemented.");
     }
-    Gone(): void {
-        throw new Error("Method not implemented.");
-    }
     Hide(): void {
-        throw new Error("Method not implemented.");
+        this.node.style.display = "none";
     }
     IsEnabled(): boolean {
-        throw new Error("Method not implemented.");
+        return this.node.style.pointerEvents === "auto";
     }
     IsVisible(): boolean {
-        throw new Error("Method not implemented.");
-    }
-    IsOverlap(control: UNIVERSAL_CONTROL_PROPERTIES[], depth: number): boolean {
-        throw new Error("Method not implemented.");
+        return this.node.style.display === "block";
     }
     Show(): void {
-        throw new Error("Method not implemented.");
+        this.node.style.display = "block";
     }
     SetDescription(description: string): void {
-        throw new Error("Method not implemented.");
+        this.node.ariaLabel = description;
     }
     SetBackColor(color: string): void {
-        throw new Error("Method not implemented.");
+        this.node.style.backgroundColor = color;
     }
     SetBackAlpha(alpha: number): void {
-        throw new Error("Method not implemented.");
+        this.node.style.opacity = `${alpha}`;
     }
     SetEnabled(enabled: boolean): void {
-        throw new Error("Method not implemented.");
+        this.node.style.pointerEvents = enabled ? "auto" : "none";
     }
     SetScale(x?: number, y?: number): void {
         throw new Error("Method not implemented.");
     }
     SetVisibility(visibility: VisibilityOptions): void {
-        throw new Error("Method not implemented.");
+        this.node.style.visibility = visibility;
     }
     SetSize(width: number, height?: number, unit?: Unit): void {
-        throw new Error("Method not implemented.");
+        this.node.style.width = `${width}${unit}`;
+        this.node.style.height = `${height}${unit}`;
     }
     SetPadding(object: Position): void {
-        throw new Error("Method not implemented.");
+        this.node.style.padding = `${object.left}${object.unit}
+        ${object.top}${object.unit} 
+        ${object.width}${object.unit} 
+        ${object.height}${object.unit}`;
     }
-    SetPosition(object: Position): void {
-        throw new Error("Method not implemented.");
+    SetPosition(positon: Position): void {
+        this.node.style.position = `${positon.left}${positon.unit}
+        ${positon.top}${positon.unit} 
+        ${positon.width}${positon.unit}
+        ${positon.height}${positon.unit}`;
+    }
+    SetMargins(margins: Position): void {
+        this.node.style.margin = `${margins.left}${margins.unit}
+        ${margins.top}${margins.unit} 
+        ${margins.width}${margins.unit}
+        ${margins.height}${margins.unit}`;
     }
     Resize(): void {
         throw new Error("Method not implemented.");
@@ -226,7 +222,8 @@ export type LayoutOptions =
     | "row"
     | "column"
     | "row-reverse"
-    | "column";
+    | "column"
+    | (string & {});
 
 export type Gravity =
     | "center"
@@ -240,35 +237,44 @@ export type Gravity =
     | "filly"
     | "fillxy";
 
-export class Layout extends UNIVERSAL_PROPERTIES {
+export class DXLLayout extends UNIVERSAL_PROPERTIES {
     node: HTMLDivElement;
-    constructor(type: LayoutTypes, options: LayoutOptions, parent?: Layout) {
+    constructor(type: LayoutTypes, options: LayoutOptions | LayoutOptions[]) {
         super();
         this.node = document.createElement("div");
-        parent ? parent.AddChild(this.node) : null;
-        this.node.className = `${type}-layout ${options.split(",").join(" ")}`;
+
+        const optionsClass = Array.isArray(options)
+            ? options.join(" ") // Join multiple options with spaces
+            : options; // Use the single option as is
+
+        this.node.className = `${type}-layout ${optionsClass}`;
     }
-    AddChild(child: any) {
+    BindToPage() {
+        const base = document.getElementById("root");
+
+        base?.appendChild(this.node);
+        document.body.style.margin = "0";
+        document.body.style.width = "100%";
+        document.body.style.height = `${window.innerHeight}`;
+    }
+    AddChild(child: UNIVERSAL_CONTROL_PROPERTIES) {
         this.node.appendChild(child.node);
     }
-    RemoveChild(child: UNIVERSAL_CONTROL_PROPERTIES[]) {}
-    HasChild(child: UNIVERSAL_CONTROL_PROPERTIES[]) {}
-    DestroyChild(child: UNIVERSAL_CONTROL_PROPERTIES[]) {}
-    SetElevation(elevation: number) {}
+    RemoveChild(child: UNIVERSAL_CONTROL_PROPERTIES) {
+        this.node.removeChild(child.node);
+    }
+    HasChild(child: UNIVERSAL_CONTROL_PROPERTIES[]) {
+        return this.node.contains(child[0].node);
+    }
+    SetElevation(elevation: number) {
+        this.node.style.zIndex = `${elevation}`;
+    }
     SetGravity(gravity: Gravity) {}
     SetChildMargins(margins: Position) {}
     SetChildPadding(padding: Position) {}
     SetChildTextSize(size: number, unit?: Unit) {}
 }
 
-export function LayoutToPageBinder(control: Layout, type?: LayoutTypes, options?: LayoutOptions) {
-    if (type && options) {
-        return new Layout(type, options, control);
-    }
-    const base = document.getElementById("root");
-
-    base?.appendChild(control.node);
-    document.body.style.margin = "0";
-    document.body.style.width = "100%";
-    document.body.style.height = `${window.innerHeight}`;
+export function Layout(type: LayoutTypes, options: LayoutOptions) {
+    return new DXLLayout(type, options);
 }

@@ -1,3 +1,5 @@
-import { Application, Layout, Button } from "./+droidxl.js";
+import { Application, Layout, Button, Text } from "./+droidxl.js";
+import { signal } from "./reactivity.js";
 
-export { Application, Layout, Button };
+export { Application, Layout, Button, Text };
+export { signal };

@@ -4,6 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <style>
+            /* Scroll Behavior */
             .noscrollbar {
                 overflow: hidden !important;
             }
@@ -20,6 +21,7 @@
                 overflow-y: auto !important;
             }
 
+            /* Child Alignment */
             .top {
                 display: flex !important;
                 align-items: flex-start !important;
@@ -49,9 +51,39 @@
             .vcenter {
                 display: flex !important;
                 align-items: center !important;
+            }
+
+            .hcenter {
+                display: flex !important;
                 justify-content: center !important;
             }
 
+            .baseline {
+                display: flex !important;
+                align-items: baseline !important;
+            }
+
+            .stretch {
+                display: flex !important;
+                align-items: stretch !important;
+            }
+
+            .space-between {
+                display: flex !important;
+                justify-content: space-between !important;
+            }
+
+            .space-around {
+                display: flex !important;
+                justify-content: space-around !important;
+            }
+
+            .space-evenly {
+                display: flex !important;
+                justify-content: space-evenly !important;
+            }
+
+            /* Layout Directions */
             .horizontal {
                 display: flex !important;
                 flex-direction: row !important;
@@ -62,6 +94,7 @@
                 flex-direction: column !important;
             }
 
+            /* Parent Fill */
             .fillxy {
                 width: 100% !important;
                 height: 100vh !important;
@@ -75,6 +108,7 @@
                 height: 100vh !important;
             }
 
+            /* Visibility */
             .hide {
                 visibility: hidden !important;
             }
@@ -84,6 +118,7 @@
                 visibility: hidden !important;
             }
 
+            /* Layout Types */
             .layout-linear {
                 display: inline-flex !important;
                 position: relative !important;
@@ -92,6 +127,7 @@
 
             .layout-absolute {
                 display: flex !important;
+                position: absolute !important;
             }
 
             .layout-frame {
@@ -106,6 +142,79 @@
             .layout-stack-vertical {
                 display: flex !important;
                 flex-direction: column !important;
+            }
+
+            .layout-grid {
+                display: grid !important;
+            }
+
+            .layout-card {
+                display: flex !important;
+                flex-direction: column !important;
+                border-radius: 8px !important;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+                overflow: hidden !important;
+            }
+
+            .layout-overlay {
+                position: absolute !important;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5) !important;
+            }
+
+            .layout-split-horizontal {
+                display: flex !important;
+                flex-direction: row !important;
+            }
+
+            .layout-split-vertical {
+                display: flex !important;
+                flex-direction: column !important;
+            }
+
+            /* Grid Layout Utilities */
+            .grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+
+            .grid-cols-3 {
+                grid-template-columns: repeat(3, 1fr) !important;
+            }
+
+            .grid-cols-4 {
+                grid-template-columns: repeat(4, 1fr) !important;
+            }
+
+            .grid-gap-8 {
+                gap: 8px !important;
+            }
+
+            .grid-gap-16 {
+                gap: 16px !important;
+            }
+
+            .grid-gap-24 {
+                gap: 24px !important;
+            }
+
+            /* Additional Utilities */
+            .rounded {
+                border-radius: 8px !important;
+            }
+
+            .shadow {
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+            }
+
+            .overflow-hidden {
+                overflow: hidden !important;
+            }
+
+            .overflow-visible {
+                overflow: visible !important;
             }
         </style>
     </head>

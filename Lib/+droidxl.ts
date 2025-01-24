@@ -20,6 +20,7 @@ export class Application {
             document.head.appendChild(meta);
         }
         cfg.title ? (document.title = cfg.title) : null;
+        //@ts-ignore
         cfg.orientation ? screen.orientation.lock(cfg.orientation) : null;
     }
 
@@ -66,7 +67,7 @@ export class Application {
     }
 }
 
-export type Child_Alignment = "left" | "right" | "center" | "top" | "bottom" | "hcenter" | "vcenter";
+export type Child_Alignment = "left" | "right" | "center" | "top" | "bottom" | "hcenter" | "vcenter" | "vertical";
 export type Layout_Types = "linear" | "absolute" | "frame" | "card" | "row" | "column" | "grid";
 export type Parent_Fill = "xy" | "x" | "y";
 export type Scroll_Direction = "x" | "y";
@@ -108,7 +109,9 @@ export class LayoutConstructor implements Parent {
     }
 
     set alignChildren(alignment: Child_Alignment) {
-        this.layout.classList.add(alignment);
+        alignment.split(" ").forEach((token) => {
+            this.layout.classList.add(token);
+        });
     }
 
     set parentFill(fill: Parent_Fill) {
@@ -137,8 +140,210 @@ export function Layout(layout_type: Layout_Types, parent: Parent | HTMLElement) 
     return new LayoutConstructor(layout_type, parent);
 }
 
-export function Button(title: string, parent: Parent) {
-    const button = new ElementContructor("button", parent).element;
-    button.innerText = title;
-    return button;
+// Base element creation helper
+function createElement<T extends keyof HTMLElementTagNameMap>(
+    tag: T,
+    parent: Parent | HTMLElement,
+    options?: {
+        content?: string | Node;
+        attrs?: Record<string, string>;
+        children?: HTMLElement[];
+    },
+): HTMLElementTagNameMap[T] {
+    const el = document.createElement(tag);
+
+    // Set content (text or nodes)
+    if (options?.content) {
+        typeof options.content === "string" ? (el.textContent = options.content) : el.appendChild(options.content);
+    }
+
+    // Set attributes
+    if (options?.attrs) {
+        for (const [key, value] of Object.entries(options.attrs)) {
+            el.setAttribute(key, value);
+        }
+    }
+
+    // Append children
+    if (options?.children) {
+        options.children.forEach((child) => el.appendChild(child));
+    }
+
+    // Append to parent
+    if (parent instanceof HTMLElement) {
+        parent.appendChild(el);
+    } else {
+        parent.appendChild(el);
+    }
+
+    return el;
 }
+
+// Generic element factory
+type ElementFactory<T> = {
+    (parent: Parent | HTMLElement): T;
+    (attrs: Record<string, string>, parent: Parent | HTMLElement): T;
+    (content: string, parent: Parent | HTMLElement): T;
+    (content: string, attrs: Record<string, string>, parent: Parent | HTMLElement): T;
+};
+
+function genericElement<T extends keyof HTMLElementTagNameMap>(tag: T): ElementFactory<HTMLElementTagNameMap[T]> {
+    return function (...args: any[]): any {
+        let content: string | undefined;
+        let attrs: Record<string, string> = {};
+        let parent: Parent | HTMLElement;
+
+        // Parse arguments
+        if (args.length === 1) {
+            parent = args[0];
+        } else if (typeof args[0] === "string" && args.length === 2) {
+            content = args[0];
+            parent = args[1];
+        } else if (typeof args[0] === "object" && args.length === 2) {
+            attrs = args[0];
+            parent = args[1];
+        } else if (args.length === 3) {
+            content = args[0];
+            attrs = args[1];
+            parent = args[2];
+        } else {
+            throw new Error("Invalid arguments");
+        }
+
+        return createElement(tag, parent, { content, attrs });
+    } as ElementFactory<HTMLElementTagNameMap[T]>;
+}
+
+// Text Elements
+export const Paragraph = genericElement("p");
+export const Heading1 = genericElement("h1");
+export const Heading2 = genericElement("h2");
+export const Heading3 = genericElement("h3");
+export const Heading4 = genericElement("h4");
+export const Heading5 = genericElement("h5");
+export const Heading6 = genericElement("h6");
+export const Span = genericElement("span");
+export const Emphasis = genericElement("em");
+export const Strong = genericElement("strong");
+export const Code = genericElement("code");
+export const Preformatted = genericElement("pre");
+export const Blockquote = genericElement("blockquote");
+export const Quote = genericElement("q");
+export const Cite = genericElement("cite");
+export const Definition = genericElement("dfn");
+export const Abbreviation = genericElement("abbr");
+export const Time = genericElement("time");
+export const Variable = genericElement("var");
+export const SampleOutput = genericElement("samp");
+export const KeyboardInput = genericElement("kbd");
+export const Subscript = genericElement("sub");
+export const Superscript = genericElement("sup");
+export const SmallText = genericElement("small");
+export const MarkedText = genericElement("mark");
+export const DeletedText = genericElement("del");
+export const InsertedText = genericElement("ins");
+
+// Interactive Elements
+export const Button = genericElement("button");
+export const TextInput = genericElement("input");
+export const Checkbox = genericElement("input");
+export const Radio = genericElement("input");
+export const Range = genericElement("input");
+export const FileInput = genericElement("input");
+export const SubmitButton = genericElement("input");
+export const ResetButton = genericElement("input");
+export const ColorPicker = genericElement("input");
+export const DatePicker = genericElement("input");
+export const DateTimePicker = genericElement("input");
+export const EmailInput = genericElement("input");
+export const NumberInput = genericElement("input");
+export const PasswordInput = genericElement("input");
+export const SearchInput = genericElement("input");
+export const TelInput = genericElement("input");
+export const UrlInput = genericElement("input");
+export const TextArea = genericElement("textarea");
+export const Select = genericElement("select");
+export const Option = genericElement("option");
+export const Label = genericElement("label");
+export const Fieldset = genericElement("fieldset");
+export const Legend = genericElement("legend");
+export const Progress = genericElement("progress");
+export const Meter = genericElement("meter");
+export const Output = genericElement("output");
+
+// Media Elements
+export const Image = genericElement("img");
+export const Video = genericElement("video");
+export const Audio = genericElement("audio");
+export const Canvas = genericElement("canvas");
+export const Picture = genericElement("picture");
+export const Source = genericElement("source");
+export const Track = genericElement("track");
+export const Embed = genericElement("embed");
+export const ObjectEmbed = genericElement("object");
+export const IFrame = genericElement("iframe");
+export const Map = genericElement("map");
+export const Area = genericElement("area");
+
+// Semantic Elements
+export const Article = genericElement("article");
+export const Section = genericElement("section");
+export const Nav = genericElement("nav");
+export const Header = genericElement("header");
+export const Footer = genericElement("footer");
+export const Aside = genericElement("aside");
+export const Main = genericElement("main");
+export const Figure = genericElement("figure");
+export const Figcaption = genericElement("figcaption");
+export const Details = genericElement("details");
+export const Summary = genericElement("summary");
+export const Dialog = genericElement("dialog");
+export const Menu = genericElement("menu");
+//export const MenuItem = genericElement("menuitem");
+
+// Table Elements
+export const Table = genericElement("table");
+export const TableHead = genericElement("thead");
+export const TableBody = genericElement("tbody");
+export const TableRow = genericElement("tr");
+export const TableHeader = genericElement("th");
+export const TableData = genericElement("td");
+export const TableCaption = genericElement("caption");
+export const ColGroup = genericElement("colgroup");
+export const Col = genericElement("col");
+
+// List Elements
+export const OrderedList = genericElement("ol");
+export const UnorderedList = genericElement("ul");
+export const ListItem = genericElement("li");
+export const DescriptionList = genericElement("dl");
+export const DescriptionTerm = genericElement("dt");
+export const DescriptionDetail = genericElement("dd");
+
+// Form Elements
+export const Form = genericElement("form");
+export const LabelFor = (forId: string, content: string, parent: Parent | HTMLElement) => {
+    return createElement("label", parent, { content, attrs: { for: forId } });
+};
+
+// Metadata Elements
+export const Style = genericElement("style");
+export const Link = genericElement("link");
+export const Meta = genericElement("meta");
+export const Base = genericElement("base");
+export const Title = genericElement("title");
+export const Script = genericElement("script");
+export const NoScript = genericElement("noscript");
+
+// Specialized Elements
+export const Anchor = genericElement("a");
+export const Break = genericElement("br");
+export const HorizontalRule = genericElement("hr");
+export const Div = genericElement("div");
+export const SpanElement = genericElement("span");
+export const Template = genericElement("template");
+export const Slot = genericElement("slot");
+
+// Interactive Components
+export const DataList = genericElement("datalist");
+export const OutputElement = genericElement("output");

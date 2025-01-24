@@ -1,4 +1,6 @@
-import { generateClassName } from "./helpers.js";
+export function generateClassName(): string {
+    return `${Math.random().toString(36).substring(2, 15)} ${Math.random().toString(36).substring(2, 15)}`;
+}
 
 function style_generator(styles: TemplateStringsArray | Record<string, any>, ...values: any[]): string {
     let cssString = "";

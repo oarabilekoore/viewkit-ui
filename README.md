@@ -27,7 +27,10 @@ To install the framework, you can choose between npm or deno:
 
 The documentation is evolving as the framework grows. Meanwhile, explore the provided examples and utilize LSP suggestions to get started quickly.
 
-1. [Getting Started](Docs/+getting-started.md)
+Hi, I haven't completed the docs, but take a quick look at the `main.ts` file and run this project it is a show of how to use the framework.
+The project will look like :
+
+![Image of project built with droidxl](image.png)
 
 ## Key Features
 

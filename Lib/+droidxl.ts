@@ -104,7 +104,7 @@ export class LayoutConstructor implements Parent {
     }
 
     set scrollDirection(direction: Scroll_Direction) {
-        this.layout.classList.add(direction);
+        this.layout.classList.add(`scroll${direction}`);
     }
 
     set alignChildren(alignment: Child_Alignment) {

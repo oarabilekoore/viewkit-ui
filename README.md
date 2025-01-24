@@ -4,7 +4,7 @@
 <br>
 <div align="center">
     <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
-    <img alt="Version Badge" src="https://img.shields.io/badge/version-0.0.1-brightgreen.svg">
+    <img alt="Version Badge" src="https://img.shields.io/badge/version-0.0.2-brightgreen.svg">
 </div>
 
 <br>

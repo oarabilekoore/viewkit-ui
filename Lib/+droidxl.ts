@@ -1,280 +1,144 @@
-export type Unit = "px" | "dp" | "sp" | "in" | "mm" | "pt";
-export type VisibilityOptions = "show" | "hide" | "gone";
-export type PositionOptions = "screen" | Unit;
-export type Position = { left: number; top: number; width: number; height: number } & Partial<{
-    unit: Unit;
-}>;
+interface ApplicationConfig {
+    title: string;
+    icon: string;
+    orientation?: string;
+    statusbarcolor?: string;
+}
 
-export type TweenOptions = {
-    x?: number;
-    y?: number;
-    width?: number;
-    height?: number;
-    scaleWidth?: number;
-    scaleHeight?: number;
-    rotation?: number;
-};
+export class Application {
+    root: HTMLElement;
 
-export type TweeningTypes =
-    | "linear"
-    | "easeInSine"
-    | "easeOutSine"
-    | "easeInOutSine"
-    | "easeInQuad"
-    | "easeOutQuad"
-    | "easeInOutQuad"
-    | "easeInCubic"
-    | "easeOutCubic"
-    | "easeInOutCubic"
-    | "easeInQuart"
-    | "easeOutQuart"
-    | "easeInOutQuart"
-    | "easeInQuint"
-    | "easeOutQuint"
-    | "easeInOutQuint"
-    | "easeInExpo"
-    | "easeOutExpo"
-    | "easeInOutExpo"
-    | "easeInCirc"
-    | "easeOutCirc"
-    | "easeInOutCirc"
-    | "easeInBack"
-    | "easeOutBack"
-    | "easeInOutBack"
-    | "easeInElastic"
-    | "easeOutElastic"
-    | "easeInOutElastic"
-    | "easeInBounce"
-    | "easeOutBounce"
-    | "easeInOutBounce";
-
-export type AnimationTypes =
-    | "newspaper"
-    | "jelly"
-    | "flash"
-    | "rubberband"
-    | "fall"
-    | "fallrotate"
-    | "zoomin"
-    | "zoomout"
-    | "zoominenter"
-    | "zoomoutexit"
-    | "slidefromleft"
-    | "slidefromright"
-    | "slidefrombottom"
-    | "slidefromtop"
-    | "slidetoleft"
-    | "slidetoright"
-    | "slidetobottom"
-    | "slidetotop";
-
-export type UNIVERSAL_CONTROL_PROPERTIES = {
-    node: HTMLElement;
-    Animate: (type: AnimationTypes, callback?: Function, time?: number) => void;
-    Batch: (properties: Record<string, any>) => void;
-    ClearFocus: () => void;
-    Focus: () => void;
-    GetFocus: () => string;
-    GetPosition: (options: PositionOptions) => Position;
-    GetType: () => string;
-    Hide: () => void;
-    IsEnabled: () => boolean;
-    IsVisible: () => boolean;
-    Show: () => void;
-    SetDescription: (description: string) => void;
-    SetBackColor: (color: string) => void;
-    SetBackAlpha: (alpha: number) => void;
-    SetEnabled: (enabled: boolean) => void;
-    SetScale: (x?: number, y?: number) => void;
-    SetVisibility: (visibility: VisibilityOptions) => void;
-    SetSize: (width: number, height?: number, unit?: Unit) => void;
-    SetPadding: (object: Position) => void;
-    SetPosition: (object: Position) => void;
-    Resize: () => void;
-    Tween: (
-        target: TweenOptions,
-        type: TweeningTypes,
-        duration?: number,
-        repeat?: boolean,
-        yoyo?: boolean,
-        callback?: Function,
-    ) => void;
-};
-
-export class UNIVERSAL_PROPERTIES implements UNIVERSAL_CONTROL_PROPERTIES {
-    node!: HTMLElement;
-    Animate(type: AnimationTypes, callback?: Function, time?: number): void {
-        throw new Error("Method not implemented.");
+    constructor(config?: ApplicationConfig) {
+        this.root = document.body;
+        config ? this.setConfig(config) : console.error("Application Configuration Was Not Passed.");
     }
-    Batch(properties: Record<string, any>): void {
-        throw new Error("Method not implemented.");
-    }
-    ClearFocus(): void {
-        throw new Error("Method not implemented.");
-    }
-    Focus(): void {
-        throw new Error("Method not implemented.");
-    }
-    GetFocus(): string {
-        throw new Error("Method not implemented.");
-    }
-    GetPosition(options: PositionOptions): Position {
-        throw new Error("Method not implemented.");
+    private setConfig(cfg: ApplicationConfig) {
+        if (cfg.statusbarcolor) {
+            const meta = document.createElement("meta");
+            meta.name = "theme-color";
+            meta.content = cfg.statusbarcolor;
+            document.head.appendChild(meta);
+        }
+        cfg.title ? (document.title = cfg.title) : null;
+        cfg.orientation ? screen.orientation.lock(cfg.orientation) : null;
     }
 
-    GetType(): string {
-        throw new Error("Method not implemented.");
+    onExit(Fn: Function) {
+        window.addEventListener("beforeunload", (event) => {
+            Fn(event);
+        });
     }
-    Hide(): void {
-        this.node.style.display = "none";
+
+    onBack(Fn: Function) {
+        window.addEventListener("popstate", (event) => {
+            Fn(event);
+        });
     }
-    IsEnabled(): boolean {
-        return this.node.style.pointerEvents === "auto";
+
+    onStart(Fn: Function) {
+        window.addEventListener("load", (event) => {
+            Fn(event);
+        });
     }
-    IsVisible(): boolean {
-        return this.node.style.display === "block";
+
+    onPause(Fn: Function) {
+        window.addEventListener("blur", (event) => {
+            Fn(event);
+        });
     }
-    Show(): void {
-        this.node.style.display = "block";
+
+    onResume(Fn: Function) {
+        window.addEventListener("focus", (event) => {
+            Fn(event);
+        });
     }
-    SetDescription(description: string): void {
-        this.node.ariaLabel = description;
+
+    onOffline(Fn: Function) {
+        window.addEventListener("offline", (event) => {
+            Fn(event);
+        });
     }
-    SetBackColor(color: string): void {
-        this.node.style.backgroundColor = color;
-    }
-    SetBackAlpha(alpha: number): void {
-        this.node.style.opacity = `${alpha}`;
-    }
-    SetEnabled(enabled: boolean): void {
-        this.node.style.pointerEvents = enabled ? "auto" : "none";
-    }
-    SetScale(x?: number, y?: number): void {
-        throw new Error("Method not implemented.");
-    }
-    SetVisibility(visibility: VisibilityOptions): void {
-        this.node.style.visibility = visibility;
-    }
-    SetSize(width: number, height?: number, unit?: Unit): void {
-        this.node.style.width = `${width}${unit}`;
-        this.node.style.height = `${height}${unit}`;
-    }
-    SetPadding(object: Position): void {
-        this.node.style.padding = `${object.left}${object.unit}
-        ${object.top}${object.unit} 
-        ${object.width}${object.unit} 
-        ${object.height}${object.unit}`;
-    }
-    SetPosition(positon: Position): void {
-        this.node.style.position = `${positon.left}${positon.unit}
-        ${positon.top}${positon.unit} 
-        ${positon.width}${positon.unit}
-        ${positon.height}${positon.unit}`;
-    }
-    SetMargins(margins: Position): void {
-        this.node.style.margin = `${margins.left}${margins.unit}
-        ${margins.top}${margins.unit} 
-        ${margins.width}${margins.unit}
-        ${margins.height}${margins.unit}`;
-    }
-    Resize(): void {
-        throw new Error("Method not implemented.");
-    }
-    Tween(
-        target: TweenOptions,
-        type: TweeningTypes,
-        duration?: number,
-        repeat?: boolean,
-        yoyo?: boolean,
-        callback?: Function,
-    ): void {
-        throw new Error("Method not implemented.");
+
+    onOnline(Fn: Function) {
+        window.addEventListener("online", (event) => {
+            Fn(event);
+        });
     }
 }
 
-export type LayoutTypes =
-    | "linear"
-    | "relative"
-    | "absolute"
-    | "frame"
-    | "scroll"
-    | "grid"
-    | "table"
-    | "flow"
-    | "card"
-    | "flex";
+export type Child_Alignment = "left" | "right" | "center" | "top" | "bottom" | "hcenter" | "vcenter";
+export type Layout_Types = "linear" | "absolute" | "frame" | "card" | "row" | "column" | "grid";
+export type Parent_Fill = "xy" | "x" | "y";
+export type Scroll_Direction = "x" | "y";
 
-export type LayoutOptions =
-    | "fillxy"
-    | "h/vcenter"
-    | "touchthrough"
-    | "scrollx"
-    | "scrolly"
-    | "noscrollbars"
-    | "center"
-    | "left"
-    | "right"
-    | "top"
-    | "bottom"
-    | "wrap"
-    | "nowrap"
-    | "reverse"
-    | "row"
-    | "column"
-    | "row-reverse"
-    | "column"
-    | (string & {});
+interface Parent {
+    root: HTMLElement;
+    children: HTMLElement[];
+    removeChildren(): void;
+    appendChild(child: HTMLElement): void;
+    removeChild(child: HTMLElement): void;
+    insertBefore(child: HTMLElement, before: HTMLElement): void;
+}
 
-export type Gravity =
-    | "center"
-    | "left"
-    | "right"
-    | "top"
-    | "bottom"
-    | "vcenter"
-    | "hcenter"
-    | "fillx"
-    | "filly"
-    | "fillxy";
-
-export class DXLLayout extends UNIVERSAL_PROPERTIES {
-    node: HTMLDivElement;
-    constructor(type: LayoutTypes, options: LayoutOptions | LayoutOptions[]) {
-        super();
-        this.node = document.createElement("div");
-
-        const optionsClass = Array.isArray(options)
-            ? options.join(" ") // Join multiple options with spaces
-            : options; // Use the single option as is
-
-        this.node.className = `${type}-layout ${optionsClass}`;
-    }
-    BindToPage() {
-        const base = document.getElementById("root");
-
-        base?.appendChild(this.node);
+export class ElementContructor {
+    element: HTMLElement;
+    constructor(tag: string, parent: Parent | HTMLElement) {
+        this.element = document.createElement(tag);
+        parent.appendChild(this.element);
         document.body.style.margin = "0";
-        document.body.style.width = "100%";
-        document.body.style.height = `${window.innerHeight}`;
     }
-    AddChild(child: UNIVERSAL_CONTROL_PROPERTIES) {
-        this.node.appendChild(child.node);
-    }
-    RemoveChild(child: UNIVERSAL_CONTROL_PROPERTIES) {
-        this.node.removeChild(child.node);
-    }
-    HasChild(child: UNIVERSAL_CONTROL_PROPERTIES[]) {
-        return this.node.contains(child[0].node);
-    }
-    SetElevation(elevation: number) {
-        this.node.style.zIndex = `${elevation}`;
-    }
-    SetGravity(gravity: Gravity) {}
-    SetChildMargins(margins: Position) {}
-    SetChildPadding(padding: Position) {}
-    SetChildTextSize(size: number, unit?: Unit) {}
 }
 
-export function Layout(type: LayoutTypes, options: LayoutOptions) {
-    return new DXLLayout(type, options);
+export class LayoutConstructor implements Parent {
+    root: HTMLElement;
+    layout: HTMLElement;
+    children: HTMLElement[];
+    style: CSSStyleDeclaration;
+    constructor(layout_type: Layout_Types, parent: Parent | HTMLElement) {
+        this.layout = new ElementContructor("div", parent).element;
+        this.layout.className = `${layout_type}-layout`;
+
+        this.style = this.layout.style;
+        this.root = this.layout;
+        this.children = Array();
+    }
+
+    set scrollDirection(direction: Scroll_Direction) {
+        this.layout.classList.add(direction);
+    }
+
+    set alignChildren(alignment: Child_Alignment) {
+        this.layout.classList.add(alignment);
+    }
+
+    set parentFill(fill: Parent_Fill) {
+        this.layout.classList.add(`fill${fill}`);
+    }
+
+    appendChild(child: HTMLElement): void {
+        this.layout.appendChild(child);
+        this.children.push(child);
+    }
+
+    removeChildren(): void {
+        this.layout.innerHTML = "";
+    }
+
+    removeChild(child: HTMLElement): void {
+        this.layout.removeChild(child);
+    }
+
+    insertBefore(child: HTMLElement, before: HTMLElement): void {
+        this.layout.insertBefore(child, before);
+    }
+}
+
+export function Layout(layout_type: Layout_Types, parent: Parent | HTMLElement) {
+    return new LayoutConstructor(layout_type, parent);
+}
+
+export function Button(title: string, parent: Parent) {
+    const button = new ElementContructor("button", parent).element;
+    button.innerText = title;
+    return button;
 }

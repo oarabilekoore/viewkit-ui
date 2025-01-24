@@ -1,9 +1,13 @@
-import { Layout, Button } from "droidxl";
+import { Application, Layout, Button } from "./Lib/index.js";
 
-const page = Layout("linear", "fillxy center");
-page.BindToPage();
+const app = new Application({
+    title: "droidxl App",
+    icon: "./droidxl.png",
+    statusbarcolor: "green",
+});
 
-const button = Button("Hello World", page, {
-    onclick: () => alert("Hello World"),
-    id: "hello-world-button",
-}).SetEnabled(false);
+const layout = Layout("linear", app.root);
+layout.alignChildren = "center";
+layout.parentFill = "xy";
+
+Button("Click me", layout);

@@ -6,6 +6,8 @@ const app = new Application({
     statusbarcolor: "#1e1e1e",
 });
 
+app.onStart(LandingPage);
+
 // Main App Function
 function LandingPage() {
     // Create a linear layout for the page
@@ -130,6 +132,3 @@ function LandingPage() {
     footerText.style.fontSize = "0.9rem";
     footerText.style.opacity = "0.8";
 }
-
-// Initialize the landing page
-LandingPage();

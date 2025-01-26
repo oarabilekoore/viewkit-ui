@@ -26,12 +26,15 @@ export class Application {
 
     onExit(Fn: Function) {
         window.addEventListener("beforeunload", (event) => {
+            event.preventDefault();
+            event.returnValue = "";
             Fn(event);
         });
     }
 
     onBack(Fn: Function) {
         window.addEventListener("popstate", (event) => {
+            event.preventDefault();
             Fn(event);
         });
     }

@@ -29,7 +29,6 @@ function LandingPage() {
     //@ts-ignore
     hero.alignChildren = "center vertical";
     hero.style.padding = "64px 32px";
-    hero.style.maxWidth = "800px";
     hero.style.textAlign = "center";
 
     const heroTitle = Paragraph("Welcome to droidxl", hero);

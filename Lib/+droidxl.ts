@@ -100,7 +100,7 @@ export class LayoutConstructor implements Parent {
     style: CSSStyleDeclaration;
     constructor(layout_type: Layout_Types, parent: Parent | HTMLElement) {
         this.layout = new ElementContructor("div", parent).element;
-        this.layout.className = `${layout_type}-layout`;
+        this.layout.className = `${layout_type}-layout show`;
 
         this.style = this.layout.style;
         this.root = this.layout;
@@ -111,7 +111,7 @@ export class LayoutConstructor implements Parent {
         this.layout.classList.add(`scroll${direction}`);
     }
 
-    set alignChildren(alignment: Child_Alignment) {
+    set alignChildren(alignment: string) {
         alignment.split(" ").forEach((token) => {
             this.layout.classList.add(token);
         });
@@ -157,6 +157,10 @@ function createElement<T extends keyof HTMLElementTagNameMap>(
 
     // Set content (text or nodes)
     if (options?.content) {
+        if (tag === "img") {
+            //@ts-ignore
+            (el.src = options.content) as HTMLImageElement;
+        }
         typeof options.content === "string" ? (el.textContent = options.content) : el.appendChild(options.content);
     }
 

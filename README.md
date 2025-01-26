@@ -48,9 +48,12 @@ Here is the road-map and release dates (may not be correct):
 We prioritize stable releases and less complexity over abstraction.
 Here are future release dates, that are an estimate:
 
-02-02-2025 : Signals & Effective StateManagment Solution
-15-02-2025 : ShowIF (Conditional Rendering) & Suspense
-16-03-2025 : Current Roadmap Finished
+02-02-2025 : 
+- Signals & Effective StateManagment Solution
+- ShowIF (Conditional Rendering) & Suspense
+- In-Built Router
+- Css In Js Solution, Similar To Stylex (Already Working, Check `parser.ts`)
+
 
 ## Key Features
 

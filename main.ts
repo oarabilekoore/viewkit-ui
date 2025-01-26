@@ -1,24 +1,21 @@
-import { Application, Layout, Button, Paragraph, Image } from "./Lib/+droidxl.js";
+import { Application, Layout, Button, Paragraph } from "./Lib/+innerscope.ts";
 
 const app = new Application({
-    title: "droidxl Framework",
-    icon: "./droidxl.png",
+    title: "innerscope Framework",
+    icon: "./innerscope.png",
     statusbarcolor: "#1e1e1e",
 });
 
 app.onStart(LandingPage);
 
-// Main App Function
 function LandingPage() {
     // Create a linear layout for the page
     const page = Layout("linear", app.root);
-    //@ts-ignore
     page.alignChildren = "top vertical vcenter";
     page.parentFill = "xy";
     page.scrollDirection = "y";
     page.layout.classList.add("noscrollbar");
 
-    // Dark theme styles
     page.style.backgroundColor = "#1e1e1e"; // Dark background
     page.style.color = "#ffffff"; // White text
     page.style.minHeight = "100vh"; // Full height
@@ -26,18 +23,17 @@ function LandingPage() {
 
     // Hero Section
     const hero = Layout("linear", page);
-    //@ts-ignore
     hero.alignChildren = "center vertical";
     hero.style.padding = "64px 32px";
     hero.style.textAlign = "center";
 
-    const heroTitle = Paragraph("Welcome to droidxl", hero);
+    const heroTitle = Paragraph("Welcome to innerscope.ts", hero);
     heroTitle.style.fontSize = "2rem";
     heroTitle.style.fontWeight = "bold";
     heroTitle.style.marginBottom = "16px";
 
     const heroDescription = Paragraph(
-        "droidxl is a lightweight, modern framework for building web applications. " +
+        "innerscope is a lightweight, modern framework for building web applications. " +
             "It provides a simple and intuitive API for creating responsive, beautiful UIs.",
         hero,
     );
@@ -56,7 +52,7 @@ function LandingPage() {
     ctaButton.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.2)"; // Shadow for elevation
 
     ctaButton.onclick = () => {
-        alert("Let's build something amazing with droidxl!");
+        alert("Let's build something amazing with innerscope!");
     };
 
     // Features Section
@@ -127,7 +123,7 @@ function LandingPage() {
     footer.style.textAlign = "center";
     footer.style.marginTop = "64px";
 
-    const footerText = Paragraph("© 2025 droidxl Framework. All rights reserved.", footer);
+    const footerText = Paragraph("© 2025 innerscope Framework. All rights reserved.", footer);
     footerText.style.fontSize = "0.9rem";
     footerText.style.opacity = "0.8";
 }

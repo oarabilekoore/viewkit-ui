@@ -1,3 +1,7 @@
+import { useState, showIF } from "./reactivity.js";
+
+export { useState, showIF }
+
 interface ApplicationConfig {
     title: string;
     icon: string;
@@ -20,14 +24,13 @@ export class Application {
             document.head.appendChild(meta);
         }
         cfg.title ? (document.title = cfg.title) : null;
-        //@ts-ignore
+        //@ts-ignore : TS does not have that function in type definition.
         cfg.orientation ? screen.orientation.lock(cfg.orientation) : null;
     }
 
     onExit(Fn: Function) {
         window.addEventListener("beforeunload", (event) => {
             event.preventDefault();
-            event.returnValue = "";
             Fn(event);
         });
     }
@@ -98,6 +101,7 @@ export class LayoutConstructor implements Parent {
     layout: HTMLElement;
     children: HTMLElement[];
     style: CSSStyleDeclaration;
+    
     constructor(layout_type: Layout_Types, parent: Parent | HTMLElement) {
         this.layout = new ElementContructor("div", parent).element;
         this.layout.className = `${layout_type}-layout show`;
@@ -107,16 +111,32 @@ export class LayoutConstructor implements Parent {
         this.children = Array();
     }
 
+    /**
+     * set the layouts scroll axis as x or y which also applies the direction
+     */
     set scrollDirection(direction: Scroll_Direction) {
         this.layout.classList.add(`scroll${direction}`);
     }
 
+    /**
+     * set a boolean to hide or view the scollbars visibility
+     */
+    set scrollBarVisibility(visibility: boolean) {
+        visibility ? this.layout.classList.add(`noscrollbar`) : this.layout.classList.remove(`noscrollbar`);    
+    }
+
+    /**
+     * set how children in a layout should be arranged
+     */
     set alignChildren(alignment: string) {
         alignment.split(" ").forEach((token) => {
             this.layout.classList.add(token);
         });
     }
 
+    /**
+     * parent fill is used if you want your layout to be fullscreen but on an axial position.
+     */
     set parentFill(fill: Parent_Fill) {
         this.layout.classList.add(`fill${fill}`);
     }

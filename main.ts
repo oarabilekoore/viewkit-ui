@@ -1,4 +1,4 @@
-import { Application, Layout, Button, Paragraph } from "./Lib/+innerscope.ts";
+import { Application, Layout, Button, Paragraph, HorizontalRule, showIF } from "./Lib/+innerscope.ts";
 
 const app = new Application({
     title: "innerscope Framework",
@@ -27,10 +27,12 @@ function LandingPage() {
     hero.style.padding = "64px 32px";
     hero.style.textAlign = "center";
 
-    const heroTitle = Paragraph("Welcome to innerscope.ts", hero);
+    const heroTitle = Paragraph("innerscope.ts", hero);
     heroTitle.style.fontSize = "2rem";
     heroTitle.style.fontWeight = "bold";
     heroTitle.style.marginBottom = "16px";
+
+    HorizontalRule(hero).style.width = '3rem'
 
     const heroDescription = Paragraph(
         "innerscope is a lightweight, modern framework for building web applications. " +
@@ -54,6 +56,19 @@ function LandingPage() {
     ctaButton.onclick = () => {
         alert("Let's build something amazing with innerscope!");
     };
+
+    const installButton = Button(`Why Innerscope ?`, page);
+    installButton.style.backgroundColor = "#007acc"; // Blue accent color
+    installButton.style.color = "#ffffff"; // White text
+    installButton.style.padding = "12px 24px";
+    installButton.style.borderRadius = "4px";
+    installButton.style.border = "none";
+    installButton.style.fontSize = "1rem";
+    installButton.style.cursor = "pointer";
+    installButton.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.2)"; // Shadow for elevation
+    installButton.style.marginBottom = "32px";
+
+    showIF(installButton, true)
 
     // Features Section
     const features = Layout("linear", page);

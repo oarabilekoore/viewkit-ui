@@ -1,31 +1,41 @@
-interface ReactiveValue<T> {
-    value: T;
-    subscribe: (subscriber: (value: T) => void) => void;
-}
 
-export function signal<T>(defaultValue: T): ReactiveValue<T> {
-    var reactiveValue = defaultValue;
-    const subscribers = Array();
+/**
+ * useState, is a signal and allows you to subscribe to changes on a value
+ * use the useEffect signal to run the function immediatley and on value 
+ * change, 
+ * use the useSubscriber  signal to only subscribe to changes.
+ */
+export function useState<T>(defaultState: T): [() => T, (value: T) => void, (fn: () => void) => void, (fn: () => void) => void] {
+    let reactiveProperty: T = defaultState;
+    const subscriptions: Array<() => void> = [];
 
-    function call_subscriber() {
-        for (const subscriber of subscribers) {
-            subscriber(reactiveValue);
+    function callEffect() {
+        for (const subscriber of subscriptions) {
+            subscriber();
         }
     }
 
-    function update_value(value: T) {
-        reactiveValue = value;
-        call_subscriber();
+    function setState(value: T) {
+        reactiveProperty = value;
+        callEffect();
     }
-    return {
-        get value() {
-            return reactiveValue;
-        },
-        set value(value: T) {
-            update_value(value);
-        },
-        subscribe(subscriber: (value: T) => void) {
-            subscribers.push(subscriber);
-        },
-    };
+
+    function getState(): T {
+        return reactiveProperty;
+    }
+
+    function useEffect(fn: () => void) {
+        subscriptions.push(fn);
+        fn();
+    }
+
+    function useSubscriber(fn: () => void) {
+        subscriptions.push(fn);
+    }
+
+    return [getState, setState, useEffect, useSubscriber];
+}
+
+export function showIF(element: HTMLElement, condition: boolean) {
+    condition ? element.classList.add("show") : element.classList.add("hide");
 }

@@ -4,7 +4,7 @@
 <br>
 <div align="center">
     <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
-    <img alt="Version Badge" src="https://img.shields.io/badge/version-0.1.0-brightgreen.svg">
+    <img alt="Version Badge" src="https://img.shields.io/badge/version-0.1.1-brightgreen.svg">
 </div>
 
 <br>
@@ -49,11 +49,10 @@ We prioritize stable releases and less complexity over abstraction.
 Here are future release dates, that are an estimate:
 
 02-02-2025 : 
-- Signals & Effective StateManagment Solution
-- ShowIF (Conditional Rendering) & Suspense
+- ✅ useState : Signal System       
+- ✅ ShowIF (Conditional Rendering) 
+- Suspense    
 - In-Built Router
-- Css In Js Solution, Similar To Stylex (Already Working, Check `parser.ts`)
-
 
 ## Key Features
 

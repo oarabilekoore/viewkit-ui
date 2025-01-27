@@ -7,6 +7,7 @@
   # Use https://search.nixos.org/packages to find packages
   packages = [
     pkgs.bun
+    pkgs.openssh
     pkgs.nodejs_20
     pkgs.typescript
   ];

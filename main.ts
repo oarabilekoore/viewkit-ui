@@ -1,4 +1,7 @@
 import { Application, Layout, Button, Paragraph, HorizontalRule, showIF } from "./Lib/+innerscope.ts";
+import { PageRouter } from "./Lib/router.ts"
+
+import AboutPage from "./Components/Pages/about.ts"
 
 const app = new Application({
     title: "innerscope Framework",
@@ -7,6 +10,20 @@ const app = new Application({
 });
 
 app.onStart(LandingPage);
+
+const router = new PageRouter(app.root, {
+    mode: "history",
+    routes: [
+        {
+            path: "/",
+            component: LandingPage
+        }, 
+        {
+            path: "/about",
+            component: AboutPage
+        }
+    ]
+})
 
 function LandingPage() {
     // Create a linear layout for the page
@@ -54,7 +71,7 @@ function LandingPage() {
     ctaButton.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.2)"; // Shadow for elevation
 
     ctaButton.onclick = () => {
-        alert("Let's build something amazing with innerscope!");
+        router.Open('/about')
     };
 
     const installButton = Button(`Why Innerscope ?`, page);

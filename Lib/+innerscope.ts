@@ -78,7 +78,7 @@ export type Layout_Types = "linear" | "absolute" | "frame" | "card" | "row" | "c
 export type Parent_Fill = "xy" | "x" | "y";
 export type Scroll_Direction = "x" | "y";
 
-interface Parent {
+export interface Parent {
     root: HTMLElement;
     children: HTMLElement[];
     removeChildren(): void;

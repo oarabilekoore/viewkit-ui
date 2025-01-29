@@ -1,9 +1,9 @@
 {
   "name": "innerscope",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Oarabile Koore",
-  "main": "Dist/+innerscope.js",
-  "module": "Dist/+innerscope.js",
+  "main": "./Dist/+innerscope.js",
+  "module": "./Dist/+innerscope.js",
   "devDependencies": {
     "typescript": "^5.7.3"
   },
@@ -14,7 +14,8 @@
   },
   "files": [
     "Dist",
-    "Lib"
+    "Lib",
+    "innerscope.png"
   ],
   "license": "MIT",
   "scripts": {

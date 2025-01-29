@@ -28,11 +28,11 @@ const router = new PageRouter(app.root, {
 function LandingPage() {
     // Create a linear layout for the page
     const page = Layout("linear", app.root);
-    page.alignChildren = "top vertical vcenter";
-    page.parentFill = "xy";
-    page.scrollDirection = "y";
-    page.layout.classList.add("noscrollbar");
+    page.scrollDirection("vertical");
+    page.scrollBarVisibility("hide");
+    page.childAlignment('top', 'vcenter', 'vertical');
 
+    // Set page styles
     page.style.backgroundColor = "#1e1e1e"; // Dark background
     page.style.color = "#ffffff"; // White text
     page.style.minHeight = "100vh"; // Full height
@@ -40,9 +40,9 @@ function LandingPage() {
 
     // Hero Section
     const hero = Layout("linear", page);
-    hero.alignChildren = "center vertical";
     hero.style.padding = "64px 32px";
     hero.style.textAlign = "center";
+    hero.childAlignment("center", "vertical", "fillxy");
 
     const heroTitle = Paragraph("innerscope.ts", hero);
     heroTitle.style.fontSize = "2rem";

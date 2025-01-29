@@ -73,10 +73,16 @@ export class Application {
     }
 }
 
-export type Child_Alignment = "left" | "right" | "center" | "top" | "bottom" | "hcenter" | "vcenter" | "vertical";
+export type Alignment_Token = "left" | "right" | "center" | "top" | "bottom" | "hcenter" | "vcenter" | "vertical" | "fillxy"
+export type Child_Alignment = 
+  | Alignment_Token
+  | `${Alignment_Token} ${Alignment_Token}`
+  | `${Alignment_Token} ${Alignment_Token} ${Alignment_Token}`;
+
 export type Layout_Types = "linear" | "absolute" | "frame" | "card" | "row" | "column" | "grid";
-export type Parent_Fill = "xy" | "x" | "y";
-export type Scroll_Direction = "x" | "y";
+export type Scroll_Direction = "vertical" | "horizontal" | "both";
+export type ScrollBar_Visibilty = "show" | "hide"
+export type Scroll_Fill = "x" | "y";
 
 export interface Parent {
     root: HTMLElement;
@@ -109,38 +115,11 @@ export class LayoutConstructor implements Parent {
         this.style = this.layout.style;
         this.root = this.layout;
         this.children = Array();
-    }
 
-    /**
-     * set the layouts scroll axis as x or y which also applies the direction
-     */
-    set scrollDirection(direction: Scroll_Direction) {
-        this.layout.classList.add(`scroll${direction}`);
+        if (parent == document.body) {
+            this.layout.classList.add('fillxy')
+        }
     }
-
-    /**
-     * set a boolean to hide or view the scollbars visibility
-     */
-    set scrollBarVisibility(visibility: boolean) {
-        visibility ? this.layout.classList.add(`noscrollbar`) : this.layout.classList.remove(`noscrollbar`);    
-    }
-
-    /**
-     * set how children in a layout should be arranged
-     */
-    set alignChildren(alignment: string) {
-        alignment.split(" ").forEach((token) => {
-            this.layout.classList.add(token);
-        });
-    }
-
-    /**
-     * parent fill is used if you want your layout to be fullscreen but on an axial position.
-     */
-    set parentFill(fill: Parent_Fill) {
-        this.layout.classList.add(`fill${fill}`);
-    }
-
     appendChild(child: HTMLElement): void {
         this.layout.appendChild(child);
         this.children.push(child);
@@ -156,6 +135,34 @@ export class LayoutConstructor implements Parent {
 
     insertBefore(child: HTMLElement, before: HTMLElement): void {
         this.layout.insertBefore(child, before);
+    }
+
+    childAlignment(...alignment: Child_Alignment[]) {
+        alignment.forEach(token => {
+            this.layout.classList.add(token)
+        })
+    }
+
+    scrollDirection(direction: Scroll_Direction) {
+        var plane;
+        if (direction == 'vertical') plane = 'x';
+        if (direction == 'horizontal') {
+            plane = 'y';
+        }
+        else plane = 'xy'
+        this.layout.classList.add(`scroll${plane}`);
+    }
+
+    scrollFill(fill: Scroll_Fill) {
+        this.layout.classList.add(`fill${fill}`);
+    }
+
+    scrollBarVisibility(visibility: ScrollBar_Visibilty) {
+        if (visibility == "show"){
+            this.layout.classList.remove(`noscrollbar`); 
+            
+        }
+        else this.layout.classList.add(`noscrollbar`);
     }
 }
 
@@ -177,10 +184,6 @@ function createElement<T extends keyof HTMLElementTagNameMap>(
 
     // Set content (text or nodes)
     if (options?.content) {
-        if (tag === "img") {
-            //@ts-ignore
-            (el.src = options.content) as HTMLImageElement;
-        }
         typeof options.content === "string" ? (el.textContent = options.content) : el.appendChild(options.content);
     }
 
@@ -234,7 +237,7 @@ function genericElement<T extends keyof HTMLElementTagNameMap>(tag: T): ElementF
             attrs = args[1];
             parent = args[2];
         } else {
-            throw new Error("Invalid arguments");
+            throw new Error("Invalid arguments: \n Referer To Error Directory [ERROR 100]")
         }
 
         return createElement(tag, parent, { content, attrs });

@@ -1,11 +1,10 @@
 import { useState, showIF } from "./reactivity.js";
 
-export { useState, showIF }
+export { useState, showIF };
 
 interface ApplicationConfig {
     title: string;
     icon: string;
-    orientation?: string;
     statusbarcolor?: string;
 }
 
@@ -14,7 +13,9 @@ export class Application {
 
     constructor(config?: ApplicationConfig) {
         this.root = document.body;
-        config ? this.setConfig(config) : console.error("Application Configuration Was Not Passed.");
+        config
+            ? this.setConfig(config)
+            : console.error("Application Configuration Was Not Passed.");
     }
     private setConfig(cfg: ApplicationConfig) {
         if (cfg.statusbarcolor) {
@@ -24,8 +25,6 @@ export class Application {
             document.head.appendChild(meta);
         }
         cfg.title ? (document.title = cfg.title) : null;
-        //@ts-ignore : TS does not have that function in type definition.
-        cfg.orientation ? screen.orientation.lock(cfg.orientation) : null;
     }
 
     onExit(Fn: Function) {
@@ -73,15 +72,24 @@ export class Application {
     }
 }
 
-export type Alignment_Token = "left" | "right" | "center" | "top" | "bottom" | "hcenter" | "vcenter" | "vertical" | "fillxy"
-export type Child_Alignment = 
-  | Alignment_Token
-  | `${Alignment_Token} ${Alignment_Token}`
-  | `${Alignment_Token} ${Alignment_Token} ${Alignment_Token}`;
+export type Alignment_Token =
+    | "left"
+    | "right"
+    | "center"
+    | "top"
+    | "bottom"
+    | "hcenter"
+    | "vcenter"
+    | "vertical"
+    | "fillxy";
+export type Child_Alignment =
+    | Alignment_Token
+    | `${Alignment_Token} ${Alignment_Token}`
+    | `${Alignment_Token} ${Alignment_Token} ${Alignment_Token}`;
 
 export type Layout_Types = "linear" | "absolute" | "frame" | "card" | "row" | "column" | "grid";
 export type Scroll_Direction = "vertical" | "horizontal" | "both";
-export type ScrollBar_Visibilty = "show" | "hide"
+export type ScrollBar_Visibilty = "show" | "hide";
 export type Scroll_Fill = "x" | "y";
 
 export interface Parent {
@@ -107,7 +115,7 @@ export class LayoutConstructor implements Parent {
     layout: HTMLElement;
     children: HTMLElement[];
     style: CSSStyleDeclaration;
-    
+
     constructor(layout_type: Layout_Types, parent: Parent | HTMLElement) {
         this.layout = new ElementContructor("div", parent).element;
         this.layout.className = `${layout_type}-layout show`;
@@ -117,7 +125,7 @@ export class LayoutConstructor implements Parent {
         this.children = Array();
 
         if (parent == document.body) {
-            this.layout.classList.add('fillxy')
+            this.layout.classList.add("fillxy");
         }
     }
     appendChild(child: HTMLElement): void {
@@ -138,18 +146,17 @@ export class LayoutConstructor implements Parent {
     }
 
     childAlignment(...alignment: Child_Alignment[]) {
-        alignment.forEach(token => {
-            this.layout.classList.add(token)
-        })
+        alignment.forEach((token) => {
+            this.layout.classList.add(token);
+        });
     }
 
     scrollDirection(direction: Scroll_Direction) {
         var plane;
-        if (direction == 'vertical') plane = 'x';
-        if (direction == 'horizontal') {
-            plane = 'y';
-        }
-        else plane = 'xy'
+        if (direction == "vertical") plane = "x";
+        if (direction == "horizontal") {
+            plane = "y";
+        } else plane = "xy";
         this.layout.classList.add(`scroll${plane}`);
     }
 
@@ -158,11 +165,9 @@ export class LayoutConstructor implements Parent {
     }
 
     scrollBarVisibility(visibility: ScrollBar_Visibilty) {
-        if (visibility == "show"){
-            this.layout.classList.remove(`noscrollbar`); 
-            
-        }
-        else this.layout.classList.add(`noscrollbar`);
+        if (visibility == "show") {
+            this.layout.classList.remove(`noscrollbar`);
+        } else this.layout.classList.add(`noscrollbar`);
     }
 }
 
@@ -170,7 +175,6 @@ export function Layout(layout_type: Layout_Types, parent: Parent | HTMLElement) 
     return new LayoutConstructor(layout_type, parent);
 }
 
-// Base element creation helper
 function createElement<T extends keyof HTMLElementTagNameMap>(
     tag: T,
     parent: Parent | HTMLElement,
@@ -178,13 +182,15 @@ function createElement<T extends keyof HTMLElementTagNameMap>(
         content?: string | Node;
         attrs?: Record<string, string>;
         children?: HTMLElement[];
-    },
+    }
 ): HTMLElementTagNameMap[T] {
     const el = document.createElement(tag);
 
     // Set content (text or nodes)
     if (options?.content) {
-        typeof options.content === "string" ? (el.textContent = options.content) : el.appendChild(options.content);
+        typeof options.content === "string"
+            ? (el.textContent = options.content)
+            : el.appendChild(options.content);
     }
 
     // Set attributes
@@ -217,7 +223,9 @@ type ElementFactory<T> = {
     (content: string, attrs: Record<string, string>, parent: Parent | HTMLElement): T;
 };
 
-function genericElement<T extends keyof HTMLElementTagNameMap>(tag: T): ElementFactory<HTMLElementTagNameMap[T]> {
+function genericElement<T extends keyof HTMLElementTagNameMap>(
+    tag: T
+): ElementFactory<HTMLElementTagNameMap[T]> {
     return function (...args: any[]): any {
         let content: string | undefined;
         let attrs: Record<string, string> = {};
@@ -237,7 +245,7 @@ function genericElement<T extends keyof HTMLElementTagNameMap>(tag: T): ElementF
             attrs = args[1];
             parent = args[2];
         } else {
-            throw new Error("Invalid arguments: \n Referer To Error Directory [ERROR 100]")
+            throw new Error("Invalid arguments: \n Referer To Error Directory [ERROR 100]");
         }
 
         return createElement(tag, parent, { content, attrs });

@@ -1,10 +1,9 @@
 # innerscope
 
-<div align="center"><img src="./innerscope.png" width="100" /></div>
 <br>
 <div align="center">
     <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
-    <img alt="Version Badge" src="https://img.shields.io/badge/version-0.1.3-brightgreen.svg">
+    <img alt="Version Badge" src="https://img.shields.io/badge/version-0.1.4-brightgreen.svg">
 </div>
 
 <br>
@@ -48,11 +47,10 @@ Here is the road-map and release dates (may not be correct):
 We prioritize stable releases and less complexity over abstraction.
 Here are future release dates, that are an estimate:
 
-02-02-2025 : 
-- ✅ useState : Signal System       
+02-02-2025 :       
+- ✅ In-Built Router
+- ✅ useState : Signal System  
 - ✅ ShowIF (Conditional Rendering) 
-- Suspense    
-- In-Built Router
 
 ## Key Features
 

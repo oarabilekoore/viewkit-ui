@@ -1,7 +1,14 @@
-import { Application, Layout, Button, Paragraph, HorizontalRule, showIF } from "./Lib/+innerscope.ts";
-import { PageRouter } from "./Lib/router.ts"
+import {
+    Application,
+    Layout,
+    Button,
+    Paragraph,
+    HorizontalRule,
+    showIF,
+} from "../Lib/+innerscope.ts";
+import { PageRouter } from "../Lib/router.ts";
 
-import AboutPage from "./Components/Pages/about.ts"
+import AboutPage from "./get-started.ts";
 
 const app = new Application({
     title: "innerscope Framework",
@@ -16,21 +23,21 @@ const router = new PageRouter(app.root, {
     routes: [
         {
             path: "/",
-            component: LandingPage
-        }, 
+            component: LandingPage,
+        },
         {
             path: "/about",
-            component: AboutPage
-        }
-    ]
-})
+            component: AboutPage,
+        },
+    ],
+});
 
 function LandingPage() {
     // Create a linear layout for the page
     const page = Layout("linear", app.root);
     page.scrollDirection("vertical");
     page.scrollBarVisibility("hide");
-    page.childAlignment('top', 'vcenter', 'vertical');
+    page.childAlignment("top", "vcenter", "vertical");
 
     // Set page styles
     page.style.backgroundColor = "#1e1e1e"; // Dark background
@@ -49,12 +56,12 @@ function LandingPage() {
     heroTitle.style.fontWeight = "bold";
     heroTitle.style.marginBottom = "16px";
 
-    HorizontalRule(hero).style.width = '3rem'
+    HorizontalRule(hero).style.width = "3rem";
 
     const heroDescription = Paragraph(
         "innerscope is a lightweight, modern framework for building web applications. " +
             "It provides a simple and intuitive API for creating responsive, beautiful UIs.",
-        hero,
+        hero
     );
     heroDescription.style.fontSize = "1.1rem";
     heroDescription.style.color = "#cccccc"; // Light gray text
@@ -71,7 +78,7 @@ function LandingPage() {
     ctaButton.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.2)"; // Shadow for elevation
 
     ctaButton.onclick = () => {
-        router.Open('/about')
+        router.Open("/about");
     };
 
     const installButton = Button(`Why Innerscope ?`, page);
@@ -85,7 +92,7 @@ function LandingPage() {
     installButton.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.2)"; // Shadow for elevation
     installButton.style.marginBottom = "32px";
 
-    showIF(installButton, true)
+    showIF(installButton, true);
 
     // Features Section
     const features = Layout("linear", page);

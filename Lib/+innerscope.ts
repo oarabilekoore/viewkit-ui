@@ -1,6 +1,8 @@
 import { useState, showIF } from "./reactivity.js";
+import { PageRouter } from "./router.js";
+export { useState, showIF, PageRouter };
 
-export { useState, showIF };
+var version = 0.16
 
 interface ApplicationConfig {
     title: string;
@@ -93,7 +95,7 @@ export type ScrollBar_Visibilty = "show" | "hide";
 export type Scroll_Fill = "x" | "y";
 
 export interface Parent {
-    root: HTMLElement;
+    root: HTMLElement | HTMLDivElement;
     children: HTMLElement[];
     removeChildren(): void;
     appendChild(child: HTMLElement): void;

@@ -1,16 +1,18 @@
-import { useState, showIF } from "./reactivity.js";
-import { PageRouter } from "./router.js";
-export { useState, showIF, PageRouter };
+import StyleSheet from "./parser.js";
+import Router from "./router.js";
+import State from "./state.js";
 
-var version = 0.16
+const version = 0.17;
+console.log(`innerscope v${version}`);  
 
 interface ApplicationConfig {
     title: string;
-    icon: string;
+    icon?: string;
     statusbarcolor?: string;
+    scrollbarvisibility?: "shown" | "hidden"
 }
 
-export class Application {
+class Application {
     root: HTMLElement;
 
     constructor(config?: ApplicationConfig) {
@@ -25,6 +27,12 @@ export class Application {
             meta.name = "theme-color";
             meta.content = cfg.statusbarcolor;
             document.head.appendChild(meta);
+        }
+
+        if (cfg.scrollbarvisibility) {
+            if (cfg.scrollbarvisibility == "shown") {
+                document.body.classList.remove(`noscrollbar`);
+            } else document.body.classList.add(`noscrollbar`);
         }
         cfg.title ? (document.title = cfg.title) : null;
     }
@@ -72,9 +80,30 @@ export class Application {
             Fn(event);
         });
     }
+
+    onResize(Fn: Function) {
+        window.addEventListener("resize", (event) => {
+            Fn(event);
+        });
+    }
+
+    onScroll(Fn: Function) {
+        window.addEventListener("scroll", (event) => {
+            Fn(event);
+        });
+    }
 }
 
-export type Alignment_Token =
+function ShowIF(element: HTMLElement, condition: boolean) {
+    if (condition) {
+        element.classList.add("show");
+    }
+    else {
+        element.classList.add("hide");
+    }
+}
+
+type Alignment_Token =
     | "left"
     | "right"
     | "center"
@@ -84,17 +113,15 @@ export type Alignment_Token =
     | "vcenter"
     | "vertical"
     | "fillxy";
-export type Child_Alignment =
+
+type Child_Alignment =
     | Alignment_Token
     | `${Alignment_Token} ${Alignment_Token}`
     | `${Alignment_Token} ${Alignment_Token} ${Alignment_Token}`;
 
-export type Layout_Types = "linear" | "absolute" | "frame" | "card" | "row" | "column" | "grid";
-export type Scroll_Direction = "vertical" | "horizontal" | "both";
-export type ScrollBar_Visibilty = "show" | "hide";
-export type Scroll_Fill = "x" | "y";
+type Layout_Types = "linear" | "absolute" | "frame" | "card" | "row" | "column" | "grid";
 
-export interface Parent {
+interface Parent {
     root: HTMLElement | HTMLDivElement;
     children: HTMLElement[];
     removeChildren(): void;
@@ -103,7 +130,7 @@ export interface Parent {
     insertBefore(child: HTMLElement, before: HTMLElement): void;
 }
 
-export class ElementContructor {
+class ElementContructor {
     element: HTMLElement;
     constructor(tag: string, parent: Parent | HTMLElement) {
         this.element = document.createElement(tag);
@@ -111,8 +138,7 @@ export class ElementContructor {
         document.body.style.margin = "0";
     }
 }
-
-export class LayoutConstructor implements Parent {
+class LayoutConstructor implements Parent {
     root: HTMLElement;
     layout: HTMLElement;
     children: HTMLElement[];
@@ -125,10 +151,6 @@ export class LayoutConstructor implements Parent {
         this.style = this.layout.style;
         this.root = this.layout;
         this.children = Array();
-
-        if (parent == document.body) {
-            this.layout.classList.add("fillxy");
-        }
     }
     appendChild(child: HTMLElement): void {
         this.layout.appendChild(child);
@@ -153,21 +175,19 @@ export class LayoutConstructor implements Parent {
         });
     }
 
-    scrollDirection(direction: Scroll_Direction) {
-        var plane;
-        if (direction == "vertical") plane = "x";
-        if (direction == "horizontal") {
-            plane = "y";
-        } else plane = "xy";
+    /**
+     * Set the scroll axis of the layout, to make it scroll use: (x, y, or xy)
+     */
+    scrollDirection(plane: "x" | "y" | "xy") {
         this.layout.classList.add(`scroll${plane}`);
+        this.layout.classList.add(`fill${plane}`);
     }
 
-    scrollFill(fill: Scroll_Fill) {
-        this.layout.classList.add(`fill${fill}`);
-    }
-
-    scrollBarVisibility(visibility: ScrollBar_Visibilty) {
-        if (visibility == "show") {
+    /**
+     * set the visibility of the layout's scrollbar
+     */
+    scrollBarVisibility(visibility: "shown" | "hidden") {
+        if (visibility == "shown") {
             this.layout.classList.remove(`noscrollbar`);
         } else this.layout.classList.add(`noscrollbar`);
     }
@@ -231,7 +251,7 @@ function genericElement<T extends keyof HTMLElementTagNameMap>(
     return function (...args: any[]): any {
         let content: string | undefined;
         let attrs: Record<string, string> = {};
-        let parent: Parent | HTMLElement;
+        let parent: Parent | HTMLElement | HTMLDivElement;
 
         // Parse arguments
         if (args.length === 1) {
@@ -254,7 +274,10 @@ function genericElement<T extends keyof HTMLElementTagNameMap>(
     } as ElementFactory<HTMLElementTagNameMap[T]>;
 }
 
-// Text Elements
+export { Application, ShowIF, State, Router, StyleSheet, 
+    Parent, genericElement 
+};
+
 export const Paragraph = genericElement("p");
 export const Heading1 = genericElement("h1");
 export const Heading2 = genericElement("h2");

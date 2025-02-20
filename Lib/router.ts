@@ -7,7 +7,7 @@ export type Routes = {
     component: Function;
 }[];
 
-export class PageRouter {
+export default class Router {
     routeMap: Map<string, Function>;
     pageRoutes: Routes;
     rootPage: HTMLElement;

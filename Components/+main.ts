@@ -1,12 +1,13 @@
 import {
+    ShowIF,
+    Router,
     Application,
     Layout,
     Button,
     Paragraph,
     HorizontalRule,
-    showIF,
+    
 } from "../Lib/+innerscope.ts";
-import { PageRouter } from "../Lib/router.ts";
 
 import AboutPage from "./get-started.ts";
 
@@ -14,11 +15,12 @@ const app = new Application({
     title: "innerscope Framework",
     icon: "./innerscope.png",
     statusbarcolor: "#1e1e1e",
+    scrollbarvisibility: "hidden"
 });
 
 app.onStart(LandingPage);
 
-const router = new PageRouter(app.root, {
+const router = new Router(app.root, {
     mode: "history",
     routes: [
         {
@@ -35,8 +37,8 @@ const router = new PageRouter(app.root, {
 function LandingPage() {
     // Create a linear layout for the page
     const page = Layout("linear", app.root);
-    page.scrollDirection("vertical");
-    page.scrollBarVisibility("hide");
+    page.scrollDirection("y");
+    page.scrollBarVisibility("hidden");
     page.childAlignment("top", "vcenter", "vertical");
 
     // Set page styles
@@ -92,8 +94,8 @@ function LandingPage() {
     installButton.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.2)"; // Shadow for elevation
     installButton.style.marginBottom = "32px";
 
-    showIF(installButton, true);
-
+    ShowIF(installButton, true);
+    
     // Features Section
     const features = Layout("linear", page);
     features.style.backgroundColor = "#252526"; // Dark background

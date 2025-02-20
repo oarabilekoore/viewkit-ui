@@ -1,6 +1,6 @@
 {
   "name": "innerscope",
-  "version": "0.1.7",
+  "version": "0.1.71",
   "author": "Oarabile Koore",
   "main": "./Dist/+innerscope.js",
   "module": "./Dist/+innerscope.js",

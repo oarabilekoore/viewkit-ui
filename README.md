@@ -3,7 +3,7 @@
 <br>
 <div align="center">
     <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
-    <img alt="Version Badge" src="https://img.shields.io/badge/version-0.1.7-brightgreen.svg">
+    <img alt="Version Badge" src="https://img.shields.io/badge/version-0.1.72-brightgreen.svg">
 </div>
 
 <br>
@@ -30,18 +30,6 @@ dependencies and use the command `npm run dev` to get a preview:
 
 ![An image of a project built with innerscope](image.png)
 
-## Roadmap & Release Cadence
-
-Here is the road-map and release dates (may not be correct):
-
-**RoadMap As Of 26/01/2025**
-
-- Signals & Effective StateManagment Solution
-- In-Built Router
-- Tanstack Query Like Functionality
-- ShowIF (Conditional Rendering) & Suspense
-- Css In Js Solution, Similar To Stylex (Already Working, Check `parser.ts`)
-
 ### Release Cadence
 
 We prioritize stable releases and less complexity over abstraction.
@@ -49,8 +37,9 @@ Here are future release dates, that are an estimate:
 
 02-02-2025 :       
 - ✅ In-Built Router
-- ✅ useState : Signal System  
+- ✅ State : Signal System  
 - ✅ ShowIF (Conditional Rendering) 
+- ✅ Css-In-Ts (Like React Native)
 
 ## Key Features
 

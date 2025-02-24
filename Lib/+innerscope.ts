@@ -2,7 +2,7 @@ import StyleSheet from "./parser.js";
 import Router from "./router.js";
 import State from "./state.js";
 
-const version = 0.17;
+const version = 0.172;
 console.log(`innerscope v${version}`);  
 
 interface ApplicationConfig {

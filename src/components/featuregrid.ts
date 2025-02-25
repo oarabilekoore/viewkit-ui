@@ -16,7 +16,7 @@ export default function FeatureGrid(parent: Parent | HTMLDivElement) {
         },
         {
             title: "Responsive Design",
-            description: "Build INNERSCOPE_APPs that look great on any device.",
+            description: "Build apps that look great on any device.",
             icon: "📱",
         },
         {

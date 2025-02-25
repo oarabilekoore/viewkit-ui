@@ -17,7 +17,8 @@ import AboutPage from "./pages/about.ts";
 
 const innerscope_app = new Application({
     title: "innerscope Framework",
-    scrollbarvisibility: "hidden"
+    scrollbarvisibility: "hidden",
+    allowzoom: false,
 });
 
 innerscope_app.onStart(LandingPage);

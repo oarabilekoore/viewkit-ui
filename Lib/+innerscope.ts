@@ -2,17 +2,18 @@ import StyleSheet from "./parser.js";
 import Router from "./router.js";
 import State from "./state.js";
 
-const version = 0.172;
+const version = 0.173;
 console.log(`innerscope v${version}`);  
 
-interface ApplicationConfig {
+export interface ApplicationConfig {
     title: string;
     icon?: string;
+    allowzoom?: boolean;
     statusbarcolor?: string;
     scrollbarvisibility?: "shown" | "hidden"
 }
 
-class Application {
+export class Application {
     root: HTMLElement;
 
     constructor(config?: ApplicationConfig) {
@@ -22,6 +23,9 @@ class Application {
             : console.error("Application Configuration Was Not Passed.");
     }
     private setConfig(cfg: ApplicationConfig) {
+        document.title = cfg.title;
+
+
         if (cfg.statusbarcolor) {
             const meta = document.createElement("meta");
             meta.name = "theme-color";
@@ -34,7 +38,13 @@ class Application {
                 document.body.classList.remove(`noscrollbar`);
             } else document.body.classList.add(`noscrollbar`);
         }
-        cfg.title ? (document.title = cfg.title) : null;
+
+        if (!cfg.allowzoom) {
+            const meta = document.createElement('meta'); 
+            meta.content += "user-scalable=no";
+            document.head.appendChild(meta)
+        }
+
     }
 
     onExit(Fn: Function) {
@@ -103,7 +113,7 @@ function ShowIF(element: HTMLElement, condition: boolean) {
     }
 }
 
-type Alignment_Token =
+export type Alignment_Token =
     | "left"
     | "right"
     | "center"
@@ -114,14 +124,14 @@ type Alignment_Token =
     | "vertical"
     | "fillxy";
 
-type Child_Alignment =
+export type Child_Alignment =
     | Alignment_Token
     | `${Alignment_Token} ${Alignment_Token}`
     | `${Alignment_Token} ${Alignment_Token} ${Alignment_Token}`;
 
-type Layout_Types = "linear" | "absolute" | "frame" | "card" | "row" | "column" | "grid";
+export type Layout_Types = "linear" | "absolute" | "frame" | "card" | "row" | "column" | "grid";
 
-interface Parent {
+export interface Parent {
     root: HTMLElement | HTMLDivElement;
     children: HTMLElement[];
     removeChildren(): void;
@@ -274,9 +284,11 @@ function genericElement<T extends keyof HTMLElementTagNameMap>(
     } as ElementFactory<HTMLElementTagNameMap[T]>;
 }
 
-export { Application, ShowIF, State, Router, StyleSheet, 
-    Parent, genericElement 
-};
+export function CustomElement<T extends keyof HTMLElementTagNameMap>(tag: T){
+    return genericElement(tag)
+}
+
+export {ShowIF, State, Router, StyleSheet }
 
 export const Paragraph = genericElement("p");
 export const Heading1 = genericElement("h1");

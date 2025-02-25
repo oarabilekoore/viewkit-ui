@@ -3,7 +3,7 @@
 <br>
 <div align="center">
     <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
-    <img alt="Version Badge" src="https://img.shields.io/badge/version-0.1.72-brightgreen.svg">
+    <img alt="Version Badge" src="https://img.shields.io/badge/version-0.1.73-brightgreen.svg">
 </div>
 
 <br>
@@ -24,6 +24,8 @@ To install the framework, you can choose between npm or deno:
 ## Documentation
 
 The documentation is evolving as the framework grows. Meanwhile, explore the provided examples and utilize LSP suggestions to get started quickly.
+
+[Start Redaing The Docs Here 🍻](/Docs/+MAIN.md)
 
 Here is the demo page built with innerscope, it is part of this repo in the main.ts file, however you will need to clone, install correct
 dependencies and use the command `npm run dev` to get a preview: 

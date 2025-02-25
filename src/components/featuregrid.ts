@@ -29,6 +29,7 @@ export default function FeatureGrid(parent: Parent | HTMLDivElement) {
     featureData.forEach((feature) => {
         const featureCard = Layout("linear", featureGrid);
         featureCard.style.backgroundColor = "#2d2d2d";
+        featureCard.style.margin = '15px'
         featureCard.style.padding = "24px";
         featureCard.style.borderRadius = "8px";
         featureCard.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.1)"; 

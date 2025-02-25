@@ -4,9 +4,14 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <style>
-            /* Scroll Behavior */
             .noscrollbar {
                 overflow: hidden !important;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            
+            .noscrollbar::-webkit-scrollbar {
+                display: none;
             }
 
             .scrollxy {

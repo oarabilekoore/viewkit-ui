@@ -10,7 +10,7 @@ updated to 0.1.73, here are all the changes
 - layouts dont take all space available
 - updated docs
 
-## 0.1.7
+## 0.1.70
 
 updated to 0.1.7, here are all the changes
 - scrollbarvisibility to app config

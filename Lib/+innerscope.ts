@@ -6,7 +6,7 @@ const version = 0.173;
 console.log(`innerscope v${version}`);  
 
 export interface ApplicationConfig {
-    title: string;
+    title?: string;
     icon?: string;
     allowzoom?: boolean;
     statusbarcolor?: string;
@@ -18,13 +18,16 @@ export class Application {
 
     constructor(config?: ApplicationConfig) {
         this.root = document.body;
+        
         config
             ? this.setConfig(config)
             : console.error("Application Configuration Was Not Passed.");
     }
-    private setConfig(cfg: ApplicationConfig) {
-        document.title = cfg.title;
 
+    setConfig(cfg: ApplicationConfig) {
+        if (cfg.title) {
+            document.title = cfg.title;
+        }
 
         if (cfg.statusbarcolor) {
             const meta = document.createElement("meta");
@@ -40,9 +43,17 @@ export class Application {
         }
 
         if (!cfg.allowzoom) {
-            const meta = document.createElement('meta'); 
-            meta.content += "user-scalable=no";
-            document.head.appendChild(meta)
+            let meta = document.querySelector('meta[name="viewport"]');
+        
+            if (!meta) {
+                meta = document.createElement('meta');
+                //@ts-ignore
+                meta.name = "viewport";
+                document.head.appendChild(meta);
+            }
+        
+            //@ts-ignore
+            meta.content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no";
         }
 
     }
@@ -103,6 +114,7 @@ export class Application {
         });
     }
 }
+
 
 function ShowIF(element: HTMLElement, condition: boolean) {
     if (condition) {

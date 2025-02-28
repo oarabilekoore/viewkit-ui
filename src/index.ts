@@ -18,6 +18,7 @@ import AboutPage from "./pages/about.ts";
 const innerscope_app = new Application({
     title: "innerscope Framework",
     scrollbarvisibility: "hidden",
+    statusbarcolor: "#252526",
     allowzoom: false,
 });
 

@@ -1,8 +1,9 @@
 import StyleSheet from "./parser.js";
 import Router from "./router.js";
 import State from "./state.js";
+import './baseline.css';
 
-const version = 0.173;
+const version = 0.174;
 console.log(`innerscope v${version}`);  
 
 export interface ApplicationConfig {
@@ -296,11 +297,11 @@ function genericElement<T extends keyof HTMLElementTagNameMap>(
     } as ElementFactory<HTMLElementTagNameMap[T]>;
 }
 
-export function CustomElement<T extends keyof HTMLElementTagNameMap>(tag: T){
+function CustomElement<T extends keyof HTMLElementTagNameMap>(tag: T){
     return genericElement(tag)
 }
 
-export {ShowIF, State, Router, StyleSheet }
+export {ShowIF, State, CustomElement, Router, StyleSheet }
 
 export const Paragraph = genericElement("p");
 export const Heading1 = genericElement("h1");

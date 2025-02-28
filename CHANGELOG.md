@@ -1,5 +1,15 @@
 # CHANGELOG
 
+# 0.1.74 (Not Released Yet)
+
+updated to 0.1.74, here are all the changes
+- the default styles for layout managment now don't need to be added manually now.
+
+## TODO
+- update router to take multiple routes like about/workforce
+- add functions to the url bar info
+
+
 # 0.1.73
 
 updated to 0.1.73, here are all the changes

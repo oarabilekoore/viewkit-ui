@@ -25,6 +25,7 @@
   "type": "module",
   "types": "Dist/index.d.ts",
   "dependencies": {
+    "gh-pages": "^6.3.0",
     "tsc": "^2.0.4",
     "vite": "^6.0.11"
   },

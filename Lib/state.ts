@@ -5,7 +5,7 @@
  * change, 
  * use the useSubscriber  signal to only subscribe to changes.
  */
-export default function State<T>(defaultState: T): [() => T, (value: T) => void, (fn: () => void) => void, (fn: () => void) => void] {
+export default function state<T>(defaultState: T): [() => T, (value: T) => void, (fn: () => void) => void, (fn: () => void) => void] {
     let reactiveProperty: T = defaultState;
     const subscriptions: Array<() => void> = [];
 

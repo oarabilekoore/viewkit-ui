@@ -8,35 +8,35 @@
     display: none;
 }
 
-.scrollxy {
-    overflow: auto !important;
+.show {
+    visibility: visible;
 }
 
-.scrollx {
-    overflow-x: auto !important;
+.hide {
+    visibility: hidden;
 }
 
-.scrolly {
-    overflow-y: auto !important;
+.gone {
+    display: none;
 }
 
-/* Child Alignment */
-.top {
+.top_to_bottom {
     display: flex !important;
+    flex-direction: column !important;
     align-items: flex-start !important;
 }
 
-.bottom {
+.bottom_to_top {
     display: flex !important;
     align-items: flex-end !important;
 }
 
-.left {
+.left_to_right {
     display: flex !important;
     justify-content: flex-start !important;
 }
 
-.right {
+.right_to_left {
     display: flex !important;
     justify-content: flex-end !important;
 }
@@ -57,75 +57,40 @@
     justify-content: center !important;
 }
 
-.baseline {
-    display: flex !important;
-    align-items: baseline !important;
-}
-
-.stretch {
-    display: flex !important;
-    align-items: stretch !important;
-}
-
-.space-between {
-    display: flex !important;
-    justify-content: space-between !important;
-}
-
-.space-around {
-    display: flex !important;
-    justify-content: space-around !important;
-}
-
-.space-evenly {
-    display: flex !important;
-    justify-content: space-evenly !important;
-}
-
-/* Layout Directions */
-.horizontal {
-    display: flex !important;
-    flex-direction: row !important;
-}
-
-.vertical {
-    display: flex !important;
-    flex-direction: column !important;
-}
-
-/* Parent Fill */
 .fillxy {
-    width: 100% !important;
-    height: 100vh !important;
+    width: 100dvw !important;
+    height: 100dvh !important;
 }
 
 .fillx {
     width: 100% !important;
+    height: fit-content;
 }
 
 .filly {
-    height: 100vh !important;
+    height: 100% !important;
+    width: fit-content;
 }
 
-/* Visibility */
-.hide {
-    visibility: hidden !important;
+.scrollxy {
+    overflow-x: scroll !important;
+    overflow-y: scroll !important;
 }
 
-.gone {
-    display: none !important;
-    visibility: hidden !important;
+.scrollx {
+    overflow-x: scroll !important;
+    overflow-y: hidden !important;
 }
 
-.show {
-    visibility: visible !important;
+.scrolly {
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
 }
 
-/* Layout Types */
 .layout-linear {
     display: inline-flex !important;
     position: relative !important;
-    flex-direction: column !important;
+    flex-direction: column!important;
 }
 
 .layout-absolute {
@@ -133,89 +98,6 @@
     position: absolute !important;
 }
 
-.layout-frame {
-    position: relative !important;
-}
-
-.layout-stack-horizontal {
-    display: flex !important;
-    flex-direction: row !important;
-}
-
-.layout-stack-vertical {
-    display: flex !important;
-    flex-direction: column !important;
-}
-
 .layout-grid {
     display: grid !important;
-}
-
-.layout-card {
-    display: flex !important;
-    flex-direction: column !important;
-    border-radius: 8px !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
-    overflow: hidden !important;
-}
-
-.layout-overlay {
-    position: absolute !important;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5) !important;
-}
-
-.layout-split-horizontal {
-    display: flex !important;
-    flex-direction: row !important;
-}
-
-.layout-split-vertical {
-    display: flex !important;
-    flex-direction: column !important;
-}
-
-/* Grid Layout Utilities */
-.grid-cols-2 {
-    grid-template-columns: repeat(2, 1fr) !important;
-}
-
-.grid-cols-3 {
-    grid-template-columns: repeat(3, 1fr) !important;
-}
-
-.grid-cols-4 {
-    grid-template-columns: repeat(4, 1fr) !important;
-}
-
-.grid-gap-8 {
-    gap: 8px !important;
-}
-
-.grid-gap-16 {
-    gap: 16px !important;
-}
-
-.grid-gap-24 {
-    gap: 24px !important;
-}
-
-/* Additional Utilities */
-.rounded {
-    border-radius: 8px !important;
-}
-
-.shadow {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
-}
-
-.overflow-hidden {
-    overflow: hidden !important;
-}
-
-.overflow-visible {
-    overflow: visible !important;
 }

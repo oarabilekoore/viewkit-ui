@@ -1,7 +1,7 @@
 import {
-    ShowIF,
+    showIF,
     Router,
-    Layout,
+    LinearLayout,
     Paragraph,
     Application,
     HorizontalRule,
@@ -40,21 +40,24 @@ const routes: PageRouterConfig = {
 const router = new Router(innerscope_app.root, routes);
 
 function LandingPage() {
-    const page = Layout("linear", innerscope_app.root);
-    page.scrollDirection("y");
-    page.scrollBarVisibility("hidden");
-    page.childAlignment("top", "vcenter", "vertical");
-
+    const page = LinearLayout(innerscope_app.root);
+    page.ParentFill = "FILLXY"
+    page.ScrollDirection = "VERTICAL"
+    page.ElementAlignment = "VCENTER"
+    page.ScrollBarVisibility = "HIDDEN"
+    page.LayoutDirection = "TOP_TO_BOTTOM"
+    
     page.style.backgroundColor = "#1e1e1e"; 
     page.style.color = "#ffffff"; 
     page.style.minHeight = "100vh";
     page.style.fontFamily = "Arial, sans-serif";
 
-    // Hero Section
-    const Hero = Layout("linear", page);
+    const Hero = LinearLayout(page);
     Hero.style.padding = "64px 32px";
     Hero.style.textAlign = "center";
-    Hero.childAlignment("center", "vertical", "fillxy");
+    Hero.ElementAlignment = "CENTER"
+    Hero.ParentFill = 'FILLXY'
+    Hero.LayoutDirection = "TOP_TO_BOTTOM"
 
     const HeroTitle = Paragraph("innerscope.ts", Hero);
     HeroTitle.style.fontSize = "2rem";
@@ -78,10 +81,11 @@ function LandingPage() {
 
     const installButton = FilledButton(`Why Innerscope ?`, page);
 
-    ShowIF(installButton, true);
+    showIF(installButton, true);
     
-    // Features Section
-    const features = Layout("linear", page);
+    const features = LinearLayout(page);
+    features.LayoutDirection = "TOP_TO_BOTTOM"
+    features.ElementAlignment = "VCENTER"
     features.style.backgroundColor = "#252526"; 
     features.style.padding = "64px 32px";
     features.style.width = "100%";
@@ -95,7 +99,10 @@ function LandingPage() {
     FeatureGrid(features)
 
     // Footer Section
-    const footer = Layout("linear", page);
+    const footer = LinearLayout(page);
+    footer.LayoutDirection = "TOP_TO_BOTTOM"
+    footer.ElementAlignment = "VCENTER"
+    footer.ParentFill = "FILLXY"
     footer.style.backgroundColor = "#1e1e1e"; 
     footer.style.color = "#ffffff"; 
     footer.style.padding = "32px";

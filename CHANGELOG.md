@@ -1,5 +1,13 @@
 # CHANGELOG
 
+# 0.1.75
+
+There are a few changes to the Layout API, in short `Layout` is deprecated.
+- updated baseline stylesheet definitions
+- removed `StyleSheet.Create` class for a css-in-js solution.
+- added new methods to the `LayoutConstructor`, also exported it too.
+- lowercased ShowIF and State
+
 # 0.1.74
 
 updated to 0.1.74, here are all the changes
@@ -15,7 +23,7 @@ updated to 0.1.73, here are all the changes
 - layouts dont take all space available
 - updated docs
 
-## 0.1.70
+# 0.1.70
 
 updated to 0.1.7, here are all the changes
 - scrollbarvisibility to app config

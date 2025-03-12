@@ -1,9 +1,8 @@
-import StyleSheet from "./parser.js";
 import Router from "./router.js";
-import State from "./state.js";
+import state from "./state.js";
 import './baseline.css';
 
-const version = 0.174;
+const version = 0.175;
 console.log(`innerscope v${version}`);  
 
 export interface ApplicationConfig {
@@ -52,7 +51,6 @@ export class Application {
                 meta.name = "viewport";
                 document.head.appendChild(meta);
             }
-        
             //@ts-ignore
             meta.content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no";
         }
@@ -117,7 +115,7 @@ export class Application {
 }
 
 
-function ShowIF(element: HTMLElement, condition: boolean) {
+export function showIF(element: HTMLElement, condition: boolean) {
     if (condition) {
         element.classList.add("show");
     }
@@ -126,23 +124,6 @@ function ShowIF(element: HTMLElement, condition: boolean) {
     }
 }
 
-export type Alignment_Token =
-    | "left"
-    | "right"
-    | "center"
-    | "top"
-    | "bottom"
-    | "hcenter"
-    | "vcenter"
-    | "vertical"
-    | "fillxy";
-
-export type Child_Alignment =
-    | Alignment_Token
-    | `${Alignment_Token} ${Alignment_Token}`
-    | `${Alignment_Token} ${Alignment_Token} ${Alignment_Token}`;
-
-export type Layout_Types = "linear" | "absolute" | "frame" | "card" | "row" | "column" | "grid";
 
 export interface Parent {
     root: HTMLElement | HTMLDivElement;
@@ -153,28 +134,43 @@ export interface Parent {
     insertBefore(child: HTMLElement, before: HTMLElement): void;
 }
 
-class ElementContructor {
-    element: HTMLElement;
-    constructor(tag: string, parent: Parent | HTMLElement) {
-        this.element = document.createElement(tag);
-        parent.appendChild(this.element);
-        document.body.style.margin = "0";
-    }
-}
-class LayoutConstructor implements Parent {
-    root: HTMLElement;
-    layout: HTMLElement;
+export type Layout_Direction = "TOP_TO_BOTTOM" | "BOTTOM_TO_TOP" | "LEFT_TO_RIGHT" | "RIGHT_TO_LEFT";
+export type Element_Alignment = "CENTER" | "LEFT" | "BOTTOM" | "RIGHT" | "VCENTER" | "HCENTER";
+export type Scroll_Direction = "HORIZONTAL" | "VERTICAL" | "BOTH";
+export type Parent_Fill = "FILLXY" | "FILLX" | "FILLY";
+
+export class LayoutConstructor implements Parent {
+    root: HTMLElement | HTMLDivElement;
+    layout: HTMLDivElement;
     children: HTMLElement[];
     style: CSSStyleDeclaration;
 
-    constructor(layout_type: Layout_Types, parent: Parent | HTMLElement) {
-        this.layout = new ElementContructor("div", parent).element;
-        this.layout.className = `${layout_type}-layout show`;
+    constructor(parent: Parent | HTMLElement, type: string, classes?: Array<string>) {
+        this.layout = document.createElement("div");
+
+        if (parent instanceof HTMLElement) {
+            parent.appendChild(this.layout);
+        } else {
+            parent.root.appendChild(this.layout);
+        }
+
+        if (parent === document.body) {
+            document.body.style.margin = '0';
+        }
+
+        if (classes && typeof classes === 'object') {
+            for (let i = 0; classes.length < 0; i++) {
+                this.layout.classList.add(classes[i])
+            }
+        }
+
+        this.layout.classList.add(`${type}-layout`, 'show');
 
         this.style = this.layout.style;
         this.root = this.layout;
-        this.children = Array();
+        this.children = [];
     }
+
     appendChild(child: HTMLElement): void {
         this.layout.appendChild(child);
         this.children.push(child);
@@ -182,42 +178,79 @@ class LayoutConstructor implements Parent {
 
     removeChildren(): void {
         this.layout.innerHTML = "";
+        this.children = [];
     }
 
     removeChild(child: HTMLElement): void {
         this.layout.removeChild(child);
+        this.children = this.children.filter(c => c !== child);
     }
 
     insertBefore(child: HTMLElement, before: HTMLElement): void {
         this.layout.insertBefore(child, before);
     }
 
-    childAlignment(...alignment: Child_Alignment[]) {
-        alignment.forEach((token) => {
-            this.layout.classList.add(token);
-        });
+    set LayoutDirection(direction: Layout_Direction) {
+        switch(direction) {
+            case "TOP_TO_BOTTOM":
+                this.layout.classList.add('top_to_bottom');
+                break;
+            case "BOTTOM_TO_TOP":
+                this.layout.classList.add('bottom_to_top');
+                break;
+            case "LEFT_TO_RIGHT":
+                this.layout.classList.add('left_to_right');
+                break;
+            default:
+                this.layout.classList.add("RIGHT_TO_LEFT");
+        }
+    }
+    
+    set ElementAlignment(alignment: Element_Alignment) {
+        this.layout.classList.add(alignment.toLowerCase())
     }
 
-    /**
-     * Set the scroll axis of the layout, to make it scroll use: (x, y, or xy)
-     */
-    scrollDirection(plane: "x" | "y" | "xy") {
-        this.layout.classList.add(`scroll${plane}`);
-        this.layout.classList.add(`fill${plane}`);
+    set ParentFill(fill: Parent_Fill) {
+        this.layout.classList.add(fill.toLowerCase())
     }
-
-    /**
-     * set the visibility of the layout's scrollbar
-     */
-    scrollBarVisibility(visibility: "shown" | "hidden") {
-        if (visibility == "shown") {
-            this.layout.classList.remove(`noscrollbar`);
-        } else this.layout.classList.add(`noscrollbar`);
+    
+    set ScrollDirection(scrollDirection: Scroll_Direction) {
+        if (scrollDirection === "HORIZONTAL") {
+            this.layout.classList.add('scrollx')
+        } 
+        else if (scrollDirection === "VERTICAL") {
+            this.layout.classList.add('scrolly')
+        } else {
+            this.layout.classList.add('scrollxy')
+        }
+    }
+    
+    set ScrollBarVisibility(visibility: "SHOWN" | "HIDDEN") {
+        if (visibility === "SHOWN") {
+            this.layout.classList.remove('noscrollbar')
+        } else {
+            this.layout.classList.add('noscrollbar')
+        }
     }
 }
 
-export function Layout(layout_type: Layout_Types, parent: Parent | HTMLElement) {
-    return new LayoutConstructor(layout_type, parent);
+export function LinearLayout(parent: Parent | HTMLElement, classList?: string) {
+    const layout = new LayoutConstructor(parent, 'linear');
+    layout.style.display = "flex";
+    return layout;
+}
+
+export function ColumnLayout(parent: Parent | HTMLElement) {
+    const layout = new LayoutConstructor(parent, 'column');
+    layout.style.display = "flex";
+    layout.LayoutDirection = "TOP_TO_BOTTOM";
+    return layout;
+}
+
+export function GridLayout(parent: Parent | HTMLElement) {
+    const layout = new LayoutConstructor(parent, 'grid');
+    layout.style.display = "grid";
+    return layout;
 }
 
 function createElement<T extends keyof HTMLElementTagNameMap>(
@@ -229,38 +262,33 @@ function createElement<T extends keyof HTMLElementTagNameMap>(
         children?: HTMLElement[];
     }
 ): HTMLElementTagNameMap[T] {
-    const el = document.createElement(tag);
+    const element = document.createElement(tag);
 
-    // Set content (text or nodes)
     if (options?.content) {
         typeof options.content === "string"
-            ? (el.textContent = options.content)
-            : el.appendChild(options.content);
+            ? (element.textContent = options.content)
+            : element.appendChild(options.content);
     }
 
-    // Set attributes
     if (options?.attrs) {
         for (const [key, value] of Object.entries(options.attrs)) {
-            el.setAttribute(key, value);
+            element.setAttribute(key, value);
         }
     }
 
-    // Append children
     if (options?.children) {
-        options.children.forEach((child) => el.appendChild(child));
+        options.children.forEach((child) => element.appendChild(child));
     }
 
-    // Append to parent
     if (parent instanceof HTMLElement) {
-        parent.appendChild(el);
+        parent.appendChild(element);
     } else {
-        parent.appendChild(el);
+        parent.appendChild(element);
     }
 
-    return el;
+    return element;
 }
 
-// Generic element factory
 type ElementFactory<T> = {
     (parent: Parent | HTMLElement): T;
     (attrs: Record<string, string>, parent: Parent | HTMLElement): T;
@@ -276,7 +304,6 @@ function genericElement<T extends keyof HTMLElementTagNameMap>(
         let attrs: Record<string, string> = {};
         let parent: Parent | HTMLElement | HTMLDivElement;
 
-        // Parse arguments
         if (args.length === 1) {
             parent = args[0];
         } else if (typeof args[0] === "string" && args.length === 2) {
@@ -297,11 +324,11 @@ function genericElement<T extends keyof HTMLElementTagNameMap>(
     } as ElementFactory<HTMLElementTagNameMap[T]>;
 }
 
-function CustomElement<T extends keyof HTMLElementTagNameMap>(tag: T){
+export function CustomElement<T extends keyof HTMLElementTagNameMap>(tag: T){
     return genericElement(tag)
 }
 
-export {ShowIF, State, CustomElement, Router, StyleSheet }
+export { state, Router }
 
 export const Paragraph = genericElement("p");
 export const Heading1 = genericElement("h1");

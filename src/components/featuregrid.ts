@@ -1,7 +1,7 @@
-import { Paragraph, Parent, Layout } from "../../Lib/+innerscope";
+import { Paragraph, Parent, LinearLayout, GridLayout } from "../../Lib/+innerscope";
 
 export default function FeatureGrid(parent: Parent | HTMLDivElement) {
-    const featureGrid = Layout("grid", parent);
+    const featureGrid = GridLayout(parent)
     featureGrid.style.display = "grid";
     featureGrid.style.gridTemplateColumns = "repeat(auto-fit, minmax(250px, 1fr))";
     featureGrid.style.gap = "32px";
@@ -27,7 +27,9 @@ export default function FeatureGrid(parent: Parent | HTMLDivElement) {
     ];
 
     featureData.forEach((feature) => {
-        const featureCard = Layout("linear", featureGrid);
+        const featureCard = LinearLayout(featureGrid);
+        featureCard.LayoutDirection = "TOP_TO_BOTTOM"
+        featureCard.ElementAlignment = "VCENTER"
         featureCard.style.backgroundColor = "#2d2d2d";
         featureCard.style.margin = '15px'
         featureCard.style.padding = "24px";

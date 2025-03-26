@@ -5,5 +5,5 @@ export default defineConfig({
         alias: {
             innerscope: "/Dist/+innerscope.js", 
         },
-    },
+    }
 });

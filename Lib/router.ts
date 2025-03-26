@@ -56,7 +56,7 @@ export default class Router {
         if (this.routerMode == "hash") {
             this.hash_change_handler(path);
         } else this.popstate_handler(path);
-        console.log("Opening Page: " + path);
+        // console.log("Opening Page: " + path);
     }
 
     private does_route_exist(path: string) {
@@ -66,11 +66,7 @@ export default class Router {
     private hash_change_handler(route: string) {}
 
     private popstate_handler(route: string, event?: Event) {
-        console.log("PopStateHandler Recieving: ", route);
-
-        if (event) {
-            console.log("PopStateEvent", event);
-        }
+        // console.log("PopStateHandler Recieving: ", route);
 
         const component = this.routeMap.get(route);
         document.body.innerHTML = "";
@@ -79,7 +75,7 @@ export default class Router {
         const newIndex = this.currentIndex + 1;
 
         this.currentIndex = newIndex;
-        console.log(`Navigated to ${route}`);
+        // console.log(`Navigated to ${route}`);
         history.pushState({ index: newIndex }, "", route);
     }
 }

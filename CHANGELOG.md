@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 0.1.76 (Patch)
+
+- baseline.css was not imported into the final module package.
+
 # 0.1.75
 
 There are a few changes to the Layout API, in short `Layout` is deprecated.

@@ -2,7 +2,7 @@ import Router from "./router.js";
 import state from "./state.js";
 import './baseline.css';
 
-const version = 0.175;
+const version = 0.176;
 console.log(`innerscope v${version}`);  
 
 export interface ApplicationConfig {
@@ -236,20 +236,17 @@ export class LayoutConstructor implements Parent {
 
 export function LinearLayout(parent: Parent | HTMLElement, classList?: string) {
     const layout = new LayoutConstructor(parent, 'linear');
-    layout.style.display = "flex";
     return layout;
 }
 
 export function ColumnLayout(parent: Parent | HTMLElement) {
     const layout = new LayoutConstructor(parent, 'column');
-    layout.style.display = "flex";
     layout.LayoutDirection = "TOP_TO_BOTTOM";
     return layout;
 }
 
 export function GridLayout(parent: Parent | HTMLElement) {
     const layout = new LayoutConstructor(parent, 'grid');
-    layout.style.display = "grid";
     return layout;
 }
 

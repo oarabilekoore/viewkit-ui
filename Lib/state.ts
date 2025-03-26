@@ -1,6 +1,6 @@
 
 /**
- * useState, is a signal and allows you to subscribe to changes on a value
+ * state function, is a signal and allows you to subscribe to changes on a value
  * use the useEffect signal to run the function immediatley and on value 
  * change, 
  * use the useSubscriber  signal to only subscribe to changes.

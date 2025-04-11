@@ -1,5 +1,10 @@
 # CHANGELOG
 
+# 0.1.77 (Patch)
+
+- removed CustomElement function export it is not useful the replacement is genericElement function
+
+
 # 0.1.76 (Patch)
 
 - baseline.css was not imported into the final module package.

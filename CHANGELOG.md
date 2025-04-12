@@ -1,5 +1,13 @@
 # CHANGELOG
 
+
+# 0.1.80 (MINOR)
+
+- renamed the gernericElement Map function to HtmlMap because it can cause type errors and interefers with 
+constant globals
+- removed default statemangament solution.
+- merged the router into the application config.
+
 # 0.1.77 (Patch)
 
 - removed CustomElement function export it is not useful the replacement is genericElement function

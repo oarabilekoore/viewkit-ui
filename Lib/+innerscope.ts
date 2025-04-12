@@ -1,30 +1,72 @@
-import Router from "./router.js";
-import state from "./state.js";
 import './baseline.css';
 
-const version = 0.177;
+const version = '0.1.8';
 console.log(`innerscope v${version}`);  
 
 export interface ApplicationConfig {
-    title?: string;
+    title: string;
     icon?: string;
+    routes: PageRouterConfig;
     allowzoom?: boolean;
     statusbarcolor?: string;
     scrollbarvisibility?: "shown" | "hidden"
 }
 
+export type PageRouterConfig = {
+    mode: "hash" | "history";
+    routes: Routes;
+};
+export type Routes = {
+    path: string;
+    component: Function;
+}[];
+
 export class Application {
     root: HTMLElement;
+    router_map: Map<string, Function> | null;
+    page_routes: Routes | null;
+    router_mode: string | null;
+    page_index: number = 0;
+
 
     constructor(config?: ApplicationConfig) {
+        this.router_map = new Map();
+        this.page_routes = null;
+        this.router_mode = null;
         this.root = document.body;
         
         config
             ? this.setConfig(config)
-            : console.error("Application Configuration Was Not Passed.");
+            : console.error("Application config Was Not Passed.");
     }
 
     setConfig(cfg: ApplicationConfig) {
+
+        this.router_mode = cfg.routes.mode;
+        this.page_routes = cfg.routes.routes;
+
+
+        this.page_index = window.history.state?.index || 0;
+
+        if (this.router_mode === "hash") {
+            var route = window.location.hash.slice(1);
+            window.onhashchange = (event) => {
+                this.hash_change_handler(route);
+            };
+        } else if (this.router_mode === "history") {
+            var route = window.location.pathname;
+
+            window.onpopstate = (event) => {
+                const newIndex = event.state?.index || 0;
+                this.page_index = newIndex;
+                this.popstate_handler(route, event);
+            };
+        }
+
+        this.page_routes?.forEach((route) => {
+            this.addRoute(route.path, route.component);
+        });
+
         if (cfg.title) {
             document.title = cfg.title;
         }
@@ -54,7 +96,6 @@ export class Application {
             //@ts-ignore
             meta.content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no";
         }
-
     }
 
     onExit(Fn: Function) {
@@ -112,8 +153,38 @@ export class Application {
             Fn(event);
         });
     }
-}
 
+    addRoute(route: string, Function: Function) {
+        this.router_map?.set(route, Function);
+    }
+
+    openRoute(path: string) {
+        if (!this.does_route_exist(path)) {
+            path = "/404";
+        }
+
+        if (this.router_mode == "hash") {
+            this.hash_change_handler(path);
+        } else this.popstate_handler(path);
+    }
+
+    private hash_change_handler(route: string) {}
+
+    private popstate_handler(route: string, event?: Event) {
+        const component = this.router_map?.get(route);
+        document.body.innerHTML = "";
+        component ? component() : console.error();
+
+        const newIndex = this.page_index + 1;
+
+        this.page_index = newIndex;
+        history.pushState({ index: newIndex }, "", route);
+    }
+
+    private does_route_exist(path:string){
+        return this.router_map?.has(path)
+    }
+}
 
 export function showIF(element: HTMLElement, condition: boolean) {
     if (condition) {
@@ -286,14 +357,14 @@ function createElement<T extends keyof HTMLElementTagNameMap>(
     return element;
 }
 
-type ElementFactory<T> = {
+export type ElementFactory<T> = {
     (parent: Parent | HTMLElement): T;
     (attrs: Record<string, string>, parent: Parent | HTMLElement): T;
     (content: string, parent: Parent | HTMLElement): T;
     (content: string, attrs: Record<string, string>, parent: Parent | HTMLElement): T;
 };
 
-function genericElement<T extends keyof HTMLElementTagNameMap>(
+export function genericElement<T extends keyof HTMLElementTagNameMap>(
     tag: T
 ): ElementFactory<HTMLElementTagNameMap[T]> {
     return function (...args: any[]): any {
@@ -320,8 +391,6 @@ function genericElement<T extends keyof HTMLElementTagNameMap>(
         return createElement(tag, parent, { content, attrs });
     } as ElementFactory<HTMLElementTagNameMap[T]>;
 }
-
-export { genericElement, state, Router }
 
 export const Paragraph = genericElement("p");
 export const Heading1 = genericElement("h1");
@@ -390,7 +459,7 @@ export const Track = genericElement("track");
 export const Embed = genericElement("embed");
 export const ObjectEmbed = genericElement("object");
 export const IFrame = genericElement("iframe");
-export const Map = genericElement("map");
+export const HtmlMap = genericElement("map");
 export const Area = genericElement("area");
 
 // Semantic Elements

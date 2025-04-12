@@ -1,19 +1,10 @@
-import { Application, Router } from "../Lib/+innerscope.ts";
-import { PageRouterConfig } from "../Lib/router.ts";
+import { Application, PageRouterConfig } from "../Lib/+innerscope.ts";
+
 
 import LandingPage from "./pages/index.ts";
 import AboutPage from "./pages/about.ts";
 
-export const app = new Application({
-    title: "innerscope Framework",
-    scrollbarvisibility: "hidden",
-    statusbarcolor: "#252526",
-    allowzoom: false,
-});
-
-app.onStart(LandingPage);
-
-const routes: PageRouterConfig = {
+const page_routes: PageRouterConfig = {
     mode: "history",
     routes: [
         {
@@ -26,5 +17,13 @@ const routes: PageRouterConfig = {
         },
     ],
 }
-export const router = new Router(app.root, routes);
 
+export const app = new Application({
+    title: "innerscope Framework",
+    scrollbarvisibility: "hidden",
+    statusbarcolor: "#252526",
+    allowzoom: false,
+    routes: page_routes
+});
+
+app.onStart(LandingPage);

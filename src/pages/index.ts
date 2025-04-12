@@ -1,7 +1,7 @@
 import { LinearLayout, Paragraph, HorizontalRule, showIF } from "../../Lib/+innerscope.ts";
 import FeatureGrid from "../components/featuregrid.ts";
 import FilledButton from "../components/buttons.ts";
-import { router, app } from "../index.ts";
+import { app } from "../index.ts";
 
 export default function LandingPage() {
     const page = LinearLayout(app.root);
@@ -40,7 +40,7 @@ export default function LandingPage() {
     HeroDescription.style.marginBottom = "32px";
 
     FilledButton("Get Started", Hero).onclick = () => {
-        router.Open("/about");
+        app.openRoute("/about");
     };
 
     const installButton = FilledButton(`Why Innerscope ?`, page);

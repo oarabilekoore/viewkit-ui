@@ -1,7 +1,7 @@
-import { Paragraph, Parent, LinearLayout, GridLayout } from "../../Lib/+innerscope";
+import { Paragraph, Parent, LinearLayout, GridLayout } from "../../packages/app/+innerscope";
 
 export default function FeatureGrid(parent: Parent | HTMLDivElement) {
-    const featureGrid = GridLayout(parent)
+    const featureGrid = GridLayout(parent);
     featureGrid.style.display = "grid";
     featureGrid.style.gridTemplateColumns = "repeat(auto-fit, minmax(250px, 1fr))";
     featureGrid.style.gap = "32px";
@@ -28,13 +28,13 @@ export default function FeatureGrid(parent: Parent | HTMLDivElement) {
 
     featureData.forEach((feature) => {
         const featureCard = LinearLayout(featureGrid);
-        featureCard.LayoutDirection = "TOP_TO_BOTTOM"
-        featureCard.ElementAlignment = "VCENTER"
+        featureCard.LayoutDirection = "TOP_TO_BOTTOM";
+        featureCard.ElementAlignment = "VCENTER";
         featureCard.style.backgroundColor = "#2d2d2d";
-        featureCard.style.margin = '15px'
+        featureCard.style.margin = "15px";
         featureCard.style.padding = "24px";
         featureCard.style.borderRadius = "8px";
-        featureCard.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.1)"; 
+        featureCard.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.1)";
         featureCard.style.textAlign = "center";
 
         const featureIcon = Paragraph(feature.icon, featureCard);
@@ -48,6 +48,6 @@ export default function FeatureGrid(parent: Parent | HTMLDivElement) {
 
         const featureDescription = Paragraph(feature.description, featureCard);
         featureDescription.style.fontSize = "1rem";
-        featureDescription.style.color = "#cccccc"; 
+        featureDescription.style.color = "#cccccc";
     });
 }

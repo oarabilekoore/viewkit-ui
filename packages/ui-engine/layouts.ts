@@ -1,13 +1,6 @@
-import type { Parent } from "./+viewkit";
+import type { Parent, Scroll_Direction, Element_Alignment, Parent_Fill, Layout_Direction } from "./types";
 
-export type Layout_Direction = "TOP_TO_BOTTOM" | "BOTTOM_TO_TOP" | "LEFT_TO_RIGHT" | "RIGHT_TO_LEFT";
-
-export type Element_Alignment = "CENTER" | "LEFT" | "BOTTOM" | "RIGHT" | "VCENTER" | "HCENTER";
-
-export type Scroll_Direction = "HORIZONTAL" | "VERTICAL" | "BOTH";
-export type Parent_Fill = "FILLXY" | "FILLX" | "FILLY";
-
-export class LayoutConstructor implements Parent {
+class LayoutConstructor implements Parent {
     root: HTMLElement | HTMLDivElement;
     layout: HTMLDivElement;
     children: HTMLElement[];
@@ -15,28 +8,28 @@ export class LayoutConstructor implements Parent {
 
     constructor(parent: Parent | HTMLElement, type: string, classes?: Array<string>) {
         this.layout = document.createElement("div");
+        this.style = this.layout.style;
+        this.root = this.layout;
+        this.children = [];
+        this.layout.classList.add(`${type}-layout`, "show");
 
+        //Check if the parent is an ordinary html-element
+        //If not we append the child on the root value.
+        //That means the parent is a layout.
         if (parent instanceof HTMLElement) {
             parent.appendChild(this.layout);
         } else {
+            document.body.style.margin = "0";
             parent.root.appendChild(this.layout);
         }
 
-        if (parent === document.body) {
-            document.body.style.margin = "0";
-        }
-
+        //Do a test if classes are provided, this is great
+        //For creating other layout types.
         if (classes && typeof classes === "object") {
             for (let i = 0; classes.length < 0; i++) {
                 this.layout.classList.add(classes[i]);
             }
         }
-
-        this.layout.classList.add(`${type}-layout`, "show");
-
-        this.style = this.layout.style;
-        this.root = this.layout;
-        this.children = [];
     }
 
     appendChild(child: HTMLElement): void {
@@ -101,10 +94,10 @@ export class LayoutConstructor implements Parent {
     }
 }
 
-vgl.LinearLayout = function (parent: Parent | HTMLElement, classList?: string) {
+export function LinearLayout(parent: Parent | HTMLElement) {
     const layout = new LayoutConstructor(parent, "linear");
     return layout;
-};
+}
 
 export function ColumnLayout(parent: Parent | HTMLElement) {
     const layout = new LayoutConstructor(parent, "column");

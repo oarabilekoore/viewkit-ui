@@ -1,4 +1,4 @@
-import { Paragraph, Parent, LinearLayout, GridLayout } from "../../packages/app/+innerscope";
+import { Paragraph, Parent, LinearLayout, GridLayout } from "innerscope";
 
 export default function FeatureGrid(parent: Parent | HTMLDivElement) {
     const featureGrid = GridLayout(parent);

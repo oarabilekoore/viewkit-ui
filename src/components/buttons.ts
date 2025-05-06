@@ -1,6 +1,6 @@
-import { Button, Parent } from "../../packages/app/+innerscope";
+import { Button, Parent } from "innerscope";
 
-export default function FilledButton(text: string, parent: Parent | HTMLDivElement) {
+export default function FilledButton(text: string, parent: Parent) {
     const button = Button(text, parent);
     button.style.backgroundColor = "#007acc";
     button.style.color = "#ffffff";

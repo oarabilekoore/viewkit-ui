@@ -1,4 +1,4 @@
-import { LinearLayout, Paragraph } from "../../packages/app/+innerscope.ts";
+import { LinearLayout, Paragraph } from "innerscope";
 import { app } from "../index.ts";
 
 export default function AboutPage() {

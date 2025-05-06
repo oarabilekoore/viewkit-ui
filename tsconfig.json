@@ -3,7 +3,7 @@
         "target": "esnext",
         "module": "esnext",
         "declaration": true,
-        "outDir": "./Dist",
+        "outDir": "./build",
         "allowJs": true,
         "checkJs": true,
         "strict": true,
@@ -13,11 +13,11 @@
         "moduleResolution": "node",
         "baseUrl": ".",
         "paths": {
-            "droidxl": ["Dist"]
+            "droidxl": ["build"]
         },
         "esModuleInterop": true,
         "skipLibCheck": true
     },
-    "include": ["Lib/**/*.ts", "Lib/baseline.css"],
-    "exclude": ["node_modules", "Dist"]
+    "include": ["packages/*.ts", "packages/ui-engine/baseline.css"],
+    "exclude": ["node_modules", "build"]
 }

@@ -1,4 +1,4 @@
-import { Application, PageRouterConfig } from "../packages/app/+innerscope.ts";
+import { Application, PageRouterConfig } from "innerscope";
 
 import LandingPage from "./pages/index.ts";
 import AboutPage from "./pages/about.ts";

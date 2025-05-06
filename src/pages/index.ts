@@ -1,4 +1,4 @@
-import { LinearLayout, Paragraph, HorizontalRule, showIF } from "../../packages/app/+innerscope.ts";
+import { LinearLayout, Paragraph, HorizontalRule, showIF } from "innerscope";
 import FeatureGrid from "../components/featuregrid.ts";
 import FilledButton from "../components/buttons.ts";
 import { app } from "../index.ts";

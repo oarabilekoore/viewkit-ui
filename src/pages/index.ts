@@ -1,4 +1,4 @@
-import { LinearLayout, Paragraph, HorizontalRule, showIF } from "innerscope";
+import { LinearLayout, Paragraph, HorizontalRule } from "../../pa../../packages/mod.ts";
 import FeatureGrid from "../components/featuregrid.ts";
 import FilledButton from "../components/buttons.ts";
 import { app } from "../index.ts";
@@ -23,7 +23,7 @@ export default function LandingPage() {
     Hero.ParentFill = "FILLXY";
     Hero.LayoutDirection = "TOP_TO_BOTTOM";
 
-    const HeroTitle = Paragraph("innerscope.ts", Hero);
+    const HeroTitle = Paragraph(Hero, "innerscope.ts");
     HeroTitle.style.fontSize = "2rem";
     HeroTitle.style.fontWeight = "bold";
     HeroTitle.style.marginBottom = "16px";
@@ -43,9 +43,7 @@ export default function LandingPage() {
         app.openRoute("/about");
     };
 
-    const installButton = FilledButton(`Why Innerscope ?`, page);
-
-    showIF(installButton, true);
+    FilledButton(`Why Innerscope ?`, page);
 
     const features = LinearLayout(page);
     features.LayoutDirection = "TOP_TO_BOTTOM";

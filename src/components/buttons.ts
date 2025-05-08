@@ -1,4 +1,4 @@
-import { Button, Parent } from "innerscope";
+import { Button, Parent } from "../../packages/mod.ts";
 
 export default function FilledButton(text: string, parent: Parent) {
     const button = Button(text, parent);

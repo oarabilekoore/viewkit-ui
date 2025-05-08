@@ -1,15 +1,15 @@
 {
     "name": "innerscope",
-    "version": "0.1.80",
+    "version": "0.1.9",
     "author": "Oarabile Koore",
-    "main": "./build/+mod.js",
-    "module": "./build/+mod.js",
+    "main": "./build/mod.js",
+    "module": "./build/mod.js",
     "devDependencies": {
-        "typescript": "^5.7.3"
+        "typescript": "^5.8.3"
     },
     "exports": {
         ".": {
-            "import": "./build/+mod.js"
+            "import": "./build/mod.js"
         }
     },
     "files": [
@@ -20,7 +20,8 @@
     "license": "MIT",
     "scripts": {
         "dev": "vite",
-        "copy": "copyfiles -u 1 packages/ui-engine/baseline.css build/"
+        "copy": "copyfiles -u 1 packages/innerscope-core/baseline.css build/",
+        "build": "tsc copyfiles -u 1 packages/innerscope-core/baseline.css build/"
     },
     "type": "module",
     "types": "build/index.d.ts",

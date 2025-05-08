@@ -1,6 +1,12 @@
 const innerscope_version = "0.1.9";
 console.log(`innerscope v${innerscope_version}`);
 
+declare global {
+    interface Window {
+        _onStartLoaded?: boolean;
+    }
+}
+
 export interface ApplicationConfig {
     title: string;
     icon?: string;
@@ -106,15 +112,17 @@ export class Application {
     }
 
     onStart(Fn: Function) {
-        window.addEventListener("load", (event) => {
-            Fn(event);
-        });
-    }
+        // This check is done because vite will cause onStart
+        // Function to be loaded twice, annoying for ui to be
+        // Rendered Twice
 
-    onPause(Fn: Function) {
-        window.addEventListener("blur", (event) => {
-            Fn(event);
-        });
+        if (!("_onStartLoaded" in window)) {
+            window._onStartLoaded = true;
+            window.addEventListener("load", (event) => {
+                Fn(event);
+                console.log("OnStart Function Call");
+            });
+        }
     }
 
     onResume(Fn: Function) {

@@ -1,14 +1,16 @@
 import { Parent, MergedParentTypes, SafeParent } from "./types";
-
+import "./baseline.css";
 function parseArguments(args: any[]): { parent: MergedParentTypes; text?: string } {
     let parent: MergedParentTypes | undefined;
     let text: string | undefined;
 
     for (const arg of args) {
-        if (arg instanceof HTMLElement) {
-            parent = arg;
-        } else if (typeof arg === "string") {
+        if (typeof arg === "string") {
             text = arg;
+        } else {
+            // At this point we can assume the args
+            // remaining is a parent.
+            parent = arg;
         }
     }
     if (!parent) {
@@ -32,6 +34,7 @@ export function createElement(data: { tag: string; text?: string }, parent: Pare
     if (parent instanceof HTMLElement) {
         parent.appendChild(element);
     } else {
+        console.log(typeof parent);
         parent.root.appendChild(element);
     }
 

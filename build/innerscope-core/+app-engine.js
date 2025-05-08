@@ -75,14 +75,16 @@ export class Application {
         });
     }
     onStart(Fn) {
-        window.addEventListener("load", (event) => {
-            Fn(event);
-        });
-    }
-    onPause(Fn) {
-        window.addEventListener("blur", (event) => {
-            Fn(event);
-        });
+        // This check is done because vite will cause onStart
+        // Function to be loaded twice, annoying for ui to be
+        // Rendered Twice
+        if (!("_onStartLoaded" in window)) {
+            window._onStartLoaded = true;
+            window.addEventListener("load", (event) => {
+                Fn(event);
+                console.log("OnStart Function Call");
+            });
+        }
     }
     onResume(Fn) {
         window.addEventListener("focus", (event) => {

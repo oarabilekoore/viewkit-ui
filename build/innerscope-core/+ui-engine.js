@@ -1,12 +1,15 @@
+import "./baseline.css";
 function parseArguments(args) {
     let parent;
     let text;
-    for (let arg of args) {
-        if (arg instanceof HTMLElement) {
-            parent = arg;
-        }
+    for (const arg of args) {
         if (typeof arg === "string") {
             text = arg;
+        }
+        else {
+            // At this point we can assume the args
+            // remaining is a parent.
+            parent = arg;
         }
     }
     if (!parent) {
@@ -27,6 +30,7 @@ export function createElement(data, parent) {
         parent.appendChild(element);
     }
     else {
+        console.log(typeof parent);
         parent.root.appendChild(element);
     }
     return element;

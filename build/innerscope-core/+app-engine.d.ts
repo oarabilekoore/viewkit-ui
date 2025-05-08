@@ -1,3 +1,8 @@
+declare global {
+    interface Window {
+        _onStartLoaded?: boolean;
+    }
+}
 export interface ApplicationConfig {
     title: string;
     icon?: string;
@@ -25,7 +30,6 @@ export declare class Application {
     onExit(Fn: Function): void;
     onBack(Fn: Function): void;
     onStart(Fn: Function): void;
-    onPause(Fn: Function): void;
     onResume(Fn: Function): void;
     onOffline(Fn: Function): void;
     onOnline(Fn: Function): void;

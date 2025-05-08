@@ -23,7 +23,7 @@ To install the framework, you can choose between npm or deno:
 
 ## Documentation
 
-The documentation is evolving as the framework grows. Meanwhile, explore the provided examples and utilize LSP suggestions to get started quickly.
+The documentation is evolving as the framework grows. Access the lattest documentation [here](./docs/quickIntro.md).
 
 Here is the demo page built with innerscope, it is part of this repo in the main.ts file, however you will need to clone, install correct
 dependencies and use the command `npm run dev` to get a preview:

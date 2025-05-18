@@ -1,10 +1,11 @@
-import { LinearLayout, Paragraph, HorizontalRule } from "../../pa../../packages/mod.ts";
-import FeatureGrid from "../components/featuregrid.ts";
+import FeatureGrid from "../components/grid.ts";
 import FilledButton from "../components/buttons.ts";
+
+import { Widget } from "../../package/mod.ts";
 import { app } from "../index.ts";
 
 export default function LandingPage() {
-    const page = LinearLayout(app.root);
+    const page = Widget.LinearLayout(app.root);
     page.ParentFill = "FILLXY";
     page.ScrollDirection = "VERTICAL";
     page.ElementAlignment = "VCENTER";
@@ -16,21 +17,21 @@ export default function LandingPage() {
     page.style.minHeight = "100vh";
     page.style.fontFamily = "Arial, sans-serif";
 
-    const Hero = LinearLayout(page);
+    const Hero = Widget.LinearLayout(page);
     Hero.style.padding = "64px 32px";
     Hero.style.textAlign = "center";
     Hero.ElementAlignment = "CENTER";
     Hero.ParentFill = "FILLXY";
     Hero.LayoutDirection = "TOP_TO_BOTTOM";
 
-    const HeroTitle = Paragraph(Hero, "innerscope.ts");
+    const HeroTitle = Widget.Paragraph(Hero, "innerscope.ts");
     HeroTitle.style.fontSize = "2rem";
     HeroTitle.style.fontWeight = "bold";
     HeroTitle.style.marginBottom = "16px";
 
-    HorizontalRule(Hero).style.width = "3rem";
+    Widget.HorizontalRule(Hero).style.width = "3rem";
 
-    const HeroDescription = Paragraph(
+    const HeroDescription = Widget.Paragraph(
         "innerscope is a lightweight, modern framework for building web apps. " +
             "It provides a simple and intuitive API for creating responsive, beautiful UIs.",
         Hero,
@@ -45,7 +46,7 @@ export default function LandingPage() {
 
     FilledButton(`Why Innerscope ?`, page);
 
-    const features = LinearLayout(page);
+    const features = Widget.LinearLayout(page);
     features.LayoutDirection = "TOP_TO_BOTTOM";
     features.ElementAlignment = "VCENTER";
     features.style.backgroundColor = "#252526";
@@ -53,7 +54,7 @@ export default function LandingPage() {
     features.style.width = "100%";
     features.style.textAlign = "center";
 
-    const featuresTitle = Paragraph("Features", features);
+    const featuresTitle = Widget.Paragraph("Features", features);
     featuresTitle.style.fontSize = "2rem";
     featuresTitle.style.fontWeight = "bold";
     featuresTitle.style.marginBottom = "32px";
@@ -61,7 +62,7 @@ export default function LandingPage() {
     FeatureGrid(features);
 
     // Footer Section
-    const footer = LinearLayout(page);
+    const footer = Widget.LinearLayout(page);
     footer.LayoutDirection = "TOP_TO_BOTTOM";
     footer.ElementAlignment = "VCENTER";
     footer.ParentFill = "FILLXY";
@@ -72,7 +73,7 @@ export default function LandingPage() {
     footer.style.textAlign = "center";
     footer.style.marginTop = "64px";
 
-    const footerText = Paragraph("© 2025 innerscope Framework. All rights reserved.", footer);
+    const footerText = Widget.Paragraph("© 2025 innerscope Framework. All rights reserved.", footer);
     footerText.style.fontSize = "0.9rem";
     footerText.style.opacity = "0.8";
 }

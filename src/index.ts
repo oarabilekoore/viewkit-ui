@@ -1,4 +1,4 @@
-import { Application, PageRouterConfig } from "../packages/mod.ts";
+import { Application, PageRouterConfig } from "../package/mod.ts";
 
 import LandingPage from "./pages/index.ts";
 import AboutPage from "./pages/about.ts";

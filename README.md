@@ -10,6 +10,9 @@
 
 > **innerscope** is a type-safe, high-performance framework with minimal overhead designed for building reactive applications, whilst being easy for non-frameworkers to adopt.
 
+> Note that the current update is for 0.2.0, which is not released yet and comes with major changes, I advise to use this current
+> version and build it yourself.
+
 ## Installation
 
 To install the framework, you can choose between npm or deno:

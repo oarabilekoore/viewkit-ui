@@ -1,5 +1,6 @@
 import { Parent, MergedParentTypes, SafeParent } from "./types";
 import "./baseline.css";
+
 function parseArguments(args: any[]): { parent: MergedParentTypes; text?: string } {
     let parent: MergedParentTypes | undefined;
     let text: string | undefined;

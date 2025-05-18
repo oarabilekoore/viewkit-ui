@@ -1,6 +1,6 @@
 import type { Parent, Scroll_Direction, Element_Alignment, Parent_Fill, Layout_Direction } from "./types";
 
-class LayoutConstructor implements Parent {
+export class LayoutConstructor implements Parent {
     root: HTMLElement | HTMLDivElement;
     layout: HTMLDivElement;
     children: HTMLElement[];
@@ -92,20 +92,4 @@ class LayoutConstructor implements Parent {
             this.layout.classList.add("noscrollbar");
         }
     }
-}
-
-export function LinearLayout(parent: Parent | HTMLElement) {
-    const layout = new LayoutConstructor(parent, "linear");
-    return layout;
-}
-
-export function ColumnLayout(parent: Parent | HTMLElement) {
-    const layout = new LayoutConstructor(parent, "column");
-    layout.LayoutDirection = "TOP_TO_BOTTOM";
-    return layout;
-}
-
-export function GridLayout(parent: Parent | HTMLElement) {
-    const layout = new LayoutConstructor(parent, "grid");
-    return layout;
 }

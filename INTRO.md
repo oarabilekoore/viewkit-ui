@@ -1,11 +1,11 @@
-# innerscope Framework Documentation
+# viewkit-ui Framework Documentation
 
 <div align="center">
   <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
   <img alt="Version Badge" src="https://img.shields.io/badge/version-0.2.0-brightgreen.svg">
 </div>
 
-> **innerscope** is a type-safe, high-performance framework with minimal overhead designed for building reactive applications, whilst being easy for non-frameworkers to adopt.
+> **viewkit-ui** is a type-safe, high-performance framework with minimal overhead designed for building reactive applications, whilst being easy for non-frameworkers to adopt.
 
 ## Table of Contents
 
@@ -31,7 +31,7 @@
 
 ## Introduction
 
-innerscope is a lightweight, modern TypeScript framework for building web applications without the complexity and overhead of larger frameworks. It follows a declarative approach with direct DOM manipulation, making it fast and efficient.
+viewkit-ui is a lightweight, modern TypeScript framework for building web applications without the complexity and overhead of larger frameworks. It follows a declarative approach with direct DOM manipulation, making it fast and efficient.
 
 Key features:
 - **Simple API**: Easy-to-understand methods for UI creation
@@ -47,17 +47,17 @@ To install the framework using a package manager:
 
 ```bash
 # Using npm
-npm install innerscope
+npm install viewkit-ui
 
 # Using Bun
-bun install innerscope
+bun install viewkit-ui
 ```
 
 Alternatively, you can get started quickly by cloning the template repository:
 
 ```bash
-git clone https://github.com/oarabilekoore/innerscope-template
-cd innerscope-template
+git clone https://github.com/oarabilekoore/viewkit-ui-template
+cd viewkit-ui-template
 npm install
 npm run dev
 ```
@@ -66,14 +66,14 @@ npm run dev
 
 ### Application Setup
 
-The `Application` class is the entry point for your innerscope app. It initializes your application with configuration settings and manages routing.
+The `Application` class is the entry point for your viewkit-ui app. It initializes your application with configuration settings and manages routing.
 
 ```typescript
-import { Application } from "innerscope";
+import { Application } from "viewkit-ui";
 
 // Create the application instance
 const app = new Application({
-    title: "My innerscope App",
+    title: "My viewkit-ui App",
     scrollbarvisibility: "hidden",
     statusbarcolor: "#252526",
     allowzoom: false,
@@ -98,7 +98,7 @@ app.onStart(HomePage);
 
 ### Routing
 
-innerscope supports two routing modes:
+viewkit-ui supports two routing modes:
 
 1. **History mode**: Uses the HTML5 History API (`/path`)
 2. **Hash mode**: Uses URL fragments (`#/path`)
@@ -107,7 +107,7 @@ Define routes in your application config:
 
 ```typescript
 // routes.ts
-import { PageRouterConfig } from "innerscope";
+import { PageRouterConfig } from "viewkit-ui";
 import HomePage from "./pages/home";
 import AboutPage from "./pages/about";
 
@@ -128,14 +128,14 @@ app.openRoute("/about");
 
 ### Layouts
 
-Layouts in innerscope help organize your UI in a structured way. The framework provides several built-in layouts:
+Layouts in viewkit-ui help organize your UI in a structured way. The framework provides several built-in layouts:
 
 #### LinearLayout
 
 A flexible layout that arranges elements either vertically or horizontally.
 
 ```typescript
-import { Widget } from "innerscope";
+import { Widget } from "viewkit-ui";
 
 const container = Widget.LinearLayout(parent);
 container.LayoutDirection = "TOP_TO_BOTTOM"; // Vertical arrangement
@@ -163,10 +163,10 @@ grid.style.gap = "16px";
 
 ### UI Elements
 
-innerscope provides a comprehensive set of UI elements through the `Widget` namespace:
+viewkit-ui provides a comprehensive set of UI elements through the `Widget` namespace:
 
 ```typescript
-import { Widget } from "innerscope";
+import { Widget } from "viewkit-ui";
 
 // Text elements
 const title = Widget.Heading1("My Application", container);
@@ -183,7 +183,7 @@ input.placeholder = "Enter your name";
 
 ## Lifecycle Events
 
-innerscope provides several lifecycle events to manage your application:
+viewkit-ui provides several lifecycle events to manage your application:
 
 ```typescript
 // Called when the application starts
@@ -278,7 +278,7 @@ All layout components implement the `Parent` interface and share these methods:
 
 ### UI Elements API
 
-innerscope provides wrapper functions for HTML elements through the `Widget` namespace:
+viewkit-ui provides wrapper functions for HTML elements through the `Widget` namespace:
 
 #### Text Elements
 
@@ -310,7 +310,7 @@ innerscope provides wrapper functions for HTML elements through the `Widget` nam
 
 ## Styling
 
-innerscope elements can be styled using standard JavaScript DOM properties:
+viewkit-ui elements can be styled using standard JavaScript DOM properties:
 
 ```typescript
 const button = Widget.Button("Click me", container);
@@ -335,12 +335,12 @@ The framework also provides CSS utility classes in baseline.css:
 
 ```typescript
 // index.ts
-import { Application } from "innerscope";
+import { Application } from "viewkit-ui";
 import HomePage from "./pages/home";
 import AboutPage from "./pages/about";
 
 export const app = new Application({
-    title: "My innerscope App",
+    title: "My viewkit-ui App",
     scrollbarvisibility: "hidden",
     statusbarcolor: "#252526",
     allowzoom: false,
@@ -360,7 +360,7 @@ app.onStart(HomePage);
 
 ```typescript
 // pages/home.ts
-import { Widget } from "innerscope";
+import { Widget } from "viewkit-ui";
 import { app } from "../index";
 
 export default function HomePage() {
@@ -381,7 +381,7 @@ export default function HomePage() {
     hero.style.padding = "64px 32px";
     hero.style.textAlign = "center";
     
-    const title = Widget.Heading1("Welcome to innerscope", hero);
+    const title = Widget.Heading1("Welcome to viewkit-ui", hero);
     title.style.fontSize = "2.5rem";
     title.style.marginBottom = "16px";
     
@@ -407,11 +407,11 @@ export default function HomePage() {
 
 ### Custom Components
 
-Creating reusable components is easy in innerscope:
+Creating reusable components is easy in viewkit-ui:
 
 ```typescript
 // components/card.ts
-import { Widget, Parent } from "innerscope";
+import { Widget, Parent } from "viewkit-ui";
 
 export default function Card(title: string, description: string, parent: Parent) {
     const card = Widget.LinearLayout(parent);
@@ -448,7 +448,7 @@ const myCard = Card("Feature Title", "Description goes here", container);
 
 ```typescript
 // routes.ts
-import { PageRouterConfig } from "innerscope";
+import { PageRouterConfig } from "viewkit-ui";
 import HomePage from "./pages/home";
 import AboutPage from "./pages/about";
 import ContactPage from "./pages/contact";
@@ -508,4 +508,4 @@ contactButton.onclick = () => app.openRoute("/contact");
 
 ---
 
-innerscope is designed to be intuitive, lightweight, and high-performance. It strikes a balance between simplicity and power, making it suitable for both small projects and larger applications. For more information or to contribute to the framework, visit the [GitHub repository](https://github.com/oarabilekoore/innerscope).
+viewkit-ui is designed to be intuitive, lightweight, and high-performance. It strikes a balance between simplicity and power, making it suitable for both small projects and larger applications. For more information or to contribute to the framework, visit the [GitHub repository](https://github.com/oarabilekoore/viewkit-ui).

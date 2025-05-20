@@ -1,4 +1,4 @@
-# innerscope
+# viewkit-ui
 
 <br>
 <div align="center">
@@ -8,7 +8,7 @@
 
 <br>
 
-> **innerscope** is a type-safe, high-performance framework with minimal overhead designed for building reactive applications, whilst being easy for non-frameworkers to adopt.
+> **viewkit-ui** is a type-safe, high-performance framework with minimal overhead designed for building reactive applications, whilst being easy for non-frameworkers to adopt.
 
 ## Installation
 
@@ -17,22 +17,22 @@ To install the framework, you can choose between npm or deno:
 - **package-managers**:
 
     ```bash
-    npm install innerscope
-    bun install innerscope
+    npm install viewkit-ui
+    bun install viewkit-ui
     ```
 
 ## Documentation
 
 The documentation is evolving as the framework grows. Access the lattest documentation [here](./INTRO.md).
 
-Here is the demo page built with innerscope, it is part of this repo in the main.ts file, however you will need to clone, install correct
+Here is the demo page built with viewkit-ui, it is part of this repo in the main.ts file, however you will need to clone, install correct
 dependencies and use the command `npm run dev` to get a preview:
 
-![An image of a project built with innerscope](image.png)
+![An image of a project built with viewkit-ui](image.png)
 
 ## Contributing
 
-We welcome contributions to **innerscope.ds**! To contribute:
+We welcome contributions to **viewkit-ui.ds**! To contribute:
 
 1. Fork the repository.
 2. Create a new branch (`git checkout -b feature-branch`).

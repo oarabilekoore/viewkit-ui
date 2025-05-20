@@ -24,7 +24,7 @@ export default function LandingPage() {
     Hero.ParentFill = "FILLXY";
     Hero.LayoutDirection = "TOP_TO_BOTTOM";
 
-    const HeroTitle = Widget.Paragraph(Hero, "innerscope.ts");
+    const HeroTitle = Widget.Paragraph(Hero, "viewkit.ui.ts");
     HeroTitle.style.fontSize = "2rem";
     HeroTitle.style.fontWeight = "bold";
     HeroTitle.style.marginBottom = "16px";
@@ -32,7 +32,7 @@ export default function LandingPage() {
     Widget.HorizontalRule(Hero).style.width = "3rem";
 
     const HeroDescription = Widget.Paragraph(
-        "innerscope is a lightweight, modern framework for building web apps. " +
+        "viewkit.ui is a lightweight, modern framework for building web apps. " +
             "It provides a simple and intuitive API for creating responsive, beautiful UIs.",
         Hero,
     );
@@ -44,7 +44,7 @@ export default function LandingPage() {
         app.openRoute("/about");
     };
 
-    FilledButton(`Why Innerscope ?`, page);
+    FilledButton(`Why viewkit.ui ?`, page);
 
     const features = Widget.LinearLayout(page);
     features.LayoutDirection = "TOP_TO_BOTTOM";
@@ -73,7 +73,7 @@ export default function LandingPage() {
     footer.style.textAlign = "center";
     footer.style.marginTop = "64px";
 
-    const footerText = Widget.Paragraph("© 2025 innerscope Framework. All rights reserved.", footer);
+    const footerText = Widget.Paragraph("© 2025 viewkit.ui Framework. All rights reserved.", footer);
     footerText.style.fontSize = "0.9rem";
     footerText.style.opacity = "0.8";
 }

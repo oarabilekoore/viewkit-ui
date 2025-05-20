@@ -1,6 +1,6 @@
 {
     "name": "innerscope",
-    "version": "0.1.90",
+    "version": "0.2.0",
     "author": "Oarabile Koore",
     "main": "./build/mod.js",
     "module": "./build/mod.js",

@@ -14,14 +14,14 @@
     },
     "files": [
         "build",
-        "packages",
+        "package",
         "innerscope.png"
     ],
     "license": "MIT",
     "scripts": {
         "dev": "vite",
-        "copy": "copyfiles -u 1 packages/innerscope-core/baseline.css build/",
-        "build": "tsc copyfiles -u 1 packages/innerscope-core/baseline.css build/"
+        "copy": "copyfiles -u 1 package/core/baseline.css build/",
+        "build": "tsc copyfiles -u 1 package/core/baseline.css build/"
     },
     "type": "module",
     "types": "build/index.d.ts",

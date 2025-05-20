@@ -10,7 +10,7 @@ declare global {
 export interface ApplicationConfig {
     title: string;
     icon?: string;
-    routes: PageRouterConfig;
+    routes?: PageRouterConfig;
     allowzoom?: boolean;
     statusbarcolor?: string;
     scrollbarvisibility?: "shown" | "hidden";
@@ -42,8 +42,10 @@ export class Application {
     }
 
     setConfig(cfg: ApplicationConfig) {
-        this.router_mode = cfg.routes.mode;
-        this.page_routes = cfg.routes.routes;
+        if (cfg.routes) {
+            this.router_mode = cfg.routes.mode;
+            this.page_routes = cfg.routes.routes;
+        }
 
         this.page_index = window.history.state?.index || 0;
 

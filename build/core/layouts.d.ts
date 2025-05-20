@@ -1,5 +1,5 @@
 import type { Parent, Scroll_Direction, Element_Alignment, Parent_Fill, Layout_Direction } from "./types";
-declare class LayoutConstructor implements Parent {
+export declare class LayoutConstructor implements Parent {
     root: HTMLElement | HTMLDivElement;
     layout: HTMLDivElement;
     children: HTMLElement[];
@@ -15,7 +15,3 @@ declare class LayoutConstructor implements Parent {
     set ScrollDirection(scrollDirection: Scroll_Direction);
     set ScrollBarVisibility(visibility: "SHOWN" | "HIDDEN");
 }
-export declare function LinearLayout(parent: Parent | HTMLElement): LayoutConstructor;
-export declare function ColumnLayout(parent: Parent | HTMLElement): LayoutConstructor;
-export declare function GridLayout(parent: Parent | HTMLElement): LayoutConstructor;
-export {};

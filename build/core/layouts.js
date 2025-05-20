@@ -1,4 +1,4 @@
-class LayoutConstructor {
+export class LayoutConstructor {
     root;
     layout;
     children;
@@ -82,17 +82,4 @@ class LayoutConstructor {
             this.layout.classList.add("noscrollbar");
         }
     }
-}
-export function LinearLayout(parent) {
-    const layout = new LayoutConstructor(parent, "linear");
-    return layout;
-}
-export function ColumnLayout(parent) {
-    const layout = new LayoutConstructor(parent, "column");
-    layout.LayoutDirection = "TOP_TO_BOTTOM";
-    return layout;
-}
-export function GridLayout(parent) {
-    const layout = new LayoutConstructor(parent, "grid");
-    return layout;
 }

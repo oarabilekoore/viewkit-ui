@@ -6,16 +6,16 @@ declare global {
 export interface ApplicationConfig {
     title: string;
     icon?: string;
-    routes: PageRouterConfig;
+    routes?: PageRouterConfig;
     allowzoom?: boolean;
     statusbarcolor?: string;
     scrollbarvisibility?: "shown" | "hidden";
 }
-export declare type PageRouterConfig = {
+export type PageRouterConfig = {
     mode: "hash" | "history";
     routes: Routes;
 };
-export declare type Routes = {
+export type Routes = {
     path: string;
     component: Function;
 }[];

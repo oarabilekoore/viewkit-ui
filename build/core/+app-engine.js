@@ -1,4 +1,4 @@
-const innerscope_version = "0.1.9";
+const innerscope_version = "0.2.0";
 console.log(`innerscope v${innerscope_version}`);
 export class Application {
     root;
@@ -14,8 +14,10 @@ export class Application {
         config ? this.setConfig(config) : console.error("Application config Was Not Passed.");
     }
     setConfig(cfg) {
-        this.router_mode = cfg.routes.mode;
-        this.page_routes = cfg.routes.routes;
+        if (cfg.routes) {
+            this.router_mode = cfg.routes.mode;
+            this.page_routes = cfg.routes.routes;
+        }
         this.page_index = window.history.state?.index || 0;
         if (this.router_mode === "hash") {
             var route = window.location.hash.slice(1);

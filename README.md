@@ -3,15 +3,12 @@
 <br>
 <div align="center">
     <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
-    <img alt="Version Badge" src="https://img.shields.io/badge/version-0.1.9-brightgreen.svg">
+    <img alt="Version Badge" src="https://img.shields.io/badge/version-0.2.0-brightgreen.svg">
 </div>
 
 <br>
 
 > **innerscope** is a type-safe, high-performance framework with minimal overhead designed for building reactive applications, whilst being easy for non-frameworkers to adopt.
-
-> Note that the current update is for 0.2.0, which is not released yet and comes with major changes, I advise to use this current
-> version and build it yourself.
 
 ## Installation
 
@@ -26,7 +23,7 @@ To install the framework, you can choose between npm or deno:
 
 ## Documentation
 
-The documentation is evolving as the framework grows. Access the lattest documentation [here](./docs/quickIntro.md).
+The documentation is evolving as the framework grows. Access the lattest documentation [here](./INTRO.md).
 
 Here is the demo page built with innerscope, it is part of this repo in the main.ts file, however you will need to clone, install correct
 dependencies and use the command `npm run dev` to get a preview:

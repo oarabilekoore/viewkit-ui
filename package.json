@@ -1,6 +1,6 @@
 {
     "name": "viewkit-ui",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "author": "Oarabile Koore",
     "main": "./build/mod.js",
     "module": "./build/mod.js",
@@ -20,8 +20,8 @@
     "license": "MIT",
     "scripts": {
         "dev": "vite",
-        "copy": "copyfiles -u 1 package/core/baseline.css build/",
-        "build": "tsc copyfiles -u 1 package/core/baseline.css build/"
+        "copy": "copyfiles -u 1 package/baseline.css build/",
+        "build": "tsc copyfiles -u 1 package/baseline.css build/"
     },
     "type": "module",
     "types": "build/index.d.ts",

@@ -1,4 +1,4 @@
-import { genericElement } from "./+ui-engine";
+import { genericElement } from "./generator";
 import { LayoutConstructor } from "./layouts";
 export const Widget = {
     // Layouts

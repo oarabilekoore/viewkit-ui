@@ -30,7 +30,6 @@ export function createElement(data, parent) {
         parent.appendChild(element);
     }
     else {
-        console.log(typeof parent);
         parent.root.appendChild(element);
     }
     return element;

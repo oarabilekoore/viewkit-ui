@@ -25,8 +25,8 @@ export class LayoutConstructor implements Parent {
 
         //Do a test if classes are provided, this is great
         //For creating other layout types.
-        if (classes && typeof classes === "object") {
-            for (let i = 0; classes.length < 0; i++) {
+        if (classes) {
+            for (let i = 0; i < classes.length; i++) {
                 this.layout.classList.add(classes[i]);
             }
         }

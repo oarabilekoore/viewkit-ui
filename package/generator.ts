@@ -28,14 +28,16 @@ export function genericElement(tag: string) {
     };
 }
 
-export function createElement(data: { tag: string; text?: string }, parent: Parent | HTMLElement | HTMLDivElement) {
+export function createElement(
+    data: { tag: string; text?: string },
+    parent: Parent | HTMLElement | HTMLDivElement
+) {
     const element = document.createElement(data.tag);
     data.text ? (element.textContent = data.text) : null;
 
     if (parent instanceof HTMLElement) {
         parent.appendChild(element);
     } else {
-        console.log(typeof parent);
         parent.root.appendChild(element);
     }
 

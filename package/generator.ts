@@ -38,7 +38,8 @@ export function createElement(
     if (parent instanceof HTMLElement) {
         parent.appendChild(element);
     } else {
-        parent.root.appendChild(element);
+        //@ts-ignore
+        parent.DomElement.appendChild(element);
     }
 
     return element;

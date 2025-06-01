@@ -4,7 +4,6 @@ export type Scroll_Direction = "HORIZONTAL" | "VERTICAL" | "BOTH";
 export type Parent_Fill = "FILLXY" | "FILLX" | "FILLY";
 
 export interface Parent {
-    root: HTMLElement | HTMLDivElement;
     children: HTMLElement[];
     removeChildren(): void;
     appendChild(child: HTMLElement): void;

@@ -1,4 +1,4 @@
-const innerscope_version = "0.2.0";
+const innerscope_version = "0.2.23";
 console.log(`innerscope v${innerscope_version}`);
 export class Application {
     root;

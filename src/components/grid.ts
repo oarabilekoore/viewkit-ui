@@ -2,11 +2,11 @@ import { Widget, Parent } from "../../package/mod.ts";
 
 export default function FeatureGrid(parent: Parent | HTMLDivElement) {
     const featureGrid = Widget.GridLayout(parent);
-    featureGrid.style.display = "grid";
-    featureGrid.style.gridTemplateColumns = "repeat(auto-fit, minmax(250px, 1fr))";
-    featureGrid.style.gap = "32px";
-    featureGrid.style.maxWidth = "1200px";
-    featureGrid.style.margin = "0 auto";
+    featureGrid.DomElement.style.display = "grid";
+    featureGrid.DomElement.style.gridTemplateColumns = "repeat(auto-fit, minmax(250px, 1fr))";
+    featureGrid.DomElement.style.gap = "32px";
+    featureGrid.DomElement.style.maxWidth = "1200px";
+    featureGrid.DomElement.style.margin = "0 auto";
 
     const featureData = [
         {
@@ -30,12 +30,12 @@ export default function FeatureGrid(parent: Parent | HTMLDivElement) {
         const featureCard = Widget.LinearLayout(featureGrid);
         featureCard.LayoutDirection = "TOP_TO_BOTTOM";
         featureCard.ElementAlignment = "VCENTER";
-        featureCard.style.backgroundColor = "#2d2d2d";
-        featureCard.style.margin = "15px";
-        featureCard.style.padding = "24px";
-        featureCard.style.borderRadius = "8px";
-        featureCard.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.1)";
-        featureCard.style.textAlign = "center";
+        featureCard.DomElement.style.backgroundColor = "#2d2d2d";
+        featureCard.DomElement.style.margin = "15px";
+        featureCard.DomElement.style.padding = "24px";
+        featureCard.DomElement.style.borderRadius = "8px";
+        featureCard.DomElement.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.1)";
+        featureCard.DomElement.style.textAlign = "center";
 
         const featureIcon = Widget.Paragraph(feature.icon, featureCard);
         featureIcon.style.fontSize = "2rem";

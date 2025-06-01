@@ -12,14 +12,14 @@ export default function LandingPage() {
     page.ScrollBarVisibility = "HIDDEN";
     page.LayoutDirection = "TOP_TO_BOTTOM";
 
-    page.style.backgroundColor = "#1e1e1e";
-    page.style.color = "#ffffff";
-    page.style.minHeight = "100vh";
-    page.style.fontFamily = "Arial, sans-serif";
+    page.DomElement.style.backgroundColor = "#1e1e1e";
+    page.DomElement.style.color = "#ffffff";
+    page.DomElement.style.minHeight = "100vh";
+    page.DomElement.style.fontFamily = "Arial, sans-serif";
 
     const Hero = Widget.LinearLayout(page);
-    Hero.style.padding = "64px 32px";
-    Hero.style.textAlign = "center";
+    Hero.DomElement.style.padding = "64px 32px";
+    Hero.DomElement.style.textAlign = "center";
     Hero.ElementAlignment = "CENTER";
     Hero.ParentFill = "FILLXY";
     Hero.LayoutDirection = "TOP_TO_BOTTOM";
@@ -34,7 +34,7 @@ export default function LandingPage() {
     const HeroDescription = Widget.Paragraph(
         "viewkit.ui is a lightweight, modern framework for building web apps. " +
             "It provides a simple and intuitive API for creating responsive, beautiful UIs.",
-        Hero,
+        Hero
     );
     HeroDescription.style.fontSize = "1.1rem";
     HeroDescription.style.color = "#cccccc";
@@ -49,10 +49,10 @@ export default function LandingPage() {
     const features = Widget.LinearLayout(page);
     features.LayoutDirection = "TOP_TO_BOTTOM";
     features.ElementAlignment = "VCENTER";
-    features.style.backgroundColor = "#252526";
-    features.style.padding = "64px 32px";
-    features.style.width = "100%";
-    features.style.textAlign = "center";
+    features.DomElement.style.backgroundColor = "#252526";
+    features.DomElement.style.padding = "64px 32px";
+    features.DomElement.style.width = "100%";
+    features.DomElement.style.textAlign = "center";
 
     const featuresTitle = Widget.Paragraph("Features", features);
     featuresTitle.style.fontSize = "2rem";
@@ -66,12 +66,12 @@ export default function LandingPage() {
     footer.LayoutDirection = "TOP_TO_BOTTOM";
     footer.ElementAlignment = "VCENTER";
     footer.ParentFill = "FILLXY";
-    footer.style.backgroundColor = "#1e1e1e";
-    footer.style.color = "#ffffff";
-    footer.style.padding = "32px";
-    footer.style.width = "100%";
-    footer.style.textAlign = "center";
-    footer.style.marginTop = "64px";
+    footer.DomElement.style.backgroundColor = "#1e1e1e";
+    footer.DomElement.style.color = "#ffffff";
+    footer.DomElement.style.padding = "32px";
+    footer.DomElement.style.width = "100%";
+    footer.DomElement.style.textAlign = "center";
+    footer.DomElement.style.marginTop = "64px";
 
     const footerText = Widget.Paragraph("© 2025 viewkit.ui Framework. All rights reserved.", footer);
     footerText.style.fontSize = "0.9rem";

@@ -1,95 +1,117 @@
 import type { Parent, Scroll_Direction, Element_Alignment, Parent_Fill, Layout_Direction } from "./types";
 
 export class LayoutConstructor implements Parent {
-    root: HTMLElement | HTMLDivElement;
-    layout: HTMLDivElement;
+    private _layout: HTMLDivElement; // Renamed to avoid conflict if 'layout' was meant to be private
     children: HTMLElement[];
-    style: CSSStyleDeclaration;
 
-    constructor(parent: Parent | HTMLElement, type: string, classes?: Array<string>) {
-        this.layout = document.createElement("div");
-        this.style = this.layout.style;
-        this.root = this.layout;
+    constructor(parent: Parent | HTMLElement | null, type: string, classes?: Array<string>) {
+        this._layout = document.createElement("div");
         this.children = [];
-        this.layout.classList.add(`${type}-layout`, "show");
+        this._layout.classList.add(`${type}-layout`, "show");
 
-        //Check if the parent is an ordinary html-element
-        //If not we append the child on the root value.
-        //That means the parent is a layout.
-        if (parent instanceof HTMLElement) {
-            parent.appendChild(this.layout);
+        if (parent) {
+            if (parent instanceof HTMLElement) {
+                // Added a check for null parent, common for root layouts
+                parent.appendChild(this._layout);
+            } else if ("DomElement" in parent && parent.DomElement instanceof HTMLElement) {
+                // Check if it's a Parent-like object with DomElement (like another LayoutConstructor)
+                parent.DomElement.appendChild(this._layout);
+            } else {
+                // Fallback or error handling if parent type is unexpected
+                // For now, let's assume if not HTMLElement and not Parent-like, it might be an issue
+                // or it implies appending to body if parent is null (handled by if(parent))
+                console.warn(
+                    "LayoutConstructor: Parent is not an HTMLElement or a valid ViewKit Parent object. Appending to body as a fallback if parent was null, otherwise this might be an error."
+                );
+                // Only append to body if parent was explicitly null
+                if (!parent) document.body.appendChild(this._layout);
+            }
         } else {
+            // If parent is null, append to body and ensure body margin is 0
+            document.body.appendChild(this._layout);
             document.body.style.margin = "0";
-            parent.root.appendChild(this.layout);
         }
 
-        //Do a test if classes are provided, this is great
-        //For creating other layout types.
         if (classes) {
             for (let i = 0; i < classes.length; i++) {
-                this.layout.classList.add(classes[i]);
+                this._layout.classList.add(classes[i]);
             }
         }
     }
 
+    /**
+     * Public accessor for the underlying DOM element of this layout.
+     */
+    public get DomElement(): HTMLDivElement {
+        return this._layout;
+    }
+
     appendChild(child: HTMLElement): void {
-        this.layout.appendChild(child);
+        this._layout.appendChild(child);
         this.children.push(child);
     }
 
     removeChildren(): void {
-        this.layout.innerHTML = "";
+        this._layout.innerHTML = "";
         this.children = [];
     }
 
     removeChild(child: HTMLElement): void {
-        this.layout.removeChild(child);
+        this._layout.removeChild(child);
         this.children = this.children.filter((c) => c !== child);
     }
 
     insertBefore(child: HTMLElement, before: HTMLElement): void {
-        this.layout.insertBefore(child, before);
+        this._layout.insertBefore(child, before);
     }
 
     set LayoutDirection(direction: Layout_Direction) {
+        // Clear existing direction classes to prevent conflicts
+        this._layout.classList.remove("top_to_bottom", "bottom_to_top", "left_to_right", "right_to_left");
         switch (direction) {
             case "TOP_TO_BOTTOM":
-                this.layout.classList.add("top_to_bottom");
+                this._layout.classList.add("top_to_bottom");
                 break;
             case "BOTTOM_TO_TOP":
-                this.layout.classList.add("bottom_to_top");
+                this._layout.classList.add("bottom_to_top");
                 break;
             case "LEFT_TO_RIGHT":
-                this.layout.classList.add("left_to_right");
+                this._layout.classList.add("left_to_right");
                 break;
-            default:
-                this.layout.classList.add("RIGHT_TO_LEFT");
+            case "RIGHT_TO_LEFT": // Added explicit case for RIGHT_TO_LEFT
+                this._layout.classList.add("right_to_left");
+                break;
+            default: // Should ideally not happen if types are used correctly
+                this._layout.classList.add("top_to_bottom");
         }
     }
 
     set ElementAlignment(alignment: Element_Alignment) {
-        this.layout.classList.add(alignment.toLowerCase());
+        this._layout.classList.add(alignment.toLowerCase());
     }
 
     set ParentFill(fill: Parent_Fill) {
-        this.layout.classList.add(fill.toLowerCase());
+        this._layout.classList.add(fill.toLowerCase());
     }
 
     set ScrollDirection(scrollDirection: Scroll_Direction) {
+        this._layout.classList.remove("scrollx", "scrolly", "scrollxy");
         if (scrollDirection === "HORIZONTAL") {
-            this.layout.classList.add("scrollx");
+            this._layout.classList.add("scrollx");
         } else if (scrollDirection === "VERTICAL") {
-            this.layout.classList.add("scrolly");
+            this._layout.classList.add("scrolly");
         } else {
-            this.layout.classList.add("scrollxy");
+            // Assumes "BOTH" or any other value means scrollxy
+            this._layout.classList.add("scrollxy");
         }
     }
 
     set ScrollBarVisibility(visibility: "SHOWN" | "HIDDEN") {
         if (visibility === "SHOWN") {
-            this.layout.classList.remove("noscrollbar");
+            this._layout.classList.remove("noscrollbar");
         } else {
-            this.layout.classList.add("noscrollbar");
+            // HIDDEN
+            this._layout.classList.add("noscrollbar");
         }
     }
 }

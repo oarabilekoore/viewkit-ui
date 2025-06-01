@@ -3,7 +3,7 @@
 <br>
 <div align="center">
     <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
-    <img alt="Version Badge" src="https://img.shields.io/badge/version-0.2.0-brightgreen.svg">
+    <img alt="Version Badge" src="https://img.shields.io/badge/version-0.2.23-brightgreen.svg">
 </div>
 
 <br>
@@ -14,7 +14,7 @@
 
 To install the framework, you can choose between npm or deno:
 
-- **package-managers**:
+-   **package-managers**:
 
     ```bash
     npm install viewkit-ui

@@ -1,4 +1,4 @@
-const innerscope_version = "0.2.22";
+const innerscope_version = "0.2.23";
 console.log(`innerscope v${innerscope_version}`);
 
 declare global {

@@ -1,3 +1,4 @@
+import { Parent } from "./types";
 declare global {
     interface Window {
         _onStartLoaded?: boolean;
@@ -21,6 +22,7 @@ export type Routes = {
 }[];
 export declare class Application {
     root: HTMLElement;
+    route_view: Parent | null;
     router_map: Map<string, Function> | null;
     page_routes: Routes | null;
     router_mode: string | null;
@@ -35,6 +37,7 @@ export declare class Application {
     onOnline(Fn: Function): void;
     onResize(Fn: Function): void;
     onScroll(Fn: Function): void;
+    setRouteView(parent: Parent): void;
     addRoute(route: string, Function: Function): void;
     openRoute(path: string): void;
     private hash_change_handler;

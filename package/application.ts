@@ -1,6 +1,6 @@
 import { Parent } from "./types";
 
-const innerscope_version = "0.2.23";
+const innerscope_version = "0.2.24";
 console.log(`innerscope v${innerscope_version}`);
 
 declare global {

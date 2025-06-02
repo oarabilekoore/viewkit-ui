@@ -2,10 +2,11 @@ import FeatureGrid from "../components/grid.ts";
 import FilledButton from "../components/buttons.ts";
 
 import { Widget } from "../../package/mod.ts";
-import { app } from "../index.ts";
+const root = document.getElementById("root");
 
 export default function LandingPage() {
-    const page = Widget.LinearLayout(app.root);
+    //@ts-ignore
+    const page = Widget.LinearLayout(root);
     page.ParentFill = "FILLXY";
     page.ScrollDirection = "VERTICAL";
     page.ElementAlignment = "VCENTER";
@@ -41,7 +42,7 @@ export default function LandingPage() {
     HeroDescription.style.marginBottom = "32px";
 
     FilledButton("Get Started", Hero).onclick = () => {
-        app.openRoute("/about");
+        window.open("/about");
     };
 
     FilledButton(`Why viewkit.ui ?`, page);

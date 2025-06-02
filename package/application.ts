@@ -1,3 +1,5 @@
+import { Parent } from "./types";
+
 const innerscope_version = "0.2.23";
 console.log(`innerscope v${innerscope_version}`);
 
@@ -27,6 +29,7 @@ export type Routes = {
 
 export class Application {
     root: HTMLElement;
+    route_view: Parent | null;
     router_map: Map<string, Function> | null;
     page_routes: Routes | null;
     router_mode: string | null;
@@ -36,6 +39,7 @@ export class Application {
         this.router_map = new Map();
         this.page_routes = null;
         this.router_mode = null;
+        this.route_view = null;
         this.root = document.body;
 
         config ? this.setConfig(config) : console.error("Application config Was Not Passed.");
@@ -157,6 +161,10 @@ export class Application {
         });
     }
 
+    setRouteView(parent: Parent) {
+        this.route_view = parent;
+    }
+
     addRoute(route: string, Function: Function) {
         this.router_map?.set(route, Function);
     }
@@ -175,9 +183,18 @@ export class Application {
 
     private popstate_handler(route: string, event?: Event) {
         const component = this.router_map?.get(route);
-        document.body.innerHTML = "";
-        component ? component() : console.error();
 
+        // Check If A RouteView Exist, If Not Change The Whole Doc
+        if (this.route_view) {
+            //@ts-ignore
+            this.route_view.DomElement.innerHTML = "";
+            console.log("Cleared Page");
+            component ? this.route_view.appendChild(component()) : console.error();
+            console.log("Added A New Page");
+        } else {
+            document.body.innerHTML = "";
+            component ? component() : console.error();
+        }
         const newIndex = this.page_index + 1;
 
         this.page_index = newIndex;

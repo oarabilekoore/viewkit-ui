@@ -72,6 +72,11 @@
     width: fit-content;
 }
 
+.inherit {
+    height: inherit;
+    width: inherit;
+}
+
 .scrollxy {
     overflow-x: scroll !important;
     overflow-y: scroll !important;

@@ -1,11 +1,12 @@
 {
     "name": "viewkit-ui",
-    "version": "0.2.25",
+    "version": "0.3.0",
     "author": "Oarabile Koore",
     "main": "./build/mod.js",
     "module": "./build/mod.js",
     "devDependencies": {
-        "typescript": "^5.8.3"
+        "typescript": "^5.8.3",
+        "vitest": "^3.2.1"
     },
     "exports": {
         ".": {

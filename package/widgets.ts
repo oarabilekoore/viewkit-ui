@@ -2,7 +2,12 @@ import { genericElement } from "./generator";
 import { LayoutConstructor } from "./layouts";
 import type { Parent } from "./types";
 
-export const Widget = {
+/**
+ * A widget is an object containing method functions that return
+ * HtmlElements, basically under the hood this is
+ * document.CreateElement
+ */
+export const widget = {
     // Layouts
     LinearLayout: function (parent: Parent | HTMLElement) {
         const layout = new LayoutConstructor(parent, "linear");

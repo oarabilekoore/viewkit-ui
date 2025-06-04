@@ -4,7 +4,12 @@ type Signal<T> = {
     subscribe: (fn: Function) => void;
 };
 
-export function $signal<T>(default_value: T): Signal<T> {
+/**
+ * Create reactive behaviour with any value type and on ui
+ * @param default_value
+ * @returns
+ */
+export function signal<T>(default_value: T): Signal<T> {
     var subscribers: Array<Function> = [];
     var inner_value = default_value as T;
 

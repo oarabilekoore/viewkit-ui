@@ -1,7 +1,7 @@
-import { Widget, Parent } from "../../package/mod.ts";
-
+import { widget } from "../../package/mod.ts";
+import type { Parent } from "../../package/mod.ts";
 export default function FilledButton(text: string, parent: Parent) {
-    const button = Widget.Button(text, parent);
+    const button = widget.Button(text, parent);
     button.style.backgroundColor = "#007acc";
     button.style.color = "#ffffff";
     button.style.padding = "12px 24px";

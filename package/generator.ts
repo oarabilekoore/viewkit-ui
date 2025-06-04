@@ -1,5 +1,5 @@
 import { Parent, MergedParentTypes, SafeParent } from "./types";
-import "./baseline.css";
+import "./baseline.ts";
 
 function parseArguments(args: any[]): { parent: MergedParentTypes; text?: string } {
     let parent: MergedParentTypes | undefined;
@@ -21,13 +21,24 @@ function parseArguments(args: any[]): { parent: MergedParentTypes; text?: string
     return { parent, text };
 }
 
+/**
+ * INTERNAL USE: Returns a function, used in Widgets
+ * @param tag
+ * @returns
+ */
 export function genericElement(tag: string) {
-    return (...args: (string | Parent)[]) => {
+    return (...args: (string | Parent | HTMLElement | HTMLDivElement)[]) => {
         const { parent, text } = parseArguments(args);
         return createElement({ tag, text }, parent);
     };
 }
 
+/**
+ * INTERNAL USE: Used to create html elements
+ * @param data { tag: string; text?: string }
+ * @param parent
+ * @returns HTMLElement
+ */
 export function createElement(
     data: { tag: string; text?: string },
     parent: Parent | HTMLElement | HTMLDivElement
@@ -45,6 +56,11 @@ export function createElement(
     return element;
 }
 
+/**
+ * Boolean based visibility function, decide if the element is visible or not
+ * @param element {HTMLElement}
+ * @param condition {boolean}
+ */
 export function showIF(element: HTMLElement, condition: boolean) {
     if (condition) {
         element.classList.add("show");

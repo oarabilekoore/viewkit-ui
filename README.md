@@ -15,7 +15,6 @@
 
 It accompanies a couple of tools like;
 
--   viewkit-router
 -   viewkit-micromanager
 
 To assist in building scalable web applications while avoiding framework lock-in.

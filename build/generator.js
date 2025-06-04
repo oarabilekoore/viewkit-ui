@@ -1,4 +1,4 @@
-import "./baseline.ts";
+import("./baseline");
 function parseArguments(args) {
     let parent;
     let text;

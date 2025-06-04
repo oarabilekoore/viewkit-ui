@@ -1,5 +1,4 @@
 import { Parent } from "./types";
-import "./baseline.ts";
 /**
  * INTERNAL USE: Returns a function, used in Widgets
  * @param tag

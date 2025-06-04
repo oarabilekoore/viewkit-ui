@@ -1,5 +1,8 @@
+/**
+ * Customize your layouts
+ */
 export class LayoutConstructor {
-    _layout; // Renamed to avoid conflict if 'layout' was meant to be private
+    _layout;
     children;
     constructor(parent, type, classes) {
         this._layout = document.createElement("div");
@@ -16,18 +19,17 @@ export class LayoutConstructor {
             }
             else {
                 // Fallback or error handling if parent type is unexpected
-                // For now, let's assume if not HTMLElement and not Parent-like, it might be an issue
-                // or it implies appending to body if parent is null (handled by if(parent))
-                console.warn("LayoutConstructor: Parent is not an HTMLElement or a valid ViewKit Parent object. Appending to body as a fallback if parent was null, otherwise this might be an error.");
-                // Only append to body if parent was explicitly null
-                if (!parent)
-                    document.body.appendChild(this._layout);
+                try {
+                    parent.appendChild(this._layout);
+                }
+                catch (error) {
+                    throw Error("LayoutConstructor: Parent is not an HTMLElement or a valid ViewKit Parent object. Appending to body as a fallback if parent was null, otherwise this might be an error.");
+                }
             }
         }
         else {
-            // If parent is null, append to body and ensure body margin is 0
-            document.body.appendChild(this._layout);
-            document.body.style.margin = "0";
+            // Nothing should happen here, ideally Routers should take over as
+            // the parent administrator
         }
         if (classes) {
             for (let i = 0; i < classes.length; i++) {
@@ -69,10 +71,10 @@ export class LayoutConstructor {
             case "LEFT_TO_RIGHT":
                 this._layout.classList.add("left_to_right");
                 break;
-            case "RIGHT_TO_LEFT": // Added explicit case for RIGHT_TO_LEFT
+            case "RIGHT_TO_LEFT":
                 this._layout.classList.add("right_to_left");
                 break;
-            default: // Should ideally not happen if types are used correctly
+            default:
                 this._layout.classList.add("top_to_bottom");
         }
     }

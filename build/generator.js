@@ -1,4 +1,4 @@
-import "./baseline.css";
+import "./baseline.ts";
 function parseArguments(args) {
     let parent;
     let text;
@@ -17,12 +17,23 @@ function parseArguments(args) {
     }
     return { parent, text };
 }
+/**
+ * INTERNAL USE: Returns a function, used in Widgets
+ * @param tag
+ * @returns
+ */
 export function genericElement(tag) {
     return (...args) => {
         const { parent, text } = parseArguments(args);
         return createElement({ tag, text }, parent);
     };
 }
+/**
+ * INTERNAL USE: Used to create html elements
+ * @param data { tag: string; text?: string }
+ * @param parent
+ * @returns HTMLElement
+ */
 export function createElement(data, parent) {
     const element = document.createElement(data.tag);
     data.text ? (element.textContent = data.text) : null;
@@ -35,6 +46,11 @@ export function createElement(data, parent) {
     }
     return element;
 }
+/**
+ * Boolean based visibility function, decide if the element is visible or not
+ * @param element {HTMLElement}
+ * @param condition {boolean}
+ */
 export function showIF(element, condition) {
     if (condition) {
         element.classList.add("show");

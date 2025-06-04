@@ -1,4 +1,9 @@
-export function $signal(default_value) {
+/**
+ * Create reactive behaviour with any value type and on ui
+ * @param default_value
+ * @returns
+ */
+export function signal(default_value) {
     var subscribers = [];
     var inner_value = default_value;
     function change_notifier() {

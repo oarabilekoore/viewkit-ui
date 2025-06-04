@@ -1,8 +1,11 @@
 import type { Parent, Scroll_Direction, Element_Alignment, Parent_Fill, Layout_Direction } from "./types";
+/**
+ * Customize your layouts
+ */
 export declare class LayoutConstructor implements Parent {
     private _layout;
     children: HTMLElement[];
-    constructor(parent: Parent | HTMLElement | null, type: string, classes?: Array<string>);
+    constructor(parent?: Parent | HTMLElement | null, type?: string, classes?: Array<string>);
     /**
      * Public accessor for the underlying DOM element of this layout.
      */

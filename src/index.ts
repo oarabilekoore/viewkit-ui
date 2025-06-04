@@ -1,4 +1,4 @@
-import { widget, signal, css } from "viewkit-ui";
+import { widget, signal, css } from "../package/mod";
 
 function createCounter(parent) {
     const count = signal(0);
@@ -53,3 +53,5 @@ function createCounter(parent) {
         display.textContent = `Count: ${newValue}`;
     });
 }
+
+createCounter(document.querySelector("body"));

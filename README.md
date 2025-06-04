@@ -4,7 +4,7 @@
     <img src="./ui-kit-logo.png">
     </div>
     <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
-    <img alt="Version Badge" src="https://img.shields.io/badge/version-0.3.2-brightgreen.svg">
+    <img alt="Version Badge" src="https://img.shields.io/badge/version-0.3.3-brightgreen.svg">
 </div>
 
 <br>

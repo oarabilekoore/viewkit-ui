@@ -4,17 +4,17 @@ import { Parent } from "./types";
  * @param tag
  * @returns
  */
-export declare function genericElement(tag: string): (...args: (string | Parent | HTMLElement | HTMLDivElement)[]) => HTMLElement;
+export declare function genericElement<T>(tag: string): (...args: (string | Parent | HTMLElement | HTMLDivElement)[]) => T;
 /**
  * INTERNAL USE: Used to create html elements
  * @param data { tag: string; text?: string }
  * @param parent
  * @returns HTMLElement
  */
-export declare function createElement(data: {
+export declare function createElement<T>(data: {
     tag: string;
     text?: string;
-}, parent: Parent | HTMLElement | HTMLDivElement): HTMLElement;
+}, parent: Parent | HTMLElement | HTMLDivElement): T;
 /**
  * Boolean based visibility function, decide if the element is visible or not
  * @param element {HTMLElement}

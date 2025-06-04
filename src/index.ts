@@ -1,57 +1,61 @@
-import { widget, signal, css } from "../package/mod";
+import { widget, signal } from "../package/mod";
 
-function createCounter(parent) {
-    const count = signal(0);
+function createContactForm(parent) {
+    const formData = {
+        name: signal(""),
+        email: signal(""),
+        message: signal(""),
+    };
 
-    const container = widget.LinearLayout(parent);
-    container.ElementAlignment = "CENTER";
-    container.LayoutDirection = "TOP_TO_BOTTOM";
-    container.DomElement.style.padding = "32px";
+    const form = widget.Form(parent);
+    form.style.maxWidth = "500px";
+    form.style.margin = "0 auto";
+    form.style.padding = "32px";
 
-    // Display
-    const display = widget.Heading2(`Count: ${count.get()}`, container);
-    display.style.marginBottom = "24px";
-
-    // Buttons container
-    const buttons = widget.LinearLayout(container);
-    buttons.LayoutDirection = "LEFT_TO_RIGHT";
-    buttons.ElementAlignment = "CENTER";
-    buttons.DomElement.style.gap = "16px";
-
-    // Decrement button
-    const decrementBtn = widget.Button("-", buttons);
-    decrementBtn.addEventListener("click", () => {
-        count.set(count.get() - 1);
+    // Name field
+    const nameLabel = widget.Label("Name:", form);
+    const nameInput = widget.TextInput(form);
+    nameInput.placeholder = "Enter your name";
+    nameInput.addEventListener("input", (e) => {
+        formData.name.set(e.target.value);
     });
 
-    // Increment button
-    const incrementBtn = widget.Button("+", buttons);
-    incrementBtn.addEventListener("click", () => {
-        count.set(count.get() + 1);
+    // Email field
+    const emailLabel = widget.Label("Email:", form);
+    const emailInput = widget.EmailInput(form);
+    emailInput.placeholder = "Enter your email";
+    emailInput.addEventListener("input", (e) => {
+        formData.email.set(e.target.value);
     });
 
-    // Style buttons
-    const buttonStyle = css({
-        padding: "12px 24px",
-        fontSize: "1.2rem",
-        border: "2px solid #007acc",
-        backgroundColor: "transparent",
-        color: "#007acc",
-        borderRadius: "4px",
-        cursor: "pointer",
-        "&:hover": {
-            backgroundColor: "#007acc",
-            color: "#ffffff",
-        },
+    // Message field
+    const messageLabel = widget.Label("Message:", form);
+    const messageInput = widget.TextArea(form);
+    messageInput.placeholder = "Enter your message";
+    messageInput.rows = 5;
+    messageInput.addEventListener("input", (e) => {
+        formData.message.set(e.target.value);
     });
 
-    decrementBtn.classList.add(buttonStyle);
-    incrementBtn.classList.add(buttonStyle);
+    // Submit button
+    const submitBtn = widget.Button("Send Message", form);
+    submitBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        console.log({
+            name: formData.name.get(),
+            email: formData.email.get(),
+            message: formData.message.get(),
+        });
+    });
 
-    // Update display when count changes
-    count.subscribe((newValue) => {
-        display.textContent = `Count: ${newValue}`;
+    // Style form elements
+    [nameInput, emailInput, messageInput].forEach((input) => {
+        input.style.width = "100%";
+        input.style.padding = "12px";
+        input.style.marginBottom = "16px";
+        input.style.border = "1px solid #ccc";
+        input.style.borderRadius = "4px";
     });
 }
 
-createCounter(document.querySelector("body"));
+createContactForm(document.querySelector("body"));

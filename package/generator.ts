@@ -26,10 +26,10 @@ function parseArguments(args: any[]): { parent: MergedParentTypes; text?: string
  * @param tag
  * @returns
  */
-export function genericElement(tag: string) {
+export function genericElement<T>(tag: string) {
     return (...args: (string | Parent | HTMLElement | HTMLDivElement)[]) => {
         const { parent, text } = parseArguments(args);
-        return createElement({ tag, text }, parent);
+        return createElement<T>({ tag, text }, parent);
     };
 }
 
@@ -39,10 +39,10 @@ export function genericElement(tag: string) {
  * @param parent
  * @returns HTMLElement
  */
-export function createElement(
+export function createElement<T>(
     data: { tag: string; text?: string },
     parent: Parent | HTMLElement | HTMLDivElement
-) {
+): T {
     const element = document.createElement(data.tag);
     data.text ? (element.textContent = data.text) : null;
 
@@ -53,7 +53,7 @@ export function createElement(
         parent.DomElement.appendChild(element);
     }
 
-    return element;
+    return element as T;
 }
 
 /**

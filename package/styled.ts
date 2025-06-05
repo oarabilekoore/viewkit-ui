@@ -43,17 +43,14 @@ export function css(css: Partial<CSSValue & CSSObject>, classname?: string) {
             if (typeof value !== "object" || value == null) continue;
             const mediaRule = `@media ${key.slice(1)} { .${rulename} { ${mediaquery_parser(value)} } }`;
             cssRules += mediaRule + "\n";
-            console.log(`Media query Insert: `, mediaRule);
         } else if (key.startsWith("&")) {
             if (typeof value !== "object" || value == null) continue;
             const selector = key.replace("&", "");
             const pseudoRule = `.${rulename}${selector} { ${pseudoclass_parser(value)} }`;
             cssRules += pseudoRule + "\n";
-            console.log(`PseudoClass Insert: `, pseudoRule);
         } else {
             const normalRule = `.${rulename} { ${general_parser(key, value)} }`;
             cssRules += normalRule + "\n";
-            console.log("inserting: ", normalRule);
         }
     }
 

@@ -9,18 +9,18 @@ import type { Parent } from "./types";
  */
 export const widget = {
     // Layouts
-    LinearLayout: function (parent: Parent | HTMLElement) {
+    LinearLayout: function (parent?: Parent | HTMLElement) {
         const layout = new LayoutConstructor(parent, "linear");
         return layout;
     },
 
-    ColumnLayout: function (parent: Parent | HTMLElement) {
+    ColumnLayout: function (parent?: Parent | HTMLElement) {
         const layout = new LayoutConstructor(parent, "column");
         layout.LayoutDirection = "TOP_TO_BOTTOM";
         return layout;
     },
 
-    GridLayout: function (parent: Parent | HTMLElement) {
+    GridLayout: function (parent?: Parent | HTMLElement) {
         const layout = new LayoutConstructor(parent, "grid");
         return layout;
     },

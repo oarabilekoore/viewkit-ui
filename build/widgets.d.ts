@@ -6,9 +6,9 @@ import type { Parent } from "./types";
  * document.CreateElement
  */
 export declare const widget: {
-    LinearLayout: (parent: Parent | HTMLElement) => LayoutConstructor;
-    ColumnLayout: (parent: Parent | HTMLElement) => LayoutConstructor;
-    GridLayout: (parent: Parent | HTMLElement) => LayoutConstructor;
+    LinearLayout: (parent?: Parent | HTMLElement) => LayoutConstructor;
+    ColumnLayout: (parent?: Parent | HTMLElement) => LayoutConstructor;
+    GridLayout: (parent?: Parent | HTMLElement) => LayoutConstructor;
     Paragraph: (...args: (string | HTMLElement | HTMLDivElement | Parent)[]) => HTMLParagraphElement;
     Heading1: (...args: (string | HTMLElement | HTMLDivElement | Parent)[]) => HTMLHeadingElement;
     Heading2: (...args: (string | HTMLElement | HTMLDivElement | Parent)[]) => HTMLHeadingElement;

@@ -1,5 +1,4 @@
-import { signal } from "../package/mod";
-import { createLandingPage } from "../examples/landingpage";
+import { createCounter } from "../examples/counter";
 
 var root = document.querySelector("body") as HTMLElement;
-createLandingPage(root);
+createCounter(root);

@@ -1,31 +1,30 @@
-import { widget, signal, css } from "viewkit-ui";
+import { html, signal, css } from "viewkit-ui";
 
-function createCounter(parent) {
+export function createCounter(parent) {
     const count = signal(0);
 
-    const container = widget.LinearLayout(parent);
-    container.ElementAlignment = "CENTER";
-    container.LayoutDirection = "TOP_TO_BOTTOM";
-    container.DomElement.style.padding = "32px";
+    const container = html.LinearLayout(parent);
+    container.classList.add("center", "top_to_bottom");
+    container.style.padding = "32px";
 
     // Display
-    const display = widget.Heading2(`Count: ${count.get()}`, container);
+    const display = html.Heading2(`Count: ${count.get()}`, container);
     display.style.marginBottom = "24px";
 
     // Buttons container
-    const buttons = widget.LinearLayout(container);
+    const buttons = html.LinearLayout(container);
     buttons.LayoutDirection = "LEFT_TO_RIGHT";
     buttons.ElementAlignment = "CENTER";
     buttons.DomElement.style.gap = "16px";
 
     // Decrement button
-    const decrementBtn = widget.Button("-", buttons);
+    const decrementBtn = html.Button("-", buttons);
     decrementBtn.addEventListener("click", () => {
         count.set(count.get() - 1);
     });
 
     // Increment button
-    const incrementBtn = widget.Button("+", buttons);
+    const incrementBtn = html.Button("+", buttons);
     incrementBtn.addEventListener("click", () => {
         count.set(count.get() + 1);
     });

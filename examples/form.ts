@@ -1,4 +1,4 @@
-import { widget, signal } from "viewkit-ui";
+import { html, signal } from "viewkit-ui";
 
 function createContactForm(parent) {
     const formData = {
@@ -7,30 +7,30 @@ function createContactForm(parent) {
         message: signal(""),
     };
 
-    const form = widget.Form(parent);
+    const form = html.Form(parent);
     form.style.maxWidth = "500px";
     form.style.margin = "0 auto";
     form.style.padding = "32px";
 
     // Name field
-    const nameLabel = widget.Label("Name:", form);
-    const nameInput = widget.TextInput(form);
+    const nameLabel = html.Label("Name:", form);
+    const nameInput = html.TextInput(form);
     nameInput.placeholder = "Enter your name";
     nameInput.addEventListener("input", (e) => {
         formData.name.set(e.target.value);
     });
 
     // Email field
-    const emailLabel = widget.Label("Email:", form);
-    const emailInput = widget.EmailInput(form);
+    const emailLabel = html.Label("Email:", form);
+    const emailInput = html.EmailInput(form);
     emailInput.placeholder = "Enter your email";
     emailInput.addEventListener("input", (e) => {
         formData.email.set(e.target.value);
     });
 
     // Message field
-    const messageLabel = widget.Label("Message:", form);
-    const messageInput = widget.TextArea(form);
+    const messageLabel = html.Label("Message:", form);
+    const messageInput = html.TextArea(form);
     messageInput.placeholder = "Enter your message";
     messageInput.rows = 5;
     messageInput.addEventListener("input", (e) => {
@@ -38,7 +38,7 @@ function createContactForm(parent) {
     });
 
     // Submit button
-    const submitBtn = widget.Button("Send Message", form);
+    const submitBtn = html.Button("Send Message", form);
     submitBtn.addEventListener("click", (e) => {
         e.preventDefault();
         console.log({

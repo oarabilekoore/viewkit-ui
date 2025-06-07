@@ -175,3 +175,16 @@ css(
     },
     "layout-grid"
 );
+
+/**
+ * Boolean based visibility function, decide if the element is visible or not
+ * @param element {HTMLElement}
+ * @param condition {boolean}
+ */
+export function showIF(element: HTMLElement, condition: boolean) {
+    if (condition) {
+        element.classList.add("show");
+    } else {
+        element.classList.add("hide");
+    }
+}

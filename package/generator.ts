@@ -1,24 +1,22 @@
-import { Parent, MergedParentTypes, SafeParent } from "./types";
-import("./baseline");
-
-function parseArguments(args: any[]): { parent: MergedParentTypes; text?: string } {
-    let parent: MergedParentTypes | undefined;
+function parseArguments(args: any[]): { parent?: any; text?: string; children?: Array<any> } {
+    let parent: HTMLElement | undefined;
     let text: string | undefined;
+    let children: Array<any> | undefined;
 
     for (const arg of args) {
-        if (typeof arg === "string") {
-            text = arg;
-        } else {
-            // At this point we can assume the args
-            // remaining is a parent.
+        if (arg instanceof HTMLElement) {
             parent = arg;
         }
+        if (typeof arg === "string") {
+            text = arg;
+        }
+        if (Array.isArray(arg)) {
+            children = arg;
+        } else {
+            throw Error("Argument Parser: Arguments are invalid.");
+        }
     }
-    if (!parent) {
-        throw new Error("Parent HTMLElement is required.");
-    }
-
-    return { parent, text };
+    return { parent, text, children };
 }
 
 /**
@@ -27,44 +25,25 @@ function parseArguments(args: any[]): { parent: MergedParentTypes; text?: string
  * @returns
  */
 export function genericElement<T>(tag: string) {
-    return (...args: (string | Parent | HTMLElement | HTMLDivElement)[]) => {
-        const { parent, text } = parseArguments(args);
-        return createElement<T>({ tag, text }, parent);
+    return (...args: any[]) => {
+        const { parent, text, children } = parseArguments(args);
+        return createElement<T>({ tag, text, children, parent });
     };
 }
 
-/**
- * INTERNAL USE: Used to create html elements
- * @param data { tag: string; text?: string }
- * @param parent
- * @returns HTMLElement
- */
-export function createElement<T>(
-    data: { tag: string; text?: string },
-    parent: Parent | HTMLElement | HTMLDivElement
-): T {
-    const element = document.createElement(data.tag);
-    data.text ? (element.textContent = data.text) : null;
+function createElement<T>(data: { tag: string; parent?: any; text?: string; children?: HTMLElement[] }): T {
+    const { tag, parent, text, children } = data;
+    const element = document.createElement(tag);
+    text ? (element.textContent = text) : null;
+    parent ? parent.appendChild(element) : null;
+    children ? appendchildren() : null;
 
-    if (parent instanceof HTMLElement) {
-        parent.appendChild(element);
-    } else {
-        //@ts-ignore
-        parent.DomElement.appendChild(element);
+    function appendchildren() {
+        const masterparent = element;
+        for (const child in children) {
+            //@ts-ignore
+            masterparent.appendChild(child);
+        }
     }
-
     return element as T;
-}
-
-/**
- * Boolean based visibility function, decide if the element is visible or not
- * @param element {HTMLElement}
- * @param condition {boolean}
- */
-export function showIF(element: HTMLElement, condition: boolean) {
-    if (condition) {
-        element.classList.add("show");
-    } else {
-        element.classList.add("hide");
-    }
 }

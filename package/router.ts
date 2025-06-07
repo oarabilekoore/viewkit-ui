@@ -18,7 +18,6 @@ export type Route = {
     path: string;
     component: (params?: any) => HTMLElement | Promise<(params?: any) => HTMLElement>;
     guards?: RouteGuards;
-    type?: "default" | "popover";
     animation?: RouteAnimations;
 };
 

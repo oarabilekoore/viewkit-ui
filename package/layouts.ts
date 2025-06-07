@@ -1,13 +1,10 @@
-import type { Parent, Scroll_Direction, Element_Alignment, Parent_Fill, Layout_Direction } from "./types";
+import type { Scroll_Direction, Element_Alignment, Parent_Fill, Layout_Direction } from "./types";
 
-/**
- * Customize your layouts
- */
 export class LayoutConstructor implements Parent {
     private _layout: HTMLDivElement;
     children: HTMLElement[];
 
-    constructor(parent?: Parent | HTMLElement | null, type?: string, classes?: Array<string>) {
+    constructor(parent?: HTMLElement | null, type?: string, classes?: Array<string>) {
         this._layout = document.createElement("div");
         this.children = [];
         this._layout.classList.add(`${type}-layout`, "show");
@@ -40,9 +37,7 @@ export class LayoutConstructor implements Parent {
         }
     }
 
-    /**
-     * Public accessor for the underlying DOM element of this layout.
-     */
+    /** * Public accessor for the underlying DOM element of this layout. */
     public get DomElement(): HTMLDivElement {
         return this._layout;
     }

@@ -1,9 +1,9 @@
-import { html, signal, css } from "viewkit-ui";
+import { html, signal, css } from "../package/mod";
 
 export function createCounter(parent) {
     const count = signal(0);
 
-    const container = html.LinearLayout(parent);
+    const container = html.Div(parent);
     container.classList.add("center", "top_to_bottom");
     container.style.padding = "32px";
 
@@ -12,10 +12,10 @@ export function createCounter(parent) {
     display.style.marginBottom = "24px";
 
     // Buttons container
-    const buttons = html.LinearLayout(container);
-    buttons.LayoutDirection = "LEFT_TO_RIGHT";
-    buttons.ElementAlignment = "CENTER";
-    buttons.DomElement.style.gap = "16px";
+    const buttons = html.Div(container);
+    buttons.classList.add("left_to_right", "center");
+
+    buttons.style.gap = "16px";
 
     // Decrement button
     const decrementBtn = html.Button("-", buttons);

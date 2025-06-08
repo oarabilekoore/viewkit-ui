@@ -29,7 +29,9 @@ export default function FeatureGrid(parent: HTMLElement) {
     3;
     featureData.forEach((feature) => {
         const featureCard = html.Div(featureGrid);
-        featureCard.classList.add("to_to_bottom", "vcenter");
+        featureCard.style.display = "flex";
+        featureCard.style.flexDirection = "column";
+
         featureCard.style.backgroundColor = "#2d2d2d";
         featureCard.style.margin = "15px";
         featureCard.style.padding = "24px";

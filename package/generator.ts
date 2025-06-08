@@ -12,8 +12,6 @@ function parseArguments(args: any[]): { parent?: any; text?: string; children?: 
         }
         if (Array.isArray(arg)) {
             children = arg;
-        } else {
-            throw Error("Argument Parser: Arguments are invalid.");
         }
     }
     return { parent, text, children };
@@ -41,8 +39,7 @@ function createElement<T>(data: { tag: string; parent?: any; text?: string; chil
     function appendchildren() {
         const masterparent = element;
         for (const child in children) {
-            //@ts-ignore
-            masterparent.appendChild(child);
+            masterparent.appendChild(child as unknown as HTMLElement);
         }
     }
     return element as T;

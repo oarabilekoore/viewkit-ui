@@ -3,28 +3,41 @@ import { html, signal, css } from "../package/mod";
 export function createCounter(parent) {
     const count = signal(0);
 
-    const container = html.Div(parent);
-    container.classList.add("center", "top_to_bottom");
+    const container = html.div(parent);
+    container.classList.add(
+        css({
+            display: "flex",
+            justifySelf: "center",
+            flexDirection: "column",
+        })
+    );
     container.style.padding = "32px";
 
     // Display
-    const display = html.Heading2(`Count: ${count.get()}`, container);
+    const display = html.h2(`Count: ${count.get()}`, container);
     display.style.marginBottom = "24px";
 
-    // Buttons container
-    const buttons = html.Div(container);
-    buttons.classList.add("left_to_right", "center");
+    // buttons container
+    const buttons = html.div(container);
+    buttons.classList.add(
+        css({
+            display: "flex",
+            flexWrap: "nowrap",
+            justifyItems: "center",
+        }),
+        "center"
+    );
 
     buttons.style.gap = "16px";
 
     // Decrement button
-    const decrementBtn = html.Button("-", buttons);
+    const decrementBtn = html.button("-", buttons);
     decrementBtn.addEventListener("click", () => {
         count.set(count.get() - 1);
     });
 
     // Increment button
-    const incrementBtn = html.Button("+", buttons);
+    const incrementBtn = html.button("+", buttons);
     incrementBtn.addEventListener("click", () => {
         count.set(count.get() + 1);
     });

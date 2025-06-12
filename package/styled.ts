@@ -38,9 +38,6 @@ export function css(css: Partial<CSSValue & CSSObject>, classname?: string) {
     let rulename = classname ?? generateclassname(css);
     let cssRules = "";
 
-    if (document.createElement(rulename) instanceof HTMLElement) {
-    }
-
     for (const [key, value] of Object.entries(css)) {
         if (key.startsWith("@")) {
             if (typeof value !== "object" || value == null) continue;

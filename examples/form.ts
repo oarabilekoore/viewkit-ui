@@ -1,36 +1,38 @@
-import { html, signal } from "viewkit-ui";
+import { html, signal } from "../package/mod";
 
-function createContactForm(parent) {
+export function createContactform(parent) {
     const formData = {
         name: signal(""),
         email: signal(""),
         message: signal(""),
     };
 
-    const form = html.Form(parent);
+    const form = html.form(parent);
     form.style.maxWidth = "500px";
     form.style.margin = "0 auto";
     form.style.padding = "32px";
 
     // Name field
-    const nameLabel = html.Label("Name:", form);
-    const nameInput = html.TextInput(form);
+    const namelabel = html.label("Name:", form);
+    const nameInput = html.input(form);
+    nameInput.type = "text";
     nameInput.placeholder = "Enter your name";
-    nameInput.addEventListener("input", (e) => {
+    nameInput.addEventListener("input", (e: Event) => {
         formData.name.set(e.target.value);
     });
 
     // Email field
-    const emailLabel = html.Label("Email:", form);
-    const emailInput = html.EmailInput(form);
+    const emaillabel = html.label("Email:", form);
+    const emailInput = html.input(form);
+    emailInput.type = "email";
     emailInput.placeholder = "Enter your email";
     emailInput.addEventListener("input", (e) => {
         formData.email.set(e.target.value);
     });
 
     // Message field
-    const messageLabel = html.Label("Message:", form);
-    const messageInput = html.TextArea(form);
+    const messagelabel = html.label("Message:", form);
+    const messageInput = html.textarea(form);
     messageInput.placeholder = "Enter your message";
     messageInput.rows = 5;
     messageInput.addEventListener("input", (e) => {
@@ -38,7 +40,7 @@ function createContactForm(parent) {
     });
 
     // Submit button
-    const submitBtn = html.Button("Send Message", form);
+    const submitBtn = html.button("Send Message", form);
     submitBtn.addEventListener("click", (e) => {
         e.preventDefault();
         console.log({

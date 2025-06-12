@@ -1,100 +1,100 @@
-# ViewKit-UI Documentation
+# Framework Documentation
 
-## Overview
+A lightweight TypeScript framework for building modern web applications with reactive state management, routing, and component-based architecture.
 
-**viewkit-ui** is a type-safe, high-performance UI library with minimal overhead designed for building reactive applications. It provides a simple and intuitive API that's easy for beginners to adopt while offering powerful features for building scalable web applications without framework lock-in.
+## Table of Contents
+
+-   [Installation](#installation)
+-   [Core Concepts](#core-concepts)
+-   [HTML Elements](#html-elements)
+-   [State Management](#state-management)
+-   [Styling](#styling)
+-   [Routing](#routing)
+-   [Examples](#examples)
 
 ## Installation
 
-### Package Managers
-
 ```bash
-# Using npm
-npm install viewkit-ui
-
-# Using bun
-bun install viewkit-ui
+# Import the library
+import { html, signal, css, Router } from "viewkit-ui";
 ```
 
 ## Core Concepts
 
-### 1. HTML Elements (`html`)
+This framework provides a functional approach to building web applications with:
 
-ViewKit-UI provides a comprehensive set of HTML element creators through the `html` object. Each method creates a properly typed HTML element and accepts flexible parameters.
+-   **HTML Element Creation**: Type-safe DOM element generation
+-   **Reactive State**: Signal-based state management
+-   **CSS-in-JS**: Dynamic styling with auto-generated class names
+-   **Client-side Routing**: SPA routing with animations and guards
 
-#### Parameter Patterns
+## HTML Elements
 
-All HTML element creators accept parameters in any order:
+The `html` object provides methods to create all standard HTML elements with type safety.
 
--   **Parent Element**: An existing HTMLElement to append the new element to
--   **Text Content**: A string to set as the element's text content
--   **Children Array**: An array of child elements to append
+### Basic Usage
 
 ```typescript
 import { html } from "viewkit-ui";
 
-// Different ways to create elements
-const button1 = html.Button("Click me"); // Just text
-const button2 = html.Button(parentElement, "Click me"); // Parent and text
-const container = html.Div(parentElement, [child1, child2]); // Parent and children
+// Create elements with text content
+const heading = html.h1("Welcome to My App");
+const paragraph = html.p("This is a paragraph of text");
+
+// Create elements with parent
+const container = html.div();
+const button = html.button("Click Me", container);
+
+// Create elements with children
+const list = html.ul([html.li("Item 1"), html.li("Item 2"), html.li("Item 3")]);
 ```
 
-#### Available HTML Elements
+### Flexible Parameter System
 
-**Text Content Elements:**
+The framework uses a flexible argument parsing system that accepts parameters in any order:
 
--   `Paragraph`, `Heading1`-`Heading6`, `Span`, `Emphasis`, `Strong`
--   `Code`, `Preformatted`, `Blockquote`, `Quote`, `Cite`
--   `Definition`, `Abbreviation`, `Time`, `Variable`
--   `SampleOutput`, `KeyboardInput`, `Subscript`, `Superscript`
--   `SmallText`, `MarkedText`, `DeletedText`, `InsertedText`
+```typescript
+// All of these are valid:
+html.div(parentElement, "Text content", [childElements]);
+html.div("Text content", parentElement, [childElements]);
+html.div([childElements], "Text content", parentElement);
+```
 
-**Interactive Elements:**
+### Available Elements
 
--   `Button`, `TextInput`, `Checkbox`, `Radio`, `Range`
--   `FileInput`, `SubmitButton`, `ResetButton`, `ColorPicker`
--   `DatePicker`, `DateTimePicker`, `EmailInput`, `NumberInput`
--   `PasswordInput`, `SearchInput`, `TelInput`, `UrlInput`
--   `TextArea`, `Select`, `Option`, `Label`
--   `Fieldset`, `Legend`, `Progress`, `Meter`, `Output`
+The framework supports all standard HTML elements:
 
-**Media Elements:**
+-   **Text Content**: `p`, `h1`-`h6`, `span`, `strong`, `em`, `code`, etc.
+-   **Interactive**: `button`, `input`, `textarea`, `select`, `option`, etc.
+-   **Media**: `img`, `video`, `audio`, `canvas`, etc.
+-   **Semantic**: `article`, `section`, `nav`, `header`, `footer`, etc.
+-   **Tables**: `table`, `thead`, `tbody`, `tr`, `th`, `td`, etc.
+-   **Lists**: `ul`, `ol`, `li`, `dl`, `dt`, `dd`
+-   **Forms**: `form`, `fieldset`, `legend`, `label`, etc.
 
--   `Image`, `Video`, `Audio`, `Canvas`, `Picture`
--   `Source`, `Track`, `Embed`, `ObjectEmbed`, `IFrame`
--   `HtmlMap`, `Area`
+## State Management
 
-**Layout & Semantic Elements:**
+The framework provides reactive state management through signals.
 
--   `Article`, `Section`, `Nav`, `Header`, `Footer`
--   `Aside`, `Main`, `Figure`, `Figcaption`, `Details`
--   `Summary`, `Dialog`, `Menu`, `MenuItem`, `Div`
-
-**Table Elements:**
-
--   `Table`, `TableHead`, `TableBody`, `TableRow`
--   `TableHeader`, `TableData`, `TableCaption`, `ColGroup`, `Col`
-
-**List Elements:**
-
--   `OrderedList`, `UnorderedList`, `ListItem`
--   `DescriptionList`, `DescriptionTerm`, `DescriptionDetail`
-
-### 2. Reactive State Management (`signal`)
-
-ViewKit-UI includes a built-in reactive state management system using signals.
+### Creating Signals
 
 ```typescript
 import { signal } from "viewkit-ui";
 
 // Create a signal with initial value
 const count = signal(0);
+const username = signal("");
+const items = signal<string[]>([]);
+```
 
+### Using Signals
+
+```typescript
 // Get current value
 console.log(count.get()); // 0
 
-// Set new value (triggers subscribers)
-count.set(10);
+// Set new value
+count.set(5);
 
 // Subscribe to changes
 count.subscribe((newValue) => {
@@ -102,40 +102,50 @@ count.subscribe((newValue) => {
 });
 ```
 
-#### Signal API
+### Reactive UI Example
 
--   `get()`: Returns the current value
--   `set(newValue)`: Updates the value and notifies subscribers
--   `subscribe(callback)`: Registers a callback function to be called when the value changes
+```typescript
+const counter = signal(0);
+const display = html.p(`Count: ${counter.get()}`);
 
-### 3. CSS-in-JS Styling (`css`)
+// Update UI when state changes
+counter.subscribe((newCount) => {
+    display.textContent = `Count: ${newCount}`;
+});
 
-ViewKit-UI provides a powerful CSS-in-JS solution with support for pseudo-classes, media queries, and automatic class name generation.
+const incrementBtn = html.button("Increment");
+incrementBtn.addEventListener("click", {
+    counter.set(counter.get() + 1);
+});
+```
+
+## Styling
+
+The framework provides CSS-in-JS functionality with automatic class name generation.
+
+### Basic Styling
 
 ```typescript
 import { css } from "viewkit-ui";
 
-// Basic styling
+// Create styles
 const buttonStyle = css({
-    padding: "12px 24px",
-    fontSize: "1.2rem",
     backgroundColor: "#007acc",
     color: "white",
+    padding: "12px 24px",
     borderRadius: "4px",
+    border: "none",
+    cursor: "pointer",
 });
 
-// Apply the style
-element.classList.add(buttonStyle);
+// Apply to element
+const button = html.button("Styled Button");
+button.className = buttonStyle;
+```
 
-// Pseudo-classes
-const hoverStyle = css({
-    backgroundColor: "#007acc",
-    "&:hover": {
-        backgroundColor: "#005a99",
-        transform: "scale(1.05)",
-    },
-});
+### Advanced Styling Features
 
+```typescript
 // Media queries
 const responsiveStyle = css({
     padding: "16px",
@@ -145,368 +155,456 @@ const responsiveStyle = css({
     },
 });
 
-// Custom class names
-const customStyle = css(
-    {
-        color: "red",
+// Pseudo-classes
+const interactiveStyle = css({
+    backgroundColor: "#007acc",
+    "&:hover": {
+        backgroundColor: "#005fa3",
     },
-    "my-custom-class"
-);
+    "&:active": {
+        transform: "scale(0.98)",
+    },
+});
+
+// CSS custom properties
+const themeStyle = css({
+    "--primary-color": "#007acc",
+    "--secondary-color": "#f0f0f0",
+    color: "var(--primary-color)",
+});
 ```
 
-#### CSS Features
+### CSS Features
 
--   **Automatic Class Generation**: Uses djb2 hashing algorithm for consistent class names
--   **Pseudo-classes**: Use `&:hover`, `&:focus`, `&:active`, etc.
--   **Media Queries**: Use `@(condition)` syntax
--   **Important Declarations**: Add `!important` to any value
--   **Custom Properties**: CSS variables using `--variable-name`
--   **Camel Case to Kebab Case**: Automatic conversion (e.g., `backgroundColor` → `background-color`)
+-   **Automatic class name generation** using djb2 hashing algorithm
+-   **Media queries** with `@` prefix syntax
+-   **Pseudo-classes** with `&` prefix syntax
+-   **CSS custom properties** support
+-   **camelCase to kebab-case** conversion
+-   **!important** support
 
-### 4. Utility Classes
+## Routing
 
-ViewKit-UI provides pre-defined utility classes for common styling patterns:
+The framework includes a powerful client-side router with animations and route guards.
 
-#### Layout Classes
-
--   `top_to_bottom`: Flex column layout
--   `bottom_to_top`: Flex column with items aligned to bottom
--   `left_to_right`: Flex row layout
--   `right_to_left`: Flex row with items aligned to right
-
-#### Alignment Classes
-
--   `center`: Center both horizontally and vertically
--   `vcenter`: Center vertically
--   `hcenter`: Center horizontally
-
-#### Sizing Classes
-
--   `fillxy`: Fill both width and height (100dvw × 100dvh)
--   `fillx`: Fill width (100%)
--   `filly`: Fill height (100%)
--   `inherit`: Inherit parent dimensions
-
-#### Scrolling Classes
-
--   `scrollxy`: Enable scrolling in both directions
--   `scrollx`: Enable horizontal scrolling only
--   `scrolly`: Enable vertical scrolling only
--   `noscrollbar`: Hide scrollbars
-
-#### Visibility Classes
-
--   `show`: Make element visible
--   `hide`: Hide element (visibility: hidden)
--   `gone`: Remove element from layout (display: none)
-
-#### Layout System Classes
-
--   `layout-linear`: Linear layout (inline-flex, column)
--   `layout-absolute`: Absolute positioning
--   `layout-grid`: Grid layout
-
-### 5. Router System
-
-ViewKit-UI includes a complete client-side routing solution with guards, animations, and parameter passing.
+### Setting Up Routes
 
 ```typescript
 import { Router, Routes } from "viewkit-ui";
 
-// Define routes
 const routes: Routes = [
     {
         title: "Home",
         path: "/",
-        component: () => createHomePage(),
-        guards: {
-            beforeEnter: async () => {
-                // Check authentication, etc.
-                return true;
-            },
-        },
+        component: createHomePage;
     },
     {
         title: "About",
         path: "/about",
-        component: () => createAboutPage(),
-        animation: {
-            onEnter: "fade-in",
-            onLeave: "fade-out",
-            animationLength: 300,
-        },
+        component: createAboutPage;
     },
+    {
+        title: "Contact",
+        path: "/contact",
+        component: () => import("./src/pages/contact.ts").then((m) => m.default),
+    }
 ];
 
-// Initialize router
-const router = new Router(routes, document.getElementById("app"));
+const appContainer = document.getElementById("app")!;
+const router = new Router(routes, appContainer);
+```
 
+### Route Guards
+
+```typescript
+const protectedRoute = {
+    title: "Dashboard",
+    path: "/dashboard",
+    component: createDashboard(),
+    guards: {
+        beforeEnter: async {
+            // Check authentication
+            return isUserAuthenticated();
+        },
+        beforeLeave: async {
+            // Confirm navigation away
+            return confirm("Are you sure you want to leave?");
+        }
+    }
+};
+```
+
+### Route Animations
+
+```typescript
+const animatedRoute = {
+    title: "Gallery",
+    path: "/gallery",
+    component: createGallery(),
+    animation: {
+        onEnter: "fade-in",
+        onLeave: "fade-out",
+        animationLength: 300,
+    },
+};
+```
+
+### Router Methods
+
+```typescript
 // Navigate programmatically
-router.open("/about", { userId: 123 });
+router.open("/about");
+router.open("/contact", { userId: 123 });
 
 // Get current route info
 const currentPath = router.getCurrentPath();
 const currentRoute = router.getCurrentRoute();
+
+// Clean up
+router.destroy();
 ```
 
-#### Route Configuration
+## Examples
 
-```typescript
-type Route = {
-    title: string; // Page title
-    path: string; // URL path
-    component: (params?) => HTMLElement | Promise<HTMLElement>; // Component function
-    guards?: {
-        // Optional route guards
-        beforeEnter?: () => Promise<boolean>;
-        beforeLeave?: () => Promise<boolean>;
-    };
-    animation?: {
-        // Optional animations
-        onEnter: string; // CSS class for enter animation
-        onLeave: string; // CSS class for leave animation
-        animationLength: number; // Animation duration in ms
-    };
-};
-```
-
-### 6. Helper Functions
-
-#### showIF Function
-
-Conditionally show/hide elements:
-
-```typescript
-import { showIF } from "viewkit-ui";
-
-const element = html.Div("Content");
-const isLoggedIn = signal(false);
-
-// Show element only when user is logged in
-isLoggedIn.subscribe((loggedIn) => {
-    showIF(element, loggedIn);
-});
-```
-
-## Complete Examples
-
-### Counter App
+### Complete Counter App
 
 ```typescript
 import { html, signal, css } from "viewkit-ui";
 
-export function createCounter(parent) {
+function createCounter(parent: HTMLElement) {
     const count = signal(0);
 
-    const container = html.LinearLayout(parent);
-    container.classList.add("center", "top_to_bottom");
-    container.style.padding = "32px";
-
-    // Display
-    const display = html.Heading2(`Count: ${count.get()}`, container);
-    display.style.marginBottom = "24px";
-
-    // Buttons container
-    const buttons = html.LinearLayout(container);
-    buttons.LayoutDirection = "LEFT_TO_RIGHT";
-    buttons.ElementAlignment = "CENTER";
-    buttons.DomElement.style.gap = "16px";
-
-    // Decrement button
-    const decrementBtn = html.Button("-", buttons);
-    decrementBtn.addEventListener("click", () => {
-        count.set(count.get() - 1);
+    // Styles
+    const containerStyle = css({
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "16px",
+        padding: "32px"
     });
 
-    // Increment button
-    const incrementBtn = html.Button("+", buttons);
-    incrementBtn.addEventListener("click", () => {
+    const buttonStyle = css({
+        backgroundColor: "#007acc",
+        color: "white",
+        border: "none",
+        padding: "12px 24px",
+        borderRadius: "4px",
+        cursor: "pointer",
+        fontSize: "16px",
+        "&:hover": {
+            backgroundColor: "#005fa3"
+        }
+    });
+
+    const countStyle = css({
+        fontSize: "48px",
+        fontWeight: "bold",
+        color: "#333"
+    });
+
+    // Create UI
+    const container = html.div(parent);
+    container.className = containerStyle;
+
+    const display = html.h1(`Count: ${count.get()}`, container);
+    display.className = countStyle;
+
+    const incrementBtn = html.button("Increment", container);
+    incrementBtn.className = buttonStyle;
+
+    const decrementBtn = html.button("Decrement", container);
+    decrementBtn.className = buttonStyle;
+
+    const resetBtn = html.button("Reset", container);
+    resetBtn.className = buttonStyle;
+
+    // Event handlers
+    incrementBtn.addEventListener("click", {
         count.set(count.get() + 1);
     });
 
-    // Style buttons
-    const buttonStyle = css({
-        padding: "12px 24px",
-        fontSize: "1.2rem",
-        border: "2px solid #007acc",
-        backgroundColor: "transparent",
-        color: "#007acc",
-        borderRadius: "4px",
-        cursor: "pointer",
-        "&:hover": {
-            backgroundColor: "#007acc",
-            color: "#ffffff",
-        },
+    decrementBtn.addEventListener("click", {
+        count.set(count.get() - 1);
     });
 
-    decrementBtn.classList.add(buttonStyle);
-    incrementBtn.classList.add(buttonStyle);
+    resetBtn.addEventListener("click", {
+        count.set(0);
+    });
 
-    // Update display when count changes
-    count.subscribe((newValue) => {
-        display.textContent = `Count: ${newValue}`;
+    // Reactive updates
+    count.subscribe((newCount) => {
+        display.textContent = `Count: ${newCount}`;
     });
 }
 ```
 
-### Contact Form
+### Contact Form with Validation
 
 ```typescript
-import { html, signal } from "viewkit-ui";
+import { html, signal, css } from "viewkit-ui";
 
-function createContactForm(parent) {
+function createContactForm(parent: HTMLElement) {
+    // State
     const formData = {
         name: signal(""),
         email: signal(""),
         message: signal(""),
     };
 
-    const form = html.Form(parent);
-    form.style.maxWidth = "500px";
-    form.style.margin = "0 auto";
-    form.style.padding = "32px";
+    const errors = signal<Record<string, string>>({});
+
+    // Styles
+    const formStyle = css({
+        maxWidth: "500px",
+        margin: "0 auto",
+        padding: "32px",
+        backgroundColor: "#f9f9f9",
+        borderRadius: "8px",
+    });
+
+    const fieldStyle = css({
+        marginBottom: "16px",
+    });
+
+    const labelStyle = css({
+        display: "block",
+        marginBottom: "4px",
+        fontWeight: "bold",
+    });
+
+    const inputStyle = css({
+        width: "100%",
+        padding: "8px 12px",
+        border: "1px solid #ddd",
+        borderRadius: "4px",
+        fontSize: "16px",
+    });
+
+    const errorStyle = css({
+        color: "#e74c3c",
+        fontSize: "14px",
+        marginTop: "4px",
+    });
+
+    const buttonStyle = css({
+        backgroundColor: "#27ae60",
+        color: "white",
+        border: "none",
+        padding: "12px 32px",
+        borderRadius: "4px",
+        cursor: "pointer",
+        fontSize: "16px",
+        "&:hover": {
+            backgroundColor: "#229954",
+        },
+    });
+
+    // Create form
+    const form = html.form(parent);
+    form.className = formStyle;
+
+    const title = html.h2("Contact Us", form);
 
     // Name field
-    const nameLabel = html.Label("Name:", form);
-    const nameInput = html.TextInput(form);
-    nameInput.placeholder = "Enter your name";
-    nameInput.addEventListener("input", (e) => {
-        formData.name.set(e.target.value);
-    });
+    const nameField = html.div(form);
+    nameField.className = fieldStyle;
+
+    const nameLabel = html.label("Name", nameField);
+    nameLabel.className = labelStyle;
+
+    const nameInput = html.input(nameField);
+    nameInput.className = inputStyle;
+    nameInput.type = "text";
+
+    const nameError = html.div(nameField);
+    nameError.className = errorStyle;
 
     // Email field
-    const emailLabel = html.Label("Email:", form);
-    const emailInput = html.EmailInput(form);
-    emailInput.placeholder = "Enter your email";
-    emailInput.addEventListener("input", (e) => {
-        formData.email.set(e.target.value);
-    });
+    const emailField = html.div(form);
+    emailField.className = fieldStyle;
+
+    const emailLabel = html.label("Email", emailField);
+    emailLabel.className = labelStyle;
+
+    const emailInput = html.input(emailField);
+    emailInput.className = inputStyle;
+    emailInput.type = "email";
+
+    const emailError = html.div(emailField);
+    emailError.className = errorStyle;
 
     // Message field
-    const messageLabel = html.Label("Message:", form);
-    const messageInput = html.TextArea(form);
-    messageInput.placeholder = "Enter your message";
-    messageInput.rows = 5;
-    messageInput.addEventListener("input", (e) => {
-        formData.message.set(e.target.value);
-    });
+    const messageField = html.div(form);
+    messageField.className = fieldStyle;
+
+    const messageLabel = html.label("Message", messageField);
+    messageLabel.className = labelStyle;
+
+    const messageTextarea = html.textarea(messageField);
+    messageTextarea.className = inputStyle;
+    messageTextarea.rows = 4;
+
+    const messageError = html.div(messageField);
+    messageError.className = errorStyle;
 
     // Submit button
-    const submitBtn = html.Button("Send Message", form);
-    submitBtn.addEventListener("click", (e) => {
+    const submitBtn = html.button("Send Message", form);
+    submitBtn.className = buttonStyle;
+    submitBtn.type = "submit";
+
+    // Validation
+    function validateForm(): boolean {
+        const newErrors: Record<string, string> = {};
+
+        if (!formData.name.get().trim()) {
+            newErrors.name = "Name is required";
+        }
+
+        if (!formData.email.get().trim()) {
+            newErrors.email = "Email is required";
+        } else if (!/\S+@\S+\.\S+/.test(formData.email.get())) {
+            newErrors.email = "Email is invalid";
+        }
+
+        if (!formData.message.get().trim()) {
+            newErrors.message = "Message is required";
+        }
+
+        errors.set(newErrors);
+        return Object.keys(newErrors).length === 0;
+    }
+
+    // Event handlers
+    nameInput.addEventListener("input", (e) => {
+        formData.name.set((e.target as HTMLInputElement).value);
+    });
+
+    emailInput.addEventListener("input", (e) => {
+        formData.email.set((e.target as HTMLInputElement).value);
+    });
+
+    messageTextarea.addEventListener("input", (e) => {
+        formData.message.set((e.target as HTMLTextAreaElement).value);
+    });
+
+    form.addEventListener("submit", (e) => {
         e.preventDefault();
-        console.log({
-            name: formData.name.get(),
-            email: formData.email.get(),
-            message: formData.message.get(),
-        });
+        if (validateForm()) {
+            console.log("Form submitted:", {
+                name: formData.name.get(),
+                email: formData.email.get(),
+                message: formData.message.get(),
+            });
+            alert("Message sent successfully!");
+        }
     });
 
-    // Style form elements
-    [nameInput, emailInput, messageInput].forEach((input) => {
-        input.style.width = "100%";
-        input.style.padding = "12px";
-        input.style.marginBottom = "16px";
-        input.style.border = "1px solid #ccc";
-        input.style.borderRadius = "4px";
+    // Error display
+    errors.subscribe((newErrors) => {
+        nameError.textContent = newErrors.name || "";
+        emailError.textContent = newErrors.email || "";
+        messageError.textContent = newErrors.message || "";
     });
 }
 ```
 
-## Type Definitions
-
-ViewKit-UI includes comprehensive TypeScript definitions:
+### Multi-Page Application with Router
 
 ```typescript
-// Layout and alignment types
-type Layout_Direction = "TOP_TO_BOTTOM" | "BOTTOM_TO_TOP" | "LEFT_TO_RIGHT" | "RIGHT_TO_LEFT";
-type Element_Alignment = "CENTER" | "LEFT" | "BOTTOM" | "RIGHT" | "VCENTER" | "HCENTER";
-type Scroll_Direction = "HORIZONTAL" | "VERTICAL" | "BOTH";
-type Parent_Fill = "FILLXY" | "FILLX" | "FILLY" | "INHERIT";
+import { html, css, Router, Routes } from "viewkit-ui";
 
-// Signal type
-type Signal<T> = {
-    get: () => T;
-    set: (new_value: T) => void;
-    subscribe: (fn: Function) => void;
-};
+// Page components
+function createHomePage() {
+    const container = html.div();
+    html.h1("Welcome Home", container);
+    html.p("This is the home page", container);
 
-// Router interfaces
-interface RouterInterface {
-    open(path: string, parameter?: Object): void;
+    const navBtn = html.button("Go to About", container);
+    navBtn.addEventListener("click", {
+        router.open("/about");
+    });
+
+    return container;
 }
 
-interface RouteGuards {
-    beforeEnter?: () => Promise<boolean>;
-    beforeLeave?: () => Promise<boolean>;
+function createAboutPage() {
+    const container = html.div();
+    html.h1("About Us", container);
+    html.p("Learn more about our company", container);
+    return container;
 }
+
+function createContactPage(params?: any) {
+    const container = html.div();
+    html.h1("Contact", container);
+    if (params?.userId) {
+        html.p(`User ID: ${params.userId}`, container);
+    }
+    return container;
+}
+
+// Routes configuration
+const routes: Routes = [
+    {
+        title: "Home",
+        path: "/",
+        component: createHomePage(),
+        animation: {
+            onEnter: "slide-in-right",
+            onLeave: "slide-out-left",
+            animationLength: 300
+        }
+    },
+    {
+        title: "About",
+        path: "/about",
+        component: createAboutPage(),
+        guards: {
+            beforeEnter: async {
+                console.log("Entering about page");
+                return true;
+            }
+        }
+    },
+    {
+        title: "Contact",
+        path: "/contact",
+        component: (params) => createContactPage(params)
+    }
+];
+
+// Initialize router
+const appContainer = document.getElementById("app")!;
+const router = new Router(routes, appContainer);
+
+// Add CSS for animations
+css({
+    ".slide-in-right": {
+        animation: "slideInRight 0.3s ease-out"
+    },
+    ".slide-out-left": {
+        animation: "slideOutLeft 0.3s ease-out"
+    }
+});
 ```
 
-## Best Practices
+## API Reference
 
-1. **Use Signals for State**: Leverage the built-in signal system for reactive state management
-2. **Compose Components**: Break your UI into reusable component functions
-3. **Utilize Utility Classes**: Use the provided utility classes for common styling patterns
-4. **Type Safety**: Take advantage of the full TypeScript support for better development experience
-5. **Route Guards**: Use route guards for authentication and navigation control
-6. **Responsive Design**: Use media queries in the CSS function for responsive layouts
+### Signal<T>
 
-## Advanced Features
+-   `get()`: Returns current value
+-   `set(value: T)`: Sets new value and notifies subscribers
+-   `subscribe(callback: Function)`: Adds change listener
 
-### Custom Element Creation
+### Router
 
-You can extend the library by creating custom element generators:
+-   `open(path: string, params?: Object)`: Navigate to route
+-   `getCurrentPath()`: Get current path
+-   `getCurrentRoute()`: Get current route object
+-   `destroy()`: Clean up event listeners
 
-```typescript
-import { genericElement } from "viewkit-ui";
+### CSS Function
 
-// Create custom elements
-const CustomWidget = genericElement<HTMLDivElement>("div");
-const widget = CustomWidget("Custom content");
-```
+-   `css(styles: CSSObject, className?: string)`: Generate styles and return class name
 
-### Animation Integration
-
-The router supports CSS animations. Define your animation classes:
-
-```css
-.fade-in {
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-.fade-out {
-    animation: fadeOut 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
-}
-```
-
-## Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature-branch`)
-3. Make changes and commit (`git commit -am 'Add new feature'`)
-4. Push to your fork (`git push origin feature-branch`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License.
+This framework provides a lightweight, type-safe approach to building modern web applications with reactive state management and powerful styling capabilities.

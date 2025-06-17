@@ -1,4 +1,4 @@
-# Framework Documentation
+# ViewKit UI Framework Documentation
 
 A lightweight TypeScript framework for building modern web applications with reactive state management, routing, and component-based architecture.
 
@@ -11,26 +11,28 @@ A lightweight TypeScript framework for building modern web applications with rea
 -   [Styling](#styling)
 -   [Routing](#routing)
 -   [Examples](#examples)
+-   [API Reference](#api-reference)
 
 ## Installation
 
 ```bash
 # Import the library
-import { html, signal, css, Router } from "viewkit-ui";
+import { html, signal, css, Router, effect, computed } from "viewkit-ui";
 ```
 
 ## Core Concepts
 
 This framework provides a functional approach to building web applications with:
 
--   **HTML Element Creation**: Type-safe DOM element generation
--   **Reactive State**: Signal-based state management
--   **CSS-in-JS**: Dynamic styling with auto-generated class names
+-   **HTML Element Creation**: Type-safe DOM element generation with flexible parameter ordering
+-   **Reactive State**: Signal-based state management with automatic dependency tracking
+-   **CSS-in-JS**: Dynamic styling with auto-generated class names using djb2 hashing
 -   **Client-side Routing**: SPA routing with animations and guards
+-   **Effects System**: Reactive computations and side effects
 
 ## HTML Elements
 
-The `html` object provides methods to create all standard HTML elements with type safety.
+The `html` object provides methods to create all standard HTML elements with type safety and flexible parameter ordering.
 
 ### Basic Usage
 
@@ -60,21 +62,27 @@ html.div("Text content", parentElement, [childElements]);
 html.div([childElements], "Text content", parentElement);
 ```
 
+**Parameter Types:**
+
+-   `HTMLElement`: Automatically detected as parent element
+-   `string`: Used as text content
+-   `Array<HTMLElement>`: Used as child elements
+
 ### Available Elements
 
 The framework supports all standard HTML elements:
 
--   **Text Content**: `p`, `h1`-`h6`, `span`, `strong`, `em`, `code`, etc.
--   **Interactive**: `button`, `input`, `textarea`, `select`, `option`, etc.
--   **Media**: `img`, `video`, `audio`, `canvas`, etc.
--   **Semantic**: `article`, `section`, `nav`, `header`, `footer`, etc.
--   **Tables**: `table`, `thead`, `tbody`, `tr`, `th`, `td`, etc.
+-   **Text Content**: `p`, `h1`-`h6`, `span`, `strong`, `em`, `code`, `pre`, `blockquote`, etc.
+-   **Interactive**: `button`, `input`, `textarea`, `select`, `option`, `label`, etc.
+-   **Media**: `img`, `video`, `audio`, `canvas`, `picture`, `source`, etc.
+-   **Semantic**: `article`, `section`, `nav`, `header`, `footer`, `aside`, `main`, etc.
+-   **Tables**: `table`, `thead`, `tbody`, `tr`, `th`, `td`, `caption`, etc.
 -   **Lists**: `ul`, `ol`, `li`, `dl`, `dt`, `dd`
--   **Forms**: `form`, `fieldset`, `legend`, `label`, etc.
+-   **Forms**: `form`, `fieldset`, `legend`, `progress`, `meter`, `output`, etc.
 
 ## State Management
 
-The framework provides reactive state management through signals.
+The framework provides reactive state management through signals with automatic dependency tracking.
 
 ### Creating Signals
 
@@ -102,26 +110,66 @@ count.subscribe((newValue) => {
 });
 ```
 
+### Effects
+
+Effects allow you to create reactive computations that automatically re-run when their dependencies change:
+
+```typescript
+import { effect } from "viewkit-ui";
+
+const name = signal("John");
+const age = signal(25);
+
+// Effect with automatic dependency tracking
+effect(() => {
+    console.log(`${name.get()} is ${age.get()} years old`);
+});
+
+// Effect with explicit dependencies
+effect(() => {
+    console.log("Name changed!");
+}, [name]);
+```
+
+### Computed Values
+
+Computed signals automatically derive their value from other signals:
+
+```typescript
+import { computed } from "viewkit-ui";
+
+const firstName = signal("John");
+const lastName = signal("Doe");
+
+const fullName = computed(() => `${firstName.get()} ${lastName.get()}`);
+
+console.log(fullName.get()); // "John Doe"
+
+// fullName automatically updates when firstName or lastName changes
+firstName.set("Jane");
+console.log(fullName.get()); // "Jane Doe"
+```
+
 ### Reactive UI Example
 
 ```typescript
 const counter = signal(0);
 const display = html.p(`Count: ${counter.get()}`);
 
-// Update UI when state changes
-counter.subscribe((newCount) => {
-    display.textContent = `Count: ${newCount}`;
+// Update UI reactively using effect
+effect(() => {
+    display.textContent = `Count: ${counter.get()}`;
 });
 
 const incrementBtn = html.button("Increment");
-incrementBtn.addEventListener("click", {
+incrementBtn.addEventListener("click", () => {
     counter.set(counter.get() + 1);
 });
 ```
 
 ## Styling
 
-The framework provides CSS-in-JS functionality with automatic class name generation.
+The framework provides CSS-in-JS functionality with automatic class name generation using the djb2 hashing algorithm.
 
 ### Basic Styling
 
@@ -146,7 +194,7 @@ button.className = buttonStyle;
 ### Advanced Styling Features
 
 ```typescript
-// Media queries
+// Media queries (use @ prefix)
 const responsiveStyle = css({
     padding: "16px",
     "@(max-width: 768px)": {
@@ -155,7 +203,7 @@ const responsiveStyle = css({
     },
 });
 
-// Pseudo-classes
+// Pseudo-classes (use & prefix)
 const interactiveStyle = css({
     backgroundColor: "#007acc",
     "&:hover": {
@@ -172,15 +220,21 @@ const themeStyle = css({
     "--secondary-color": "#f0f0f0",
     color: "var(--primary-color)",
 });
+
+// Important declarations
+const importantStyle = css({
+    color: "red !important",
+    fontSize: "18px !important",
+});
 ```
 
 ### CSS Features
 
--   **Automatic class name generation** using djb2 hashing algorithm
+-   **Automatic class name generation** using djb2 hashing algorithm (format: "gg" + hash)
 -   **Media queries** with `@` prefix syntax
 -   **Pseudo-classes** with `&` prefix syntax
 -   **CSS custom properties** support
--   **camelCase to kebab-case** conversion
+-   **camelCase to kebab-case** automatic conversion
 -   **!important** support
 
 ## Routing
@@ -196,18 +250,18 @@ const routes: Routes = [
     {
         title: "Home",
         path: "/",
-        component: createHomePage;
+        component: () => createHomePage(),
     },
     {
         title: "About",
         path: "/about",
-        component: createAboutPage;
+        component: () => createAboutPage(),
     },
     {
         title: "Contact",
         path: "/contact",
         component: () => import("./src/pages/contact.ts").then((m) => m.default),
-    }
+    },
 ];
 
 const appContainer = document.getElementById("app")!;
@@ -220,17 +274,17 @@ const router = new Router(routes, appContainer);
 const protectedRoute = {
     title: "Dashboard",
     path: "/dashboard",
-    component: createDashboard(),
+    component: () => createDashboard(),
     guards: {
-        beforeEnter: async {
+        beforeEnter: async () => {
             // Check authentication
             return isUserAuthenticated();
         },
-        beforeLeave: async {
+        beforeLeave: async () => {
             // Confirm navigation away
             return confirm("Are you sure you want to leave?");
-        }
-    }
+        },
+    },
 };
 ```
 
@@ -240,7 +294,7 @@ const protectedRoute = {
 const animatedRoute = {
     title: "Gallery",
     path: "/gallery",
-    component: createGallery(),
+    component: () => createGallery(),
     animation: {
         onEnter: "fade-in",
         onLeave: "fade-out",
@@ -253,8 +307,8 @@ const animatedRoute = {
 
 ```typescript
 // Navigate programmatically
-router.open("/about");
-router.open("/contact", { userId: 123 });
+await router.open("/about");
+await router.open("/contact", { userId: 123 });
 
 // Get current route info
 const currentPath = router.getCurrentPath();
@@ -264,12 +318,21 @@ const currentRoute = router.getCurrentRoute();
 router.destroy();
 ```
 
+### Router Features
+
+-   **Browser history integration** with pushState/popState
+-   **Route parameters** passed to component functions
+-   **Lazy loading** support for dynamic imports
+-   **Animation system** with CSS class application
+-   **Route guards** for navigation control
+-   **Automatic cleanup** on route changes
+
 ## Examples
 
 ### Complete Counter App
 
 ```typescript
-import { html, signal, css } from "viewkit-ui";
+import { html, signal, css, effect } from "viewkit-ui";
 
 function createCounter(parent: HTMLElement) {
     const count = signal(0);
@@ -280,7 +343,7 @@ function createCounter(parent: HTMLElement) {
         flexDirection: "column",
         alignItems: "center",
         gap: "16px",
-        padding: "32px"
+        padding: "32px",
     });
 
     const buttonStyle = css({
@@ -292,14 +355,14 @@ function createCounter(parent: HTMLElement) {
         cursor: "pointer",
         fontSize: "16px",
         "&:hover": {
-            backgroundColor: "#005fa3"
-        }
+            backgroundColor: "#005fa3",
+        },
     });
 
     const countStyle = css({
         fontSize: "48px",
         fontWeight: "bold",
-        color: "#333"
+        color: "#333",
     });
 
     // Create UI
@@ -319,21 +382,21 @@ function createCounter(parent: HTMLElement) {
     resetBtn.className = buttonStyle;
 
     // Event handlers
-    incrementBtn.addEventListener("click", {
+    incrementBtn.addEventListener("click", () => {
         count.set(count.get() + 1);
     });
 
-    decrementBtn.addEventListener("click", {
+    decrementBtn.addEventListener("click", () => {
         count.set(count.get() - 1);
     });
 
-    resetBtn.addEventListener("click", {
+    resetBtn.addEventListener("click", () => {
         count.set(0);
     });
 
-    // Reactive updates
-    count.subscribe((newCount) => {
-        display.textContent = `Count: ${newCount}`;
+    // Reactive updates using effect
+    effect(() => {
+        display.textContent = `Count: ${count.get()}`;
     });
 }
 ```
@@ -341,7 +404,7 @@ function createCounter(parent: HTMLElement) {
 ### Contact Form with Validation
 
 ```typescript
-import { html, signal, css } from "viewkit-ui";
+import { html, signal, css, effect } from "viewkit-ui";
 
 function createContactForm(parent: HTMLElement) {
     // State
@@ -499,11 +562,12 @@ function createContactForm(parent: HTMLElement) {
         }
     });
 
-    // Error display
-    errors.subscribe((newErrors) => {
-        nameError.textContent = newErrors.name || "";
-        emailError.textContent = newErrors.email || "";
-        messageError.textContent = newErrors.message || "";
+    // Reactive error display using effect
+    effect(() => {
+        const currentErrors = errors.get();
+        nameError.textContent = currentErrors.name || "";
+        emailError.textContent = currentErrors.email || "";
+        messageError.textContent = currentErrors.message || "";
     });
 }
 ```
@@ -520,7 +584,7 @@ function createHomePage() {
     html.p("This is the home page", container);
 
     const navBtn = html.button("Go to About", container);
-    navBtn.addEventListener("click", {
+    navBtn.addEventListener("click", () => {
         router.open("/about");
     });
 
@@ -548,29 +612,29 @@ const routes: Routes = [
     {
         title: "Home",
         path: "/",
-        component: createHomePage(),
+        component: () => createHomePage(),
         animation: {
             onEnter: "slide-in-right",
             onLeave: "slide-out-left",
-            animationLength: 300
-        }
+            animationLength: 300,
+        },
     },
     {
         title: "About",
         path: "/about",
-        component: createAboutPage(),
+        component: () => createAboutPage(),
         guards: {
-            beforeEnter: async {
+            beforeEnter: async () => {
                 console.log("Entering about page");
                 return true;
-            }
-        }
+            },
+        },
     },
     {
         title: "Contact",
         path: "/contact",
-        component: (params) => createContactPage(params)
-    }
+        component: (params) => createContactPage(params),
+    },
 ];
 
 // Initialize router
@@ -579,12 +643,20 @@ const router = new Router(routes, appContainer);
 
 // Add CSS for animations
 css({
+    "@keyframes slideInRight": {
+        from: { transform: "translateX(100%)" },
+        to: { transform: "translateX(0)" },
+    },
+    "@keyframes slideOutLeft": {
+        from: { transform: "translateX(0)" },
+        to: { transform: "translateX(-100%)" },
+    },
     ".slide-in-right": {
-        animation: "slideInRight 0.3s ease-out"
+        animation: "slideInRight 0.3s ease-out",
     },
     ".slide-out-left": {
-        animation: "slideOutLeft 0.3s ease-out"
-    }
+        animation: "slideOutLeft 0.3s ease-out",
+    },
 });
 ```
 
@@ -592,19 +664,105 @@ css({
 
 ### Signal<T>
 
--   `get()`: Returns current value
--   `set(value: T)`: Sets new value and notifies subscribers
--   `subscribe(callback: Function)`: Adds change listener
+```typescript
+interface Signal<T> {
+    get(): T; // Returns current value
+    set(value: T): void; // Sets new value and notifies subscribers
+    subscribe(callback: Function): void; // Adds change listener
+}
+```
+
+### State Functions
+
+```typescript
+function signal<T>(defaultValue: T): Signal<T>;
+function effect(fn: Function, dependencies?: Array<Signal<any>>): void;
+function computed<T>(computeFn: () => T): Signal<T>;
+```
 
 ### Router
 
--   `open(path: string, params?: Object)`: Navigate to route
--   `getCurrentPath()`: Get current path
--   `getCurrentRoute()`: Get current route object
--   `destroy()`: Clean up event listeners
+```typescript
+class Router {
+    constructor(routes: Routes, parent: HTMLElement);
+
+    open(path: string, params?: Object): Promise<void>; // Navigate to route
+    getCurrentPath(): string; // Get current path
+    getCurrentRoute(): Route | undefined; // Get current route object
+    destroy(): void; // Clean up event listeners
+}
+```
+
+### Route Interface
+
+```typescript
+interface Route {
+    title: string;
+    path: string;
+    component: (params?: any) => HTMLElement | Promise<(params?: any) => HTMLElement>;
+    guards?: RouteGuards;
+    animation?: RouteAnimations;
+}
+
+interface RouteGuards {
+    beforeEnter?: () => Promise<boolean>;
+    beforeLeave?: () => Promise<boolean>;
+}
+
+interface RouteAnimations {
+    onEnter: string;
+    onLeave: string;
+    animationLength: number;
+}
+```
 
 ### CSS Function
 
--   `css(styles: CSSObject, className?: string)`: Generate styles and return class name
+```typescript
+function css(styles: CSSObject, className?: string): string;
+```
+
+**CSSObject supports:**
+
+-   Regular CSS properties (camelCase converted to kebab-case)
+-   Media queries with `@` prefix
+-   Pseudo-classes with `&` prefix
+-   CSS custom properties with `--` prefix
+-   `!important` declarations
+
+### HTML Elements
+
+All HTML element functions follow this pattern:
+
+```typescript
+html.tagName(...args: any[]): HTMLElementType
+```
+
+Where `args` can be any combination of:
+
+-   `HTMLElement` (parent)
+-   `string` (text content)
+-   `Array<HTMLElement>` (children)
+
+## Implementation Details
+
+### Class Name Generation
+
+-   Uses djb2 hashing algorithm for consistent class names
+-   Format: "gg" + 6-character hash (base-36)
+-   Prevents style conflicts and ensures uniqueness
+
+### Automatic Dependency Tracking
+
+-   Effects automatically track signal dependencies during execution
+-   Uses global `currentEffect` stack for dependency detection
+-   Computed signals re-run when dependencies change
+
+### Router Behavior
+
+-   Integrates with browser history API
+-   Supports async route components and lazy loading
+-   Animation classes are applied/removed automatically
+-   Route guards can prevent navigation by returning `false`
 
 This framework provides a lightweight, type-safe approach to building modern web applications with reactive state management and powerful styling capabilities.

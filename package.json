@@ -1,6 +1,6 @@
 {
     "name": "viewkit-ui",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": "Oarabile Koore",
     "main": "./build/mod.js",
     "module": "./build/mod.js",

@@ -207,11 +207,11 @@ Feel free to suggest new features, report bugs, or improve documentation.
 
 ## Roadmap
 
--   [x] Server-side rendering support
--   [x] DevTools extension
--   [x] Component library expansion
--   [x] Animation utilities
--   [x] Form validation helpers
+-   [ ] Server-side rendering support
+-   [ ] DevTools extension
+-   [ ] Component library expansion
+-   [ ] Animation utilities
+-   [ ] Form validation helpers
 -   [x] Advanced state managment
 
 ## License

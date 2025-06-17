@@ -1,7 +1,7 @@
 import { html } from "../../package/mod.ts";
 
 export default function FeatureGrid(parent: HTMLElement) {
-    const featureGrid = html.Div(parent);
+    const featureGrid = html.div(parent);
     featureGrid.style.display = "grid";
     featureGrid.style.gridTemplateColumns = "repeat(auto-fit, minmax(250px, 1fr))";
     featureGrid.style.gap = "32px";
@@ -28,7 +28,7 @@ export default function FeatureGrid(parent: HTMLElement) {
 
     3;
     featureData.forEach((feature) => {
-        const featureCard = html.Div(featureGrid);
+        const featureCard = html.div(featureGrid);
         featureCard.style.display = "flex";
         featureCard.style.flexDirection = "column";
 
@@ -39,16 +39,16 @@ export default function FeatureGrid(parent: HTMLElement) {
         featureCard.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.1)";
         featureCard.style.textAlign = "center";
 
-        const featureIcon = html.Paragraph(feature.icon, featureCard);
+        const featureIcon = html.p(feature.icon, featureCard);
         featureIcon.style.fontSize = "2rem";
         featureIcon.style.marginBottom = "16px";
 
-        const featureTitle = html.Paragraph(feature.title, featureCard);
+        const featureTitle = html.p(feature.title, featureCard);
         featureTitle.style.fontSize = "1.5rem";
         featureTitle.style.fontWeight = "bold";
         featureTitle.style.marginBottom = "8px";
 
-        const featureDescription = html.Paragraph(feature.description, featureCard);
+        const featureDescription = html.p(feature.description, featureCard);
         featureDescription.style.fontSize = "1rem";
         featureDescription.style.color = "#cccccc";
     });

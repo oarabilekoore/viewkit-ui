@@ -1,4 +1,5 @@
 import { html, css, Router, Routes } from "viewkit-ui";
+import { createCounter } from "../examples/counter";
 
 // Initialize router
 const appContainer = document.querySelector("body")!;
@@ -9,72 +10,51 @@ const routes: Routes = [
         title: "Home",
         path: "/",
         component: createHomePage,
-        animation: {
-            onEnter: "slide-in-right",
-            onLeave: "slide-out-left",
-            animationLength: 300,
-        },
-        guards: {
-            beforeEnter: async () => {
-                // Check authentication
-                return confirm("Are you sure you want to enter?");
-            },
-            beforeLeave: async () => {
-                // Confirm navigation away
-                return confirm("Are you sure you want to leave?");
-            },
-        },
     },
     {
         title: "About",
         path: "/about",
         component: createAboutPage,
     },
-    {
-        title: "Contact",
-        path: "/contact",
-        component: createContactPage,
-    },
 ];
 
 const router = new Router(routes, appContainer);
 
-// Add CSS for animations
-css({
-    ".slide-in-right": {
-        animation: "slideInRight 0.3s ease-out",
-    },
-    ".slide-out-left": {
-        animation: "slideOutLeft 0.3s ease-out",
-    },
-});
+function createHomePage(parent: HTMLElement) {
+    const homePage = html.div(parent);
+    homePage.style.textAlign = "center";
+    homePage.style.padding = "32px";
 
-// Page components
-function createHomePage() {
-    const container = html.div();
-    html.h1("Welcome Home", container);
-    html.p("This is the home page", container);
+    const title = html.h1("Welcome to ViewKit UI", homePage);
+    title.style.color = "#007acc";
 
-    const navBtn = html.button("Go to About", container);
-    navBtn.addEventListener("click", () => {
+    const description = html.p("A lightweight UI library for building modern web applications.", homePage);
+    description.style.color = "#555";
+
+    const button = html.button("Go to About", homePage);
+    button.addEventListener("click", () => {
         router.open("/about");
     });
-
-    return container;
+    return homePage;
 }
 
-function createAboutPage() {
-    const container = html.div();
-    html.h1("About Us", container);
-    html.p("Learn more about our company", container);
-    return container;
-}
+function createAboutPage(parent: HTMLElement) {
+    const aboutPage = html.div(parent);
+    aboutPage.style.textAlign = "center";
+    aboutPage.style.padding = "32px";
 
-function createContactPage(params?: any) {
-    const container = html.div();
-    html.h1("Contact", container);
-    if (params?.userId) {
-        html.p(`User ID: ${params.userId}`, container);
-    }
-    return container;
+    const title = html.h1("About ViewKit UI", aboutPage);
+    title.style.color = "#007acc";
+
+    const description = html.p(
+        "ViewKit UI is a simple and lightweight library for building web applications.",
+        aboutPage
+    );
+    description.style.color = "#555";
+
+    const counterButton = html.button("Open Counter Example", aboutPage);
+    counterButton.addEventListener("click", () => {
+        createCounter(aboutPage);
+    });
+    return aboutPage;
 }

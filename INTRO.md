@@ -1,4 +1,4 @@
-# ViewKit UI Framework Documentation
+# squidBASE Framework Documentation
 
 A lightweight TypeScript framework for building modern web applications with reactive state management, routing, and component-based architecture.
 
@@ -17,7 +17,7 @@ A lightweight TypeScript framework for building modern web applications with rea
 
 ```bash
 # Import the library
-import { html, signal, css, Router, effect, computed } from "viewkit-ui";
+import { html, signal, css, Router, effect, computed } from "squidbase";
 ```
 
 ## Core Concepts
@@ -37,7 +37,7 @@ The `html` object provides methods to create all standard HTML elements with typ
 ### Basic Usage
 
 ```typescript
-import { html } from "viewkit-ui";
+import { html } from "squidbase";
 
 // Create elements with text content
 const heading = html.h1("Welcome to My App");
@@ -87,7 +87,7 @@ The framework provides reactive state management through signals with automatic 
 ### Creating Signals
 
 ```typescript
-import { signal } from "viewkit-ui";
+import { signal } from "squidbase";
 
 // Create a signal with initial value
 const count = signal(0);
@@ -115,7 +115,7 @@ count.subscribe((newValue) => {
 Effects allow you to create reactive computations that automatically re-run when their dependencies change:
 
 ```typescript
-import { effect } from "viewkit-ui";
+import { effect } from "squidbase";
 
 const name = signal("John");
 const age = signal(25);
@@ -136,7 +136,7 @@ effect(() => {
 Computed signals automatically derive their value from other signals:
 
 ```typescript
-import { computed } from "viewkit-ui";
+import { computed } from "squidbase";
 
 const firstName = signal("John");
 const lastName = signal("Doe");
@@ -174,7 +174,7 @@ The framework provides CSS-in-JS functionality with automatic class name generat
 ### Basic Styling
 
 ```typescript
-import { css } from "viewkit-ui";
+import { css } from "squidbase";
 
 // Create styles
 const buttonStyle = css({
@@ -244,7 +244,7 @@ The framework includes a powerful client-side router with animations and route g
 ### Setting Up Routes
 
 ```typescript
-import { Router, Routes } from "viewkit-ui";
+import { Router, Routes } from "squidbase";
 
 const routes: Routes = [
     {
@@ -332,7 +332,7 @@ router.destroy();
 ### Complete Counter App
 
 ```typescript
-import { html, signal, css, effect } from "viewkit-ui";
+import { html, signal, css, effect } from "squidbase";
 
 function createCounter(parent: HTMLElement) {
     const count = signal(0);
@@ -404,7 +404,7 @@ function createCounter(parent: HTMLElement) {
 ### Contact Form with Validation
 
 ```typescript
-import { html, signal, css, effect } from "viewkit-ui";
+import { html, signal, css, effect } from "squidbase";
 
 function createContactForm(parent: HTMLElement) {
     // State
@@ -575,7 +575,7 @@ function createContactForm(parent: HTMLElement) {
 ### Multi-Page Application with Router
 
 ```typescript
-import { html, css, Router, Routes } from "viewkit-ui";
+import { html, css, Router, Routes } from "squidbase";
 
 // Page components
 function createHomePage() {

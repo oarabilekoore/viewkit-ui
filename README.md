@@ -1,16 +1,14 @@
 <div align="center">
     <div>
-    <img src="./ui-kit-logo.png">
+    <img src="./squidBASEBanner.png">
     </div>
     <img alt="MIT Licensed" src="https://img.shields.io/badge/license-MIT-blue.svg">
     <img alt="Version Badge" src="https://img.shields.io/badge/version-1.0.0-brightgreen.svg">
 </div>
 
-<br>
-
 ---
 
-> viewkit-ui is a type-safe, high-performance UI library with minimal overhead designed for building reactive applications, whilst being easy for beginners to adopt.
+squidBASE is a type-safe, high-performance UI library with minimal overhead designed for building reactive applications, whilst being easy for beginners to adopt.
 
 ## ✨ Features
 
@@ -27,14 +25,14 @@
 To install the library, you can choose between npm, bun, or deno:
 
 ```bash
-npm install viewkit-ui
-bun install viewkit-ui
+npm install squidbase
+bun install squidbase
 ```
 
 ## Quick Start
 
 ```typescript
-import { html, signal, css } from "viewkit-ui";
+import { html, signal, css } from "squidbase";
 
 // Create reactive state
 const count = signal(0);
@@ -170,8 +168,8 @@ Built for performance with:
 ## Community
 
 -   📖 [Documentation](./INTRO.md)
--   🐛 [Issues](https://github.com/your-org/viewkit-ui/issues)
--   📦 [npm Package](https://www.npmjs.com/package/viewkit-ui)
+-   🐛 [Issues](https://github.com/your-org/squidbase/issues)
+-   📦 [npm Package](https://www.npmjs.com/package/squidbase)
 
 ## Contributing
 
@@ -190,8 +188,8 @@ Contributions are always welcome! We appreciate all forms of contribution.
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/viewkit-ui.git
-cd viewkit-ui
+git clone https://github.com/your-org/squidbase.git
+cd squidbase
 
 # Install dependencies
 npm install

@@ -1,6 +1,6 @@
 {
-    "name": "viewkit-ui",
-    "version": "1.0.1",
+    "name": "squidbase",
+    "version": "1.0.0",
     "author": "Oarabile Koore",
     "main": "./build/mod.js",
     "module": "./build/mod.js",
@@ -29,7 +29,7 @@
         "tsc": "^2.0.4",
         "vite": "^6.0.11"
     },
-    "description": "viewkit-ui is a type-safe, high-performance framework with minimal overhead designed for building reactive  applications, whilst being easy for non-frameworkers to adopt.",
+    "description": "squidbase is a type-safe, high-performance framework with minimal overhead designed for building reactive  applications, whilst being easy for non-frameworkers to adopt.",
     "repository": {
         "type": "git"
     },
